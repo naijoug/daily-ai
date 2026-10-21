@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 export default defineConfig({
   site: 'https://naijoug.github.io',
-  base: '/daily-ai',
+  base: '/dailyai',
   trailingSlash: 'ignore',
 });

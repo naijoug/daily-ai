@@ -1,6 +1,6 @@
 # Daily AI
 
-每日 AI 动态静态站：<https://naijoug.github.io/daily-ai/>
+每日 AI 动态静态站：<https://naijoug.github.io/dailyai/>
 
 基于 Astro，内容来自两类中文汇总：
 
@@ -27,7 +27,7 @@ git push
 ```bash
 gh auth refresh -h github.com -s workflow
 git mv ci/deploy.yml .github/workflows/deploy.yml && git commit -m "ci: enable Pages workflow" && git push
-gh api -X PUT repos/naijoug/daily-ai/pages -f build_type=workflow
+gh api -X PUT repos/naijoug/dailyai/pages -f build_type=workflow
 ```
 
 在此之前用临时方案：`./scripts/publish-gh-pages.sh` 在本地构建，并把 `dist/` 推到 `gh-pages` 分支（Pages 来源为 gh-pages 分支）。
