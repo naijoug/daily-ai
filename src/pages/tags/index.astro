@@ -1,11 +1,12 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { allPosts, url } from '../../lib/posts';
+import { url } from '../../lib/posts';
+import { allDays } from '../../lib/days';
 import { TAGS } from '../../content.config';
-const posts = await allPosts();
-const counts = TAGS.map((t) => [t, posts.filter((p) => p.data.tags.includes(t)).length] as const).filter(([, n]) => n > 0);
+const days = await allDays();
+const counts = TAGS.map((t) => [t, days.filter((d) => d.tags.includes(t)).length] as const).filter(([, n]) => n > 0);
 ---
 <Base title="标签">
   <h1>标签</h1>
-  <p>{counts.map(([t, n]) => <a class="chip" href={url(`/tags/${t}/`)}>{t} · {n}</a>)}</p>
+  <p>{counts.map(([t, n]) => <a class="chip" href={url(`/tags/${t}/`)}>{t} · {n} 天</a>)}</p>
 </Base>

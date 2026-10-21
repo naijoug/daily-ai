@@ -1,32 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
 import Gallery from '../components/Gallery.astro';
-import { allPosts, url } from '../lib/posts';
-const posts = await allPosts();
-const xai = posts.filter((p) => p.data.type === 'x-ai');
-const tech = posts.filter((p) => p.data.type === 'tech');
+import { url } from '../lib/posts';
+import { allDays } from '../lib/days';
+const days = await allDays();
 ---
 <Base wide>
   <h1 class="ptitle"><span>📰</span> Daily AI</h1>
-  <p class="muted">X 上的 AI 热点与干货，加上每天两次的科技速递。共 {posts.length} 篇。</p>
+  <p class="muted">每天一页：X 上的 AI Hot 与 Tech 速递。共 {days.length} 天。</p>
   <div class="views">
-    <div class="vtabs" id="vtabs">
-      <button data-v="all" class="on">▦ 全部</button>
-      <button data-v="type">▥ 按类型</button>
-    </div>
+    <span class="vlabel">▦ 每日</span>
     <a class="vsearch" href={url('/search/')} aria-label="搜索">⌕ 搜索</a>
   </div>
-  <section id="v-all"><Gallery posts={posts} /></section>
-  <section id="v-type" hidden>
-    <h2 class="gsec">X AI 汇总 <span class="muted">{xai.length}</span></h2>
-    <Gallery posts={xai} />
-    <h2 class="gsec">科技站汇总 <span class="muted">{tech.length}</span></h2>
-    <Gallery posts={tech} />
-  </section>
-  <script is:inline>
-    (function(){var bs=document.querySelectorAll('#vtabs button');
-    function show(v){bs.forEach(function(b){b.classList.toggle('on',b.dataset.v===v)});document.getElementById('v-all').hidden=v!=='all';document.getElementById('v-type').hidden=v!=='type';}
-    bs.forEach(function(b){b.addEventListener('click',function(){show(b.dataset.v);history.replaceState(null,'',b.dataset.v==='all'?location.pathname:'#type');});});
-    if(location.hash==='#type')show('type');})();
-  </script>
+  <Gallery days={days} />
 </Base>

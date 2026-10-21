@@ -1,21 +1,16 @@
 ---
-import { url, fmtDate } from '../lib/posts';
-const { posts } = Astro.props;
-const BADGE: Record<string, string> = { 'x-ai': 'AI 热点', tech: '科技站' };
-function heads(body = '') {
-  return body.split('\n').filter((l) => /^(\d+\.|[-*])\s/.test(l)).slice(0, 3).map((l) =>
-    l.replace(/^(\d+\.|[-*])\s+/, '').replace(/\[([^\]]*)\]\([^)]*\)/g, '$1').replace(/https?:\/\/\S+/g, '')
-     .replace(/[*_`]/g, '').split(/[：:（(。]/)[0].trim().slice(0, 60));
-}
+import { url } from '../lib/posts';
+import type { Day } from '../lib/days';
+const { days } = Astro.props as { days: Day[] };
 ---
 <div class="gallery">
-  {posts.map((p) => (
-    <a class="gcard" href={url(`/posts/${p.id}/`)} data-type={p.data.type}>
+  {days.map((d) => (
+    <a class="gcard" href={url(`/day/${d.date}/`)}>
       <div class="gprev">
-        <div class="gmeta"><span class={`gbadge ${p.data.type}`}>{BADGE[p.data.type]}</span><span>{fmtDate(p.data.date)}</span></div>
-        <ul>{heads(p.body).map((h) => <li>{h}</li>)}</ul>
+        {d.aiHeads.length > 0 && <div class="gsect"><span class="gbadge x-ai">AI Hot</span><ul>{d.aiHeads.map((h) => <li>{h}</li>)}</ul></div>}
+        {d.techHeads.length > 0 && <div class="gsect"><span class="gbadge tech">Tech</span><ul>{d.techHeads.map((h) => <li>{h}</li>)}</ul></div>}
       </div>
-      <div class="gtitle"><span class="gicon">📄</span><span>{p.data.title}</span></div>
+      <div class="gtitle"><span class="gicon">📄</span><span>{d.title}</span></div>
     </a>
   ))}
 </div>

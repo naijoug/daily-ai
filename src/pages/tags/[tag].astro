@@ -1,17 +1,17 @@
 ---
 import Base from '../../layouts/Base.astro';
-import PostList from '../../components/PostList.astro';
-import { allPosts } from '../../lib/posts';
+import Gallery from '../../components/Gallery.astro';
+import { allDays } from '../../lib/days';
 import { TAGS } from '../../content.config';
 export async function getStaticPaths() {
-  const posts = await allPosts();
-  return TAGS.map((tag) => ({ params: { tag }, props: { posts: posts.filter((p) => p.data.tags.includes(tag)) } })).filter((x) => x.props.posts.length);
+  const days = await allDays();
+  return TAGS.map((tag) => ({ params: { tag }, props: { days: days.filter((d) => d.tags.includes(tag)) } })).filter((x) => x.props.days.length);
 }
 const { tag } = Astro.params;
-const { posts } = Astro.props;
+const { days } = Astro.props;
 ---
-<Base title={`标签：${tag}`}>
+<Base wide title={`标签：${tag}`}>
   <h1>标签：{tag}</h1>
-  <p class="muted">共 {posts.length} 篇。</p>
-  <PostList posts={posts} />
+  <p class="muted" style="margin-bottom:20px">共 {days.length} 天。</p>
+  <Gallery days={days} />
 </Base>

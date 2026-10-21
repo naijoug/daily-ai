@@ -1,24 +1,16 @@
 ---
-import Base from '../../layouts/Base.astro';
-import { render } from 'astro:content';
-import { allPosts, url, TYPE_LABEL, fmtDate } from '../../lib/posts';
+import { allPosts, url } from '../../lib/posts';
+import { dayKey } from '../../lib/days';
 export async function getStaticPaths() {
-  const posts = await allPosts();
-  return posts.map((p, i) => ({ params: { id: p.id }, props: { post: p, newer: posts[i - 1], older: posts[i + 1] } }));
+  return (await allPosts()).map((p) => ({ params: { id: p.id }, props: { post: p } }));
 }
-const { post, newer, older } = Astro.props;
-const { Content } = await render(post);
+const { post } = Astro.props;
+const to = url(`/day/${dayKey(post.data.date)}/#${post.id}`);
 ---
-<Base title={post.data.title} description={post.data.summary}>
-  <article class="prose" data-pagefind-body>
-    <a class="chip type" href={url(`/${post.data.type}/`)} data-pagefind-filter="type">{TYPE_LABEL[post.data.type]}</a>
-    <h1>{post.data.title}</h1>
-    <p class="muted">{fmtDate(post.data.date)}（北京时间）{post.data.coverage && <> · {post.data.coverage}</>}</p>
-    <div>{post.data.tags.map((t) => <a class="chip" href={url(`/tags/${t}/`)}>{t}</a>)}</div>
-    <Content />
-  </article>
-  <div class="pager">
-    <span>{newer && <a href={url(`/posts/${newer.id}/`)}>← {newer.data.title}</a>}</span>
-    <span>{older && <a href={url(`/posts/${older.id}/`)}>{older.data.title} →</a>}</span>
-  </div>
-</Base>
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8" />
+<title>{post.data.title} | Daily AI</title>
+<meta name="robots" content="noindex" />
+<link rel="canonical" href={to} />
+<meta http-equiv="refresh" content={`0; url=${to}`} />
+</head><body><p>已移至 <a href={to}>{to}</a></p></body></html>

@@ -1,7 +1,7 @@
 import { getCollection } from 'astro:content';
 export const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
 export const url = (p: string) => `${BASE}${p}`;
-export const TYPE_LABEL: Record<string, string> = { 'x-ai': 'X AI 热点', tech: '科技速递' };
+export const TYPE_LABEL: Record<string, string> = { 'x-ai': 'AI Hot', tech: 'Tech' };
 export async function allPosts() {
   return (await getCollection('posts')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 }

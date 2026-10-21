@@ -1,0 +1,41 @@
+---
+import Base from '../../layouts/Base.astro';
+import { render } from 'astro:content';
+import { url } from '../../lib/posts';
+import { allDays, hhmm } from '../../lib/days';
+export async function getStaticPaths() {
+  const days = await allDays();
+  return days.map((d, i) => ({ params: { date: d.date }, props: { day: d, newer: days[i - 1], older: days[i + 1] } }));
+}
+const { day, newer, older } = Astro.props;
+const render1 = async (p: any) => ({ p, Content: (await render(p)).Content });
+const ai = await Promise.all(day.xai.map(render1));
+const tech = await Promise.all(day.tech.map(render1));
+const desc = [...day.aiHeads, ...day.techHeads].join('；');
+---
+<Base title={day.title} description={desc || undefined}>
+  <article class="prose day" data-pagefind-body>
+    <p class="muted crumb"><a href={url('/')}>Daily AI</a> / 每日</p>
+    <h1>📄 {day.title}</h1>
+    <p class="muted">北京时间 · {day.posts.length} 期汇总</p>
+    <div>{day.tags.map((t) => <a class="chip" href={url(`/tags/${t}/`)}>{t}</a>)}</div>
+    {ai.length > 0 && <section class="dsec">
+      <h2 class="dhead"><span class="gbadge x-ai">AI Hot</span></h2>
+      {ai.map(({ p, Content }) => <div class="entry" id={p.id}>
+        <div class="tmark"><span>{hhmm(p.data.date)}</span>{p.data.coverage && <em>{p.data.coverage}</em>}</div>
+        <div class="ebody"><Content /></div>
+      </div>)}
+    </section>}
+    {tech.length > 0 && <section class="dsec">
+      <h2 class="dhead"><span class="gbadge tech">Tech</span></h2>
+      {tech.map(({ p, Content }) => <div class="entry" id={p.id}>
+        <div class="tmark"><span>{hhmm(p.data.date)}</span>{p.data.coverage && <em>{p.data.coverage}</em>}</div>
+        <div class="ebody"><Content /></div>
+      </div>)}
+    </section>}
+  </article>
+  <div class="pager">
+    <span>{older && <a href={url(`/day/${older.date}/`)}>← {older.title}</a>}</span>
+    <span>{newer && <a href={url(`/day/${newer.date}/`)}>{newer.title} →</a>}</span>
+  </div>
+</Base>
