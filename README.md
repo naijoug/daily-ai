@@ -18,7 +18,19 @@ git commit -m "post: <id>"
 git push
 ```
 
-推送到 `main` 后，GitHub Actions 会自动构建并部署到 Pages。
+推送到 `main` 后，GitHub Actions 会自动构建并部署到 Pages（见下方「部署」）。
+
+## 部署
+
+正式方案是 `ci/deploy.yml`（actions/deploy-pages）。它暂时放在 `ci/` 而不是 `.github/workflows/`，因为推送用的 gh token 没有 `workflow` 权限，GitHub 拒绝写入工作流文件。启用步骤：
+
+```bash
+gh auth refresh -h github.com -s workflow
+git mv ci/deploy.yml .github/workflows/deploy.yml && git commit -m "ci: enable Pages workflow" && git push
+gh api -X PUT repos/naijoug/daily-ai/pages -f build_type=workflow
+```
+
+在此之前用临时方案：`./scripts/publish-gh-pages.sh` 在本地构建，并把 `dist/` 推到 `gh-pages` 分支（Pages 来源为 gh-pages 分支）。
 
 ### import.mjs 说明
 
