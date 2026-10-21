@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 // 把一份源 digest（X AI 汇总或科技速递）转换成 src/content/posts/<type>-<YYYY-MM-DD-HHMM>.md
 // 用法：node scripts/import.mjs <file> [<file> ...] [--type x-ai|tech]
-// 幂等：同一 id 会被覆盖。会去掉关注/List 相关行、内部去重笔记以及工具失败/限流之类的内部说明。
+// 幂等：同一 id 会被覆盖。
+// 可选字段（格式见 docs/digest-format.md）：条目行尾 `[AI:4]` → frontmatter scores；`日摘要：…` 行 → daySummary。
+//会去掉关注/List 相关行、内部去重笔记以及工具失败/限流之类的内部说明。
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -47,6 +49,28 @@ function filterSentences(text) {
   return kept.join('').trim();
 }
 
+// 条目行（顶层编号或 - 列表），与站点 rehype-items 插件的计数口径一致
+const ITEM_RE = /^(\d+\.|[-*])\s/;
+const SCORE_RE = /\s*[\[［]\s*AI\s*[:：]\s*([1-5])\s*[\]］]\s*$/i;
+const DAYSUM_RE = /^\s*(?:>\s*)?(?:\*\*)?(?:日摘要|DAY_SUMMARY)(?:\*\*)?\s*[:：]\s*(.+?)\s*$/i;
+
+// 抽出日摘要与 AI 评分，并从正文中去掉这些标记
+function extractMeta(body) {
+  let daySummary = '';
+  const scores = [];
+  const lines = [];
+  for (const line of body.split('\n')) {
+    const d = line.match(DAYSUM_RE);
+    if (d) { daySummary = d[1].replace(/\*\*/g, '').trim(); continue; }
+    if (ITEM_RE.test(line)) {
+      const m = line.match(SCORE_RE);
+      scores.push(m ? Number(m[1]) : 0);
+      lines.push(m ? line.replace(SCORE_RE, '') : line);
+    } else lines.push(line);
+  }
+  return { body: lines.join('\n').replace(/\n{3,}/g, '\n\n').trim() + '\n', daySummary, scores };
+}
+
 function clean(src, type) {
   let lines = src.replace(/\r\n/g, '\n').split('\n');
   let coverage = '';
@@ -77,7 +101,7 @@ function clean(src, type) {
     out.push(line);
   }
   let body = out.join('\n').replace(/\n{3,}/g, '\n\n').trim() + '\n';
-  return { body, coverage: coverage.trim() };
+  return { body, coverage: coverage.trim().split(/(?<=[，,。；;])/).filter((x) => !INTERNAL_RE.test(x) && !FOLLOW_RE.test(x)).join('').replace(/[，,。；;\s]+$/, '') };
 }
 
 function itemHeads(body) {
@@ -117,7 +141,11 @@ function importFile(file, forcedType) {
   const [, Y, M, D, h, mi] = m;
   const type = detectType(file, forcedType);
   const src = fs.readFileSync(file, 'utf8');
-  const { body, coverage } = clean(src, type);
+  const cleaned = clean(src, type);
+  const { body, daySummary, scores } = extractMeta(cleaned.body);
+  const coverage = cleaned.coverage;
+  const nScored = scores.filter(Boolean).length;
+  if (nScored && nScored < scores.length) console.warn(`! ${base}: ${scores.length - nScored}/${scores.length} 条没有 [AI:n] 评分（记为 0，不显示）`);
   const label = type === 'x-ai' ? 'AI 热点' : '科技速递';
   const title = `${label} · ${Y}-${M}-${D} ${h}:${mi}`;
   const date = `${Y}-${M}-${D}T${h}:${mi}:00+08:00`;
@@ -132,6 +160,8 @@ function importFile(file, forcedType) {
     `tags: [${tags.map(yq).join(', ')}]`,
     `summary: ${yq(summary)}`,
     coverage ? `coverage: ${yq(coverage)}` : null,
+    nScored ? `scores: [${scores.join(',')}]` : null,
+    daySummary ? `daySummary: ${yq(daySummary)}` : null,
     '---',
     '',
   ].filter((x) => x !== null).join('\n');
@@ -139,7 +169,7 @@ function importFile(file, forcedType) {
   const id = `${type}-${base}`;
   const dest = path.join(OUT, `${id}.md`);
   fs.writeFileSync(dest, fm + body);
-  console.log(`✓ ${id}  [${tags.join(', ')}]`);
+  console.log(`✓ ${id}  [${tags.join(', ')}]  items=${scores.length} scored=${nScored}${daySummary ? ' +daySummary' : ''}`);
   return dest;
 }
 

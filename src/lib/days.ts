@@ -21,7 +21,13 @@ export async function allDays() {
     const n = xai.length && tech.length ? 2 : 3;
     const latest = (arr: typeof asc) => (arr.length ? heads(arr[arr.length - 1].body, n) : []);
     const tags = [...new Set(asc.flatMap((p) => p.data.tags))];
-    return { date, title: dayTitle(date), posts: asc, xai, tech, aiHeads: latest(xai), techHeads: latest(tech), tags, last: asc[asc.length - 1].data.date };
+    const countItems = (b = '') => b.split('\n').filter((l) => /^(\d+\.|[-*])\s/.test(l)).length;
+    const nItems = (arr: typeof asc) => arr.reduce((s, p) => s + countItems(p.body), 0);
+    const withSum = [...asc].reverse().find((p) => p.data.daySummary);
+    const summary = withSum?.data.daySummary || [...heads(xai.at(-1)?.body, 1), ...heads(tech.at(-1)?.body, 1)].join('；');
+    const allScores = asc.flatMap((p) => p.data.scores);
+    const top = allScores.filter((x) => x >= 4).length;
+    return { date, summary, total: nItems(asc), aiCount: nItems(xai), techCount: nItems(tech), top, pids: asc.map((p) => p.id), title: dayTitle(date), posts: asc, xai, tech, aiHeads: latest(xai), techHeads: latest(tech), tags, last: asc[asc.length - 1].data.date };
   });
 }
 export type Day = Awaited<ReturnType<typeof allDays>>[number];

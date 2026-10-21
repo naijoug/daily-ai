@@ -13,6 +13,8 @@ const posts = defineCollection({
     tags: z.array(z.enum(TAGS)).default([]),
     summary: z.string(),
     coverage: z.string().optional(),
+    scores: z.array(z.number().int().min(0).max(5)).default([]),
+    daySummary: z.string().optional(),
   }),
 });
 export const collections = { posts };

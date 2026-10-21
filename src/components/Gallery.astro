@@ -5,12 +5,27 @@ const { days } = Astro.props as { days: Day[] };
 ---
 <div class="gallery">
   {days.map((d) => (
-    <a class="gcard" href={url(`/day/${d.date}/`)}>
-      <div class="gprev">
-        {d.aiHeads.length > 0 && <div class="gsect"><span class="gbadge x-ai">AI Hot</span><ul>{d.aiHeads.map((h) => <li>{h}</li>)}</ul></div>}
-        {d.techHeads.length > 0 && <div class="gsect"><span class="gbadge tech">Tech</span><ul>{d.techHeads.map((h) => <li>{h}</li>)}</ul></div>}
-      </div>
+    <a class="gcard" href={url(`/day/${d.date}/`)} data-pids={d.pids.join(',')} data-total={d.total}>
       <div class="gtitle"><span class="gicon">📄</span><span>{d.title}</span></div>
+      <p class="gsum">{d.summary}</p>
+      <div class="gfoot">
+        {d.aiCount > 0 && <span class="gbadge x-ai">AI Hot {d.aiCount}</span>}
+        {d.techCount > 0 && <span class="gbadge tech">Tech {d.techCount}</span>}
+        {d.top > 0 && <span class="gtop" title="AI 评分 ≥4 的条目">★ {d.top} 条高分</span>}
+        <span class="gprog" data-prog>0/{d.total} 已读</span>
+      </div>
     </a>
   ))}
 </div>
+<script>
+  import { load } from '../lib/store';
+  const st = load();
+  document.querySelectorAll<HTMLElement>('.gcard').forEach((c) => {
+    const pids = (c.dataset.pids || '').split(',');
+    const read = Object.keys(st.read).filter((id) => pids.some((p) => id.startsWith(p + '-'))).length;
+    const el = c.querySelector('[data-prog]')!;
+    el.textContent = `${read}/${c.dataset.total} 已读`;
+    if (read) el.classList.add('on');
+    if (read >= Number(c.dataset.total)) c.classList.add('done');
+  });
+</script>

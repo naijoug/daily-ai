@@ -1,0 +1,72 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/posts';
+---
+<Base title="收藏" description="收藏的条目（保存在本机浏览器）">
+  <article class="prose favpage" data-base={url('')}>
+    <h1>收藏</h1>
+    <p class="muted">收藏、已读和个人评分只保存在这台设备的浏览器里（localStorage）。换设备时可以导出 JSON 再导入。</p>
+    <div class="favbar">
+      <select data-sort aria-label="排序">
+        <option value="ts">按收藏时间</option>
+        <option value="mine">按我的评分</option>
+        <option value="ai">按 AI 评分</option>
+        <option value="day">按日期</option>
+      </select>
+      <span class="grow"></span>
+      <button type="button" class="ibtn" data-export>导出 JSON</button>
+      <label class="ibtn">导入 JSON<input type="file" accept="application/json,.json" data-import hidden /></label>
+    </div>
+    <p class="muted" data-stat></p>
+    <ol class="items favs" data-list></ol>
+    <p class="empty" data-empty hidden>还没有收藏。在每日页面点条目下方的「♡ 收藏」即可。</p>
+  </article>
+</Base>
+<script>
+  import { load, save, merge } from '../lib/store';
+  const root = document.querySelector<HTMLElement>('.favpage')!;
+  const base = root.dataset.base!;
+  const list = root.querySelector('[data-list]')!;
+  const sortSel = root.querySelector<HTMLSelectElement>('[data-sort]')!;
+  const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]!));
+  function render() {
+    const st = load();
+    const favs = Object.values(st.fav);
+    const k = sortSel.value;
+    favs.sort((a, b) => k === 'mine' ? (st.rating[b.id] || 0) - (st.rating[a.id] || 0) || b.ts - a.ts
+      : k === 'ai' ? (b.score || 0) - (a.score || 0) || b.ts - a.ts
+      : k === 'day' ? (a.day < b.day ? 1 : a.day > b.day ? -1 : 0) || b.ts - a.ts : b.ts - a.ts);
+    root.querySelector('[data-stat]')!.textContent = `${favs.length} 条收藏 · ${Object.keys(st.read).length} 条已读 · ${Object.keys(st.rating).length} 条已评分`;
+    (root.querySelector('[data-empty]') as HTMLElement).hidden = favs.length > 0;
+    list.innerHTML = favs.map((f) => {
+      const mine = st.rating[f.id] || 0;
+      return `<li class="item${st.read[f.id] ? ' read' : ''}" data-id="${esc(f.id)}">
+        <div class="itext">${f.html}</div>
+        <div class="imeta">${f.score ? `<span class="ascore s${f.score}">AI ${f.score}</span>` : ''}
+          ${mine ? `<span class="mine">${'★'.repeat(mine)}</span>` : ''}
+          <a class="ibtn" href="${base}/day/${esc(f.day)}/#${esc(f.id)}">${esc(f.day)} 原文</a>
+          <button type="button" class="ibtn on" data-unfav>♥ 取消收藏</button></div></li>`;
+    }).join('');
+  }
+  list.addEventListener('click', (e) => {
+    const b = (e.target as HTMLElement).closest('[data-unfav]'); if (!b) return;
+    const id = (b.closest('li') as HTMLElement).dataset.id!;
+    const st = load(); delete st.fav[id]; save(st); render();
+  });
+  sortSel.addEventListener('change', render);
+  root.querySelector('[data-export]')!.addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify({ ...load(), exportedAt: new Date().toISOString() }, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = `dailyai-${new Date().toISOString().slice(0, 10)}.json`; a.click(); URL.revokeObjectURL(a.href);
+  });
+  root.querySelector<HTMLInputElement>('[data-import]')!.addEventListener('change', async (e) => {
+    const f = (e.target as HTMLInputElement).files?.[0]; if (!f) return;
+    try {
+      const data = JSON.parse(await f.text());
+      if (typeof data !== 'object' || !data) throw new Error('格式不对');
+      save(merge(load(), data)); render(); alert('已导入并与现有数据合并');
+    } catch (err) { alert('导入失败：' + (err as Error).message); }
+    (e.target as HTMLInputElement).value = '';
+  });
+  render();
+</script>

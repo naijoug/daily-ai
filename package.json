@@ -9,6 +9,7 @@
     "import": "node scripts/import.mjs"
   },
   "dependencies": {
+    "@astrojs/markdown-remark": "^7.3.3",
     "@astrojs/rss": "^4.0.19",
     "astro": "^7.4.1",
     "pagefind": "^1.5.2"
