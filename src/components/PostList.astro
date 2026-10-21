@@ -1,0 +1,15 @@
+---
+import { url, TYPE_LABEL, fmtDate } from '../lib/posts';
+const { posts } = Astro.props;
+---
+<ul class="posts">
+  {posts.map((p) => (
+    <li data-type={p.data.type}>
+      <span class="chip type">{TYPE_LABEL[p.data.type]}</span>
+      <span class="muted">{fmtDate(p.data.date)}</span>
+      <h2><a href={url(`/posts/${p.id}/`)}>{p.data.title}</a></h2>
+      <p>{p.data.summary}</p>
+      <div>{p.data.tags.map((t) => <a class="chip" href={url(`/tags/${t}/`)}>{t}</a>)}</div>
+    </li>
+  ))}
+</ul>

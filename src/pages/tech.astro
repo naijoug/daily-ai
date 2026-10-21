@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import PostList from '../components/PostList.astro';
+import { allPosts } from '../lib/posts';
+const posts = (await allPosts()).filter((p) => p.data.type === 'tech');
+---
+<Base title="科技速递">
+  <h1>科技速递</h1>
+  <p class="muted">新产品 / 开源、科技新闻和中文社区精选。共 {posts.length} 篇。</p>
+  <PostList posts={posts} />
+</Base>

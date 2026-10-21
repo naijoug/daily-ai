@@ -1,0 +1,76 @@
+---
+import { url } from '../lib/posts';
+interface Props { title?: string; description?: string }
+const { title, description = '每日 AI 与科技动态汇总' } = Astro.props;
+const full = title ? `${title} | Daily AI` : 'Daily AI · 每日 AI 动态';
+const path = Astro.url.pathname;
+---
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{full}</title>
+  <meta name="description" content={description} />
+  <link rel="icon" href={url('/favicon.svg')} type="image/svg+xml" />
+  <link rel="alternate" type="application/rss+xml" title="Daily AI" href={url('/rss.xml')} />
+  <script is:inline>
+    (function(){var t=localStorage.getItem('theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=t;})();
+  </script>
+</head>
+<body>
+  <header class="site">
+    <div class="wrap bar">
+      <a class="brand" href={url('/')}>Daily AI</a>
+      <nav>
+        <a href={url('/')} class={path === url('/') || path === url('') ? 'on' : ''}>首页</a>
+        <a href={url('/x-ai/')} class={path.startsWith(url('/x-ai')) ? 'on' : ''}>AI 热点</a>
+        <a href={url('/tech/')} class={path.startsWith(url('/tech')) ? 'on' : ''}>科技速递</a>
+        <a href={url('/tags/')} class={path.startsWith(url('/tags')) ? 'on' : ''}>标签</a>
+        <a href={url('/search/')} class={path.startsWith(url('/search')) ? 'on' : ''}>搜索</a>
+        <a href={url('/rss.xml')}>RSS</a>
+        <button id="theme" type="button" aria-label="切换深浅色">◐</button>
+      </nav>
+    </div>
+  </header>
+  <main class="wrap"><slot /></main>
+  <footer class="wrap foot">Daily AI · 内容来自每日汇总 · <a href={url('/rss.xml')}>订阅 RSS</a></footer>
+  <script is:inline>
+    document.getElementById('theme').addEventListener('click',function(){var d=document.documentElement;var t=d.dataset.theme==='dark'?'light':'dark';d.dataset.theme=t;localStorage.setItem('theme',t);});
+  </script>
+</body>
+</html>
+<style is:global>
+  :root { --bg:#fbfbfa; --fg:#1f2328; --muted:#6b7280; --line:#e5e7eb; --card:#fff; --accent:#2563eb; --chip:#eef2ff; --chipfg:#3730a3; color-scheme: light; }
+  [data-theme=dark] { --bg:#0f1115; --fg:#e6e6e6; --muted:#9aa3af; --line:#262a33; --card:#161a21; --accent:#7aa2ff; --chip:#1e2540; --chipfg:#c7d2fe; color-scheme: dark; }
+  * { box-sizing: border-box; }
+  html { background: var(--bg); color: var(--fg); }
+  body { margin:0; font: 16px/1.8 -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif; }
+  a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+  header.site { border-bottom: 1px solid var(--line); position: sticky; top:0; background: var(--bg); z-index: 5; }
+  .bar { display:flex; align-items:center; justify-content:space-between; height:56px; gap:12px; }
+  .brand { font-weight:700; font-size:18px; color: var(--fg); }
+  nav { display:flex; gap:14px; align-items:center; flex-wrap:wrap; font-size:15px; }
+  nav a { color: var(--muted); } nav a.on { color: var(--fg); font-weight:600; }
+  #theme { background:none; border:1px solid var(--line); color:var(--fg); border-radius:6px; cursor:pointer; padding:2px 8px; }
+  main { padding: 28px 20px 40px; }
+  h1 { font-size: 26px; line-height:1.4; margin: 0 0 8px; }
+  .muted { color: var(--muted); font-size: 14px; }
+  .chip { display:inline-block; background:var(--chip); color:var(--chipfg); border-radius:999px; padding:0 10px; font-size:12.5px; margin: 0 6px 4px 0; line-height:22px; }
+  .chip.type { background: transparent; border:1px solid var(--line); color: var(--muted); }
+  ul.posts { list-style:none; padding:0; margin:0; }
+  ul.posts li { border:1px solid var(--line); background:var(--card); border-radius:10px; padding:14px 16px; margin-bottom:12px; }
+  ul.posts h2 { font-size:18px; margin:2px 0 4px; } ul.posts h2 a { color: var(--fg); }
+  ul.posts p { margin: 4px 0 8px; color: var(--muted); font-size: 14.5px; }
+  .filters { margin: 12px 0 20px; display:flex; gap:8px; }
+  .filters button { border:1px solid var(--line); background:var(--card); color:var(--fg); border-radius:999px; padding:3px 14px; cursor:pointer; font-size:14px; }
+  .filters button.on { background: var(--fg); color: var(--bg); }
+  article.prose { overflow-wrap: anywhere; }
+  article.prose h2 { font-size: 20px; margin-top: 32px; padding-bottom:4px; border-bottom:1px solid var(--line); }
+  article.prose li { margin-bottom: 10px; }
+  article.prose blockquote { margin: 16px 0; padding: 4px 14px; border-left: 3px solid var(--line); color: var(--muted); }
+  article.prose code { background: var(--chip); padding: 1px 5px; border-radius: 4px; font-size: .9em; }
+  .foot { color: var(--muted); font-size: 13px; padding: 24px 20px 40px; border-top: 1px solid var(--line); }
+  .pager { display:flex; justify-content:space-between; gap:12px; margin-top: 36px; font-size:14px; }
+</style>

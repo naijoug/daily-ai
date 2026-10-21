@@ -1,0 +1,16 @@
+{
+  "name": "daily-ai",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && pagefind --site dist",
+    "preview": "astro preview",
+    "import": "node scripts/import.mjs"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.19",
+    "astro": "^7.4.1",
+    "pagefind": "^1.5.2"
+  }
+}

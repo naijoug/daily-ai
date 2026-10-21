@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import PostList from '../components/PostList.astro';
+import { allPosts } from '../lib/posts';
+const posts = await allPosts();
+---
+<Base>
+  <h1>每日 AI 动态</h1>
+  <p class="muted">X 上的 AI 热点与干货，加上每天两次的科技速递。共 {posts.length} 篇。</p>
+  <div class="filters" id="filters">
+    <button data-f="all" class="on">全部</button>
+    <button data-f="x-ai">AI 热点</button>
+    <button data-f="tech">科技速递</button>
+  </div>
+  <PostList posts={posts} />
+  <script is:inline>
+    const bs=document.querySelectorAll('#filters button');
+    function apply(f){bs.forEach(b=>b.classList.toggle('on',b.dataset.f===f));document.querySelectorAll('ul.posts li').forEach(li=>{li.style.display=(f==='all'||li.dataset.type===f)?'':'none';});}
+    bs.forEach(b=>b.addEventListener('click',()=>{apply(b.dataset.f);history.replaceState(null,'',b.dataset.f==='all'?location.pathname:'?type='+b.dataset.f);}));
+    const q=new URLSearchParams(location.search).get('type');if(q)apply(q);
+  </script>
+</Base>

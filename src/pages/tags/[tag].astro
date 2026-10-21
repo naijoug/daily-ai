@@ -1,0 +1,17 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostList from '../../components/PostList.astro';
+import { allPosts } from '../../lib/posts';
+import { TAGS } from '../../content.config';
+export async function getStaticPaths() {
+  const posts = await allPosts();
+  return TAGS.map((tag) => ({ params: { tag }, props: { posts: posts.filter((p) => p.data.tags.includes(tag)) } })).filter((x) => x.props.posts.length);
+}
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+---
+<Base title={`标签：${tag}`}>
+  <h1>标签：{tag}</h1>
+  <p class="muted">共 {posts.length} 篇。</p>
+  <PostList posts={posts} />
+</Base>

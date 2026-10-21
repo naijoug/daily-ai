@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/posts';
+---
+<Base title="搜索">
+  <h1>全文搜索</h1>
+  <link href={url('/pagefind/pagefind-ui.css')} rel="stylesheet" />
+  <div id="search"></div>
+  <script is:inline define:vars={{ src: url('/pagefind/pagefind-ui.js') }}>
+    const s=document.createElement('script');s.src=src;s.onload=()=>{new PagefindUI({element:'#search',showSubResults:true,translations:{placeholder:'搜索全部汇总…',zero_results:'没有找到“[SEARCH_TERM]”的结果',many_results:'找到 [COUNT] 条“[SEARCH_TERM]”的结果',one_result:'找到 1 条“[SEARCH_TERM]”的结果'}});const q=new URLSearchParams(location.search).get('q');if(q){const i=document.querySelector('#search input');}};document.head.appendChild(s);
+  </script>
+  <style is:global>#search{--pagefind-ui-primary:var(--accent);--pagefind-ui-text:var(--fg);--pagefind-ui-background:var(--card);--pagefind-ui-border:var(--line);--pagefind-ui-tag:var(--chip);}</style>
+</Base>
