@@ -43,7 +43,7 @@ import { url } from '../lib/posts';
     const li = (f: typeof favs[number]) => {
       const mine = st.rating[f.id] || 0;
       const link = isP(f) ? `<a class="ibtn" href="${base}/products/${esc(f.id.slice(8))}/">产品页</a>` : `<a class="ibtn" href="${base}/day/${esc(f.day)}/#${esc(f.id)}">${esc(f.day)} 原文</a>`;
-      return `<li class="item${st.read[f.id] ? ' read' : ''}" data-id="${esc(f.id)}">
+      return `<li class="item${st.read[f.id] ? ' read dim' : ''}" data-id="${esc(f.id)}">
         <div class="itext">${f.html}</div>
         <div class="imeta">${f.score ? `<span class="ascore s${f.score}" title="AI 评分 ${f.score}/5" aria-label="AI 评分 ${f.score}/5">${f.score}</span>` : ''}
           ${starsStatic(mine)}

@@ -74,7 +74,7 @@ const sections = [
       const b = (e.target as HTMLElement).closest('button'); if (!b) return;
       const st = load(); const id = li.dataset.id!;
       if (b.dataset.star) { const n = Number(b.dataset.star); if (st.rating[id] === n) delete st.rating[id]; else st.rating[id] = n; }
-      else if (b.dataset.act === 'read') { if (st.read[id]) { delete st.read[id]; manualUnread.add(id); } else st.read[id] = Date.now(); }
+      else if (b.dataset.act === 'read') { if (st.read[id]) { delete st.read[id]; manualUnread.add(id); li.classList.remove('dim'); } else { st.read[id] = Date.now(); if (art.classList.contains('hideread')) li.classList.add('keep'); } }
       else if (b.dataset.act === 'fav') {
         if (st.fav[id]) delete st.fav[id];
         else { const t = li.querySelector('.itext')!; st.fav[id] = { id, day, html: t.innerHTML, text: (t.textContent || '').trim(), score: Number(li.dataset.score) || undefined, ts: Date.now() }; }
@@ -92,8 +92,9 @@ const sections = [
   const applyHide = () => { items.forEach((li) => li.classList.remove('keep')); art.classList.toggle('hideread', hide.checked); localStorage.setItem('dailyai:hideread', hide.checked ? '1' : '0'); };
   hide.addEventListener('change', applyHide); applyHide();
   upd();
-  // 自动已读：鼠标在条目上连续停留 2s 才标已读，移出即重置。滚动不触发；触屏（无 hover 能力）只能手动。
-  // 隐藏已读只在加载/切换开关时生效，所以自动标记不会让条目突然消失。
+  // 自动已读：条目 ≥60% 可见（比视口高的条目：占满视口 ≥60%）连续 2s 即标已读；触屏同样生效。
+  // 变暗与已读解耦：刚标已读的条目保持明亮，离开视口后才加 dim（再回来时是暗的）；页面加载时已读条目直接 dim。
+  // 隐藏已读只在加载/切换开关时生效（keep），所以标已读不会让条目突然消失。
   const autoRead = (li: HTMLElement) => {
     const id = li.dataset.id!; if (manualUnread.has(id)) return;
     const st = load(); if (st.read[id]) return;
@@ -101,11 +102,18 @@ const sections = [
     if (art.classList.contains('hideread')) li.classList.add('keep');
     upd();
   };
-  if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    for (const li of items) {
-      let t = 0;
-      li.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'mouse') return; clearTimeout(t); t = window.setTimeout(() => autoRead(li), 2000); });
-      li.addEventListener('pointerleave', () => { clearTimeout(t); t = 0; });
-    }
+  { const st = load(); items.forEach((li) => li.classList.toggle('dim', !!st.read[li.dataset.id!])); }
+  if ('IntersectionObserver' in window) {
+    const timers = new Map<HTMLElement, number>();
+    const io = new IntersectionObserver((ents) => {
+      for (const e of ents) {
+        const li = e.target as HTMLElement;
+        const enough = e.intersectionRatio >= 0.6 || (e.isIntersecting && e.intersectionRect.height >= (e.rootBounds?.height ?? innerHeight) * 0.6);
+        if (enough) { if (!timers.has(li)) timers.set(li, window.setTimeout(() => { timers.delete(li); autoRead(li); }, 2000)); }
+        else { const t = timers.get(li); if (t !== undefined) { clearTimeout(t); timers.delete(li); } }
+        if (!e.isIntersecting) li.classList.toggle('dim', li.classList.contains('read'));
+      }
+    }, { threshold: [0, 0.2, 0.4, 0.6, 0.8, 1] });
+    items.forEach((li) => io.observe(li));
   }
 </script>
