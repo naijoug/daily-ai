@@ -1,0 +1,75 @@
+{
+ "source": "aicpb",
+ "sourceName": "AI产品榜 AICPB",
+ "url": "https://mp.weixin.qq.com/s/UQ3EV2WutqJrH8MoTM0lFw",
+ "period": "2026-09",
+ "published": "2026-10-22",
+ "note": "AICPB 未公开采集方法，数据仅供参考；非商用引用标注来源【AI产品榜 AICPB】。 来源为公众号「AI产品榜」文章《3555万AI办公月活用户，渗透率才10%…｜AI产品榜·桌面榜(PC)2026.09》（李榜主，2026-10-22 09:37 北京时间发布）。",
+ "list": "AI办公智能体增速榜 TOP10 · 桌面(PC) 第3期",
+ "metric": "PC 客户端 MAU（万）/ MoM 增速排序",
+ "rows": [
+  {
+   "rank": 1,
+   "name": "豆包工作｜字节",
+   "value": "129.70万",
+   "mom": "95.64%"
+  },
+  {
+   "rank": 2,
+   "name": "纳米Work｜360",
+   "value": "170.86万",
+   "mom": "77.04%"
+  },
+  {
+   "rank": 3,
+   "name": "ZCode｜智谱",
+   "value": "96.43万",
+   "mom": "37.71%"
+  },
+  {
+   "rank": 4,
+   "name": "Tabbit｜美团",
+   "value": "76.69万",
+   "mom": "31.31%"
+  },
+  {
+   "rank": 5,
+   "name": "千问办公｜阿里",
+   "value": "189.28万",
+   "mom": "19.58%"
+  },
+  {
+   "rank": 6,
+   "name": "WorkBuddy｜腾讯",
+   "value": "1282.11万",
+   "mom": "7.93%"
+  },
+  {
+   "rank": 7,
+   "name": "百度搭子｜百度",
+   "value": "800.98万",
+   "mom": "6.52%"
+  },
+  {
+   "rank": 8,
+   "name": "天禧AI｜联想",
+   "value": "161.24万",
+   "mom": "3.64%"
+  },
+  {
+   "rank": 9,
+   "name": "Deepseek Harness",
+   "value": "50.04万",
+   "mom": "NEW"
+  },
+  {
+   "rank": 10,
+   "name": "扣子｜字节",
+   "value": "152.81万",
+   "mom": "-18.88%"
+  }
+ ],
+ "fetched": "2026-10-22T10:15:00+08:00",
+ "badge": "AICPB PC增速",
+ "kind": "products"
+}

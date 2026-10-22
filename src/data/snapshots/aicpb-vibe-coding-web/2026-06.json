@@ -1,0 +1,75 @@
+{
+ "source": "aicpb",
+ "sourceName": "AI产品榜 AICPB",
+ "list": "Vibe Coding 榜 · 网站",
+ "metric": "网站月访问量",
+ "url": "https://www.aicpb.com/ai-rankings/products/vibe-coding-rankings",
+ "period": "2026-06",
+ "published": "2026-07-08",
+ "note": "AICPB 未公开采集方法，数据仅供参考；非商用引用标注来源【AI产品榜 AICPB】。 aicpb.com 页面标注 Last Updated: Jul 8, 2026，免费页面只展示前 10。",
+ "rows": [
+  {
+   "rank": 1,
+   "name": "Github Copilot",
+   "value": "371.18M",
+   "mom": "-3.28%"
+  },
+  {
+   "rank": 2,
+   "name": "Hostinger",
+   "value": "50.26M",
+   "mom": "-5.51%"
+  },
+  {
+   "rank": 3,
+   "name": "Lovable.dev",
+   "value": "34.83M",
+   "mom": "-1.27%"
+  },
+  {
+   "rank": 4,
+   "name": "Supabase",
+   "value": "29.73M",
+   "mom": "-2.50%"
+  },
+  {
+   "rank": 5,
+   "name": "Vercel",
+   "value": "29.68M",
+   "mom": "-2.93%"
+  },
+  {
+   "rank": 6,
+   "name": "Airtable",
+   "value": "27.69M",
+   "mom": "0.16%"
+  },
+  {
+   "rank": 7,
+   "name": "cursor",
+   "value": "23.18M",
+   "mom": "7.22%"
+  },
+  {
+   "rank": 8,
+   "name": "BASE44 2.0",
+   "value": "17.16M",
+   "mom": "-8.58%"
+  },
+  {
+   "rank": 9,
+   "name": "Replit",
+   "value": "13.28M",
+   "mom": "-5.31%"
+  },
+  {
+   "rank": 10,
+   "name": "Ollama",
+   "value": "12.07M",
+   "mom": "4.77%"
+  }
+ ],
+ "fetched": "2026-10-22T10:15:00+08:00",
+ "badge": "AICPB Vibe Coding",
+ "kind": "products"
+}

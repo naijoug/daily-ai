@@ -1,0 +1,43 @@
+{
+  "id": "gamma",
+  "name": "Gamma",
+  "aliases": [],
+  "url": "https://gamma.app",
+  "category": "办公",
+  "region": "global",
+  "maker": "Gamma",
+  "oneLiner": "用 AI 生成演示文稿、文档和网页",
+  "score": 3,
+  "growth": -20.58,
+  "growthNote": "AICPB PPT 2026-06 环比",
+  "firstSeen": "2026-10-22",
+  "updated": "2026-10-22",
+  "tags": [
+    "产品"
+  ],
+  "rankings": [
+    {
+      "source": "a16z",
+      "list": "第5版 · Web Top 50",
+      "badge": "a16z Web",
+      "rank": 25,
+      "metric": "Web 月独立访问（Similarweb，2025-08）",
+      "date": "2025-08",
+      "url": "https://a16z.com/100-gen-ai-apps-5/",
+      "snap": "a16z-web/2025-08"
+    },
+    {
+      "source": "aicpb",
+      "list": "AI PPT 榜 · 网站",
+      "badge": "AICPB PPT",
+      "rank": 1,
+      "metric": "网站月访问量",
+      "value": "24.73M",
+      "mom": "-20.58%",
+      "date": "2026-06",
+      "url": "https://www.aicpb.com/ai-rankings/products/ai-ppt-rankings",
+      "snap": "aicpb-ai-ppt-web/2026-06"
+    }
+  ],
+  "growthDate": "2026-06"
+}

@@ -1,0 +1,84 @@
+{
+  "id": "gemini",
+  "name": "Gemini",
+  "aliases": [
+    "Google Gemini",
+    "Gemini App"
+  ],
+  "url": "https://gemini.google.com",
+  "category": "对话助手",
+  "region": "global",
+  "maker": "Google",
+  "oneLiner": "Google 的通用 AI 助手，深度接入 Google 账号与 Workspace",
+  "score": 5,
+  "growth": -1.51,
+  "growthNote": "AICPB 全球网站 2026-06 环比",
+  "firstSeen": "2026-10-11",
+  "updated": "2026-10-22",
+  "tags": [
+    "模型",
+    "产品"
+  ],
+  "rankings": [
+    {
+      "source": "a16z",
+      "list": "第5版 · Mobile Top 50",
+      "badge": "a16z App",
+      "rank": 2,
+      "metric": "移动端 MAU（Sensor Tower，2025-08）",
+      "date": "2025-08",
+      "url": "https://a16z.com/100-gen-ai-apps-5/",
+      "snap": "a16z-mobile/2025-08"
+    },
+    {
+      "source": "a16z",
+      "list": "第5版 · Web Top 50",
+      "badge": "a16z Web",
+      "rank": 2,
+      "metric": "Web 月独立访问（Similarweb，2025-08）",
+      "date": "2025-08",
+      "url": "https://a16z.com/100-gen-ai-apps-5/",
+      "snap": "a16z-web/2025-08"
+    },
+    {
+      "source": "aicpb",
+      "list": "AI ChatBot 榜 · 网站",
+      "badge": "AICPB ChatBot",
+      "rank": 2,
+      "metric": "网站月访问量",
+      "value": "2.95B",
+      "mom": "-1.51%",
+      "date": "2026-06",
+      "url": "https://www.aicpb.com/ai-rankings/products/ai-chatbot-rankings",
+      "snap": "aicpb-ai-chatbot-web/2026-06"
+    },
+    {
+      "source": "aicpb",
+      "list": "全球 AI 榜 · App",
+      "badge": "AICPB 全球App",
+      "rank": 4,
+      "metric": "App MAU",
+      "value": "162.74M",
+      "mom": "7.61%",
+      "date": "2026-06",
+      "url": "https://www.aicpb.com/ai-rankings/products/global-ai-rankings",
+      "snap": "aicpb-global-ai-app/2026-06"
+    },
+    {
+      "source": "aicpb",
+      "list": "全球 AI 榜 · 网站",
+      "badge": "AICPB 全球网站",
+      "rank": 3,
+      "metric": "网站月访问量",
+      "value": "2.95B",
+      "mom": "-1.51%",
+      "date": "2026-06",
+      "url": "https://www.aicpb.com/ai-rankings/products/global-ai-rankings",
+      "snap": "aicpb-global-ai-web/2026-06"
+    }
+  ],
+  "mentionExclude": [
+    "Gemini Notebook"
+  ],
+  "growthDate": "2026-06"
+}

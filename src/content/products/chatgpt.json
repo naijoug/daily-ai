@@ -1,0 +1,80 @@
+{
+  "id": "chatgpt",
+  "name": "ChatGPT",
+  "aliases": [
+    "ChatGPT"
+  ],
+  "url": "https://chatgpt.com",
+  "category": "对话助手",
+  "region": "global",
+  "maker": "OpenAI",
+  "oneLiner": "OpenAI 的通用 AI 助手，覆盖对话、搜索、写作、代码与多模态",
+  "score": 5,
+  "growth": -3.29,
+  "growthNote": "AICPB 全球网站 2026-06 环比",
+  "firstSeen": "2026-10-10",
+  "updated": "2026-10-22",
+  "tags": [
+    "模型",
+    "产品"
+  ],
+  "rankings": [
+    {
+      "source": "a16z",
+      "list": "第5版 · Mobile Top 50",
+      "badge": "a16z App",
+      "rank": 1,
+      "metric": "移动端 MAU（Sensor Tower，2025-08）",
+      "date": "2025-08",
+      "url": "https://a16z.com/100-gen-ai-apps-5/",
+      "snap": "a16z-mobile/2025-08"
+    },
+    {
+      "source": "a16z",
+      "list": "第5版 · Web Top 50",
+      "badge": "a16z Web",
+      "rank": 1,
+      "metric": "Web 月独立访问（Similarweb，2025-08）",
+      "date": "2025-08",
+      "url": "https://a16z.com/100-gen-ai-apps-5/",
+      "snap": "a16z-web/2025-08"
+    },
+    {
+      "source": "aicpb",
+      "list": "AI ChatBot 榜 · 网站",
+      "badge": "AICPB ChatBot",
+      "rank": 1,
+      "metric": "网站月访问量",
+      "value": "5.56B",
+      "mom": "-3.29%",
+      "date": "2026-06",
+      "url": "https://www.aicpb.com/ai-rankings/products/ai-chatbot-rankings",
+      "snap": "aicpb-ai-chatbot-web/2026-06"
+    },
+    {
+      "source": "aicpb",
+      "list": "全球 AI 榜 · App",
+      "badge": "AICPB 全球App",
+      "rank": 1,
+      "metric": "App MAU",
+      "value": "995.49M",
+      "mom": "0.78%",
+      "date": "2026-06",
+      "url": "https://www.aicpb.com/ai-rankings/products/global-ai-rankings",
+      "snap": "aicpb-global-ai-app/2026-06"
+    },
+    {
+      "source": "aicpb",
+      "list": "全球 AI 榜 · 网站",
+      "badge": "AICPB 全球网站",
+      "rank": 1,
+      "metric": "网站月访问量",
+      "value": "5.56B",
+      "mom": "-3.29%",
+      "date": "2026-06",
+      "url": "https://www.aicpb.com/ai-rankings/products/global-ai-rankings",
+      "snap": "aicpb-global-ai-web/2026-06"
+    }
+  ],
+  "growthDate": "2026-06"
+}

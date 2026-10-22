@@ -1,0 +1,38 @@
+{
+  "id": "kilo-code",
+  "name": "Kilo Code",
+  "aliases": [
+    "Kilo",
+    "Kilo Code",
+    "KiloCode"
+  ],
+  "url": "https://kilo.ai",
+  "domains": [
+    "https://kilocode.ai"
+  ],
+  "category": "编程/Agent",
+  "region": "global",
+  "maker": "Kilo",
+  "oneLiner": "开源 AI 编程 Agent，支持 VS Code、JetBrains、CLI 和云端（原域名 kilocode.ai）",
+  "score": 4,
+  "firstSeen": "2026-10-22",
+  "updated": "2026-10-22",
+  "tags": [
+    "编程工具",
+    "Agent",
+    "开源"
+  ],
+  "rankings": [
+    {
+      "source": "openrouter",
+      "list": "Apps · 本周 token 用量",
+      "badge": "OpenRouter",
+      "rank": 5,
+      "metric": "经 OpenRouter 的 token 总量（本周）",
+      "value": "6.20T tokens",
+      "date": "2026-10-22",
+      "url": "https://openrouter.ai/rankings#apps",
+      "snap": "openrouter-apps-week/2026-10-22"
+    }
+  ]
+}

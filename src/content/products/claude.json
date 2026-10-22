@@ -1,0 +1,62 @@
+{
+  "id": "claude",
+  "name": "Claude",
+  "aliases": [
+    "Claude｜Anthropic",
+    "Claude.ai"
+  ],
+  "url": "https://claude.ai",
+  "category": "对话助手",
+  "region": "global",
+  "maker": "Anthropic",
+  "oneLiner": "Anthropic 的 AI 助手，长文写作、分析与代码能力强",
+  "score": 5,
+  "growth": -0.61,
+  "growthNote": "AICPB 全球网站 2026-06 环比",
+  "firstSeen": "2026-10-10",
+  "updated": "2026-10-22",
+  "tags": [
+    "模型",
+    "产品"
+  ],
+  "rankings": [
+    {
+      "source": "a16z",
+      "list": "第5版 · Web Top 50",
+      "badge": "a16z Web",
+      "rank": 7,
+      "metric": "Web 月独立访问（Similarweb，2025-08）",
+      "date": "2025-08",
+      "url": "https://a16z.com/100-gen-ai-apps-5/",
+      "snap": "a16z-web/2025-08"
+    },
+    {
+      "source": "aicpb",
+      "list": "AI ChatBot 榜 · 网站",
+      "badge": "AICPB ChatBot",
+      "rank": 3,
+      "metric": "网站月访问量",
+      "value": "965.59M",
+      "mom": "-0.61%",
+      "date": "2026-06",
+      "url": "https://www.aicpb.com/ai-rankings/products/ai-chatbot-rankings",
+      "snap": "aicpb-ai-chatbot-web/2026-06"
+    },
+    {
+      "source": "aicpb",
+      "list": "全球 AI 榜 · 网站",
+      "badge": "AICPB 全球网站",
+      "rank": 4,
+      "metric": "网站月访问量",
+      "value": "965.59M",
+      "mom": "-0.61%",
+      "date": "2026-06",
+      "url": "https://www.aicpb.com/ai-rankings/products/global-ai-rankings",
+      "snap": "aicpb-global-ai-web/2026-06"
+    }
+  ],
+  "mentionExclude": [
+    "Claude Code"
+  ],
+  "growthDate": "2026-06"
+}

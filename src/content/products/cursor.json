@@ -1,0 +1,47 @@
+{
+  "id": "cursor",
+  "name": "Cursor",
+  "aliases": [
+    "cursor",
+    "Cursor"
+  ],
+  "url": "https://cursor.com",
+  "category": "编程/Agent",
+  "region": "global",
+  "maker": "Anysphere",
+  "oneLiner": "AI 原生代码编辑器，带 Agent 模式与代码库级补全",
+  "score": 5,
+  "growth": 7.22,
+  "growthNote": "AICPB Vibe Coding 2026-06 环比",
+  "firstSeen": "2026-10-11",
+  "updated": "2026-10-22",
+  "tags": [
+    "编程工具",
+    "Agent"
+  ],
+  "rankings": [
+    {
+      "source": "a16z",
+      "list": "第5版 · Web Top 50",
+      "badge": "a16z Web",
+      "rank": 26,
+      "metric": "Web 月独立访问（Similarweb，2025-08）",
+      "date": "2025-08",
+      "url": "https://a16z.com/100-gen-ai-apps-5/",
+      "snap": "a16z-web/2025-08"
+    },
+    {
+      "source": "aicpb",
+      "list": "Vibe Coding 榜 · 网站",
+      "badge": "AICPB Vibe Coding",
+      "rank": 7,
+      "metric": "网站月访问量",
+      "value": "23.18M",
+      "mom": "7.22%",
+      "date": "2026-06",
+      "url": "https://www.aicpb.com/ai-rankings/products/vibe-coding-rankings",
+      "snap": "aicpb-vibe-coding-web/2026-06"
+    }
+  ],
+  "growthDate": "2026-06"
+}

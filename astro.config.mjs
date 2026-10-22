@@ -4,5 +4,5 @@ export default defineConfig({
   site: 'https://naijoug.github.io',
   base: '/dailyai',
   trailingSlash: 'ignore',
-  markdown: { rehypePlugins: [rehypeItems] },
+  markdown: { rehypePlugins: [[rehypeItems, { base: '/dailyai' }]] },
 });

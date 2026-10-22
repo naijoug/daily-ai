@@ -1,0 +1,114 @@
+{
+ "source": "openrouter",
+ "sourceName": "OpenRouter",
+ "kind": "models",
+ "badge": "OpenRouter 模型",
+ "list": "Models · 本周 token 用量（页面前 20）",
+ "metric": "prompt + completion tokens（本周）",
+ "url": "https://openrouter.ai/rankings",
+ "period": "2026-10-22",
+ "fetched": "2026-10-22T02:27:56.997Z",
+ "note": "按页面给出的本周 token 总量排序。",
+ "rows": [
+  {
+   "rank": 1,
+   "name": "deepseek/deepseek-v4.1-flash-20260910",
+   "value": "25.71T tokens"
+  },
+  {
+   "rank": 2,
+   "name": "deepseek/deepseek-v4.1-flash-20261017",
+   "value": "16.47T tokens"
+  },
+  {
+   "rank": 3,
+   "name": "z-ai/glm-5.3-flash-20260826",
+   "value": "11.34T tokens"
+  },
+  {
+   "rank": 4,
+   "name": "minimax/minimax-m3.1-flash-20261019 (free)",
+   "value": "10.34T tokens"
+  },
+  {
+   "rank": 5,
+   "name": "xiaomi/mimo-v2.6-flash-20260921",
+   "value": "8.57T tokens"
+  },
+  {
+   "rank": 6,
+   "name": "tencent/hy4-preview-20260827",
+   "value": "8.55T tokens"
+  },
+  {
+   "rank": 7,
+   "name": "anthropic/claude-opus-5.5-20260921",
+   "value": "7.14T tokens"
+  },
+  {
+   "rank": 8,
+   "name": "openai/gpt-6-luna-20260922",
+   "value": "6.08T tokens"
+  },
+  {
+   "rank": 9,
+   "name": "z-ai/glm-5.3-20260816",
+   "value": "5.21T tokens"
+  },
+  {
+   "rank": 10,
+   "name": "nvidia/nemotron-3-ultra-550b-a55b-20260604 (free)",
+   "value": "4.46T tokens"
+  },
+  {
+   "rank": 11,
+   "name": "deepseek/deepseek-v4-flash-20260731",
+   "value": "4.29T tokens"
+  },
+  {
+   "rank": 12,
+   "name": "meta/muse-spark-1.3-contributor-20260902",
+   "value": "3.18T tokens"
+  },
+  {
+   "rank": 13,
+   "name": "tencent/hy3-20260706",
+   "value": "3.09T tokens"
+  },
+  {
+   "rank": 14,
+   "name": "typesafe/jev-1.13-20260917",
+   "value": "2.93T tokens"
+  },
+  {
+   "rank": 15,
+   "name": "deepseek/deepseek-v4-flash-20260423",
+   "value": "2.77T tokens"
+  },
+  {
+   "rank": 16,
+   "name": "anthropic/claude-sonnet-5.5-20260928",
+   "value": "2.53T tokens"
+  },
+  {
+   "rank": 17,
+   "name": "stepfun/step-5-preview-20261008",
+   "value": "2.32T tokens"
+  },
+  {
+   "rank": 18,
+   "name": "anthropic/claude-haiku-5.5-20261007",
+   "value": "2.09T tokens"
+  },
+  {
+   "rank": 19,
+   "name": "openai/gpt-6.1-sol-20260929",
+   "value": "1.98T tokens"
+  },
+  {
+   "rank": 20,
+   "name": "moonshotai/kimi-k3-20260715",
+   "value": "1.72T tokens"
+  }
+ ]
+}

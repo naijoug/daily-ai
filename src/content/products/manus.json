@@ -1,0 +1,44 @@
+{
+  "id": "manus",
+  "name": "Manus",
+  "aliases": [],
+  "url": "https://manus.im",
+  "category": "编程/Agent",
+  "region": "global",
+  "maker": "Manus",
+  "oneLiner": "通用 Agent：自主规划并执行多步骤任务，交付文档、网页等成果",
+  "score": 4,
+  "growth": -17.19,
+  "growthNote": "AICPB Agent 2026-06 环比",
+  "firstSeen": "2026-10-22",
+  "updated": "2026-10-22",
+  "tags": [
+    "Agent",
+    "产品"
+  ],
+  "rankings": [
+    {
+      "source": "a16z",
+      "list": "第5版 · Web Top 50",
+      "badge": "a16z Web",
+      "rank": 31,
+      "metric": "Web 月独立访问（Similarweb，2025-08）",
+      "date": "2025-08",
+      "url": "https://a16z.com/100-gen-ai-apps-5/",
+      "snap": "a16z-web/2025-08"
+    },
+    {
+      "source": "aicpb",
+      "list": "AI Agent 榜 · 网站",
+      "badge": "AICPB Agent",
+      "rank": 2,
+      "metric": "网站月访问量",
+      "value": "23.90M",
+      "mom": "-17.19%",
+      "date": "2026-06",
+      "url": "https://www.aicpb.com/ai-rankings/products/ai-agent-rankings",
+      "snap": "aicpb-ai-agent-web/2026-06"
+    }
+  ],
+  "growthDate": "2026-06"
+}

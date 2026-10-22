@@ -1,0 +1,98 @@
+{
+  "id": "doubao",
+  "name": "豆包",
+  "aliases": [
+    "豆包",
+    "Doubao",
+    "豆包｜抖音",
+    "豆包 - 字节跳动旗下 AI 助手"
+  ],
+  "url": "https://www.doubao.com",
+  "category": "对话助手",
+  "region": "cn",
+  "maker": "字节跳动",
+  "oneLiner": "字节跳动的 AI 助手，国内月活最高的 AI App 之一",
+  "score": 4,
+  "growth": -1.71,
+  "growthNote": "AICPB 全球App 2026-06 环比",
+  "firstSeen": "2026-10-22",
+  "updated": "2026-10-22",
+  "tags": [
+    "产品",
+    "中文社区"
+  ],
+  "rankings": [
+    {
+      "source": "a16z",
+      "list": "第5版 · Mobile Top 50",
+      "badge": "a16z App",
+      "rank": 4,
+      "metric": "移动端 MAU（Sensor Tower，2025-08）",
+      "date": "2025-08",
+      "url": "https://a16z.com/100-gen-ai-apps-5/",
+      "snap": "a16z-mobile/2025-08"
+    },
+    {
+      "source": "a16z",
+      "list": "第5版 · Web Top 50",
+      "badge": "a16z Web",
+      "rank": 12,
+      "metric": "Web 月独立访问（Similarweb，2025-08）",
+      "date": "2025-08",
+      "url": "https://a16z.com/100-gen-ai-apps-5/",
+      "snap": "a16z-web/2025-08"
+    },
+    {
+      "source": "aicpb",
+      "list": "AI ChatBot 榜 · 网站",
+      "badge": "AICPB ChatBot",
+      "rank": 6,
+      "metric": "网站月访问量",
+      "value": "152.87M",
+      "mom": "-6.58%",
+      "date": "2026-06",
+      "url": "https://www.aicpb.com/ai-rankings/products/ai-chatbot-rankings",
+      "snap": "aicpb-ai-chatbot-web/2026-06"
+    },
+    {
+      "source": "aicpb",
+      "list": "中国 AI 榜 · App",
+      "badge": "AICPB 中国App",
+      "rank": 1,
+      "metric": "App MAU",
+      "value": "324.31M",
+      "mom": "-1.71%",
+      "date": "2026-06",
+      "url": "https://www.aicpb.com/ai-rankings/products/china-ai-rankings",
+      "snap": "aicpb-china-ai-app/2026-06"
+    },
+    {
+      "source": "aicpb",
+      "list": "中国 AI 榜 · 网站",
+      "badge": "AICPB 中国网站",
+      "rank": 3,
+      "metric": "网站月访问量",
+      "value": "152.87M",
+      "mom": "-6.58%",
+      "date": "2026-06",
+      "url": "https://www.aicpb.com/ai-rankings/products/china-ai-rankings",
+      "snap": "aicpb-china-ai-web/2026-06"
+    },
+    {
+      "source": "aicpb",
+      "list": "全球 AI 榜 · App",
+      "badge": "AICPB 全球App",
+      "rank": 2,
+      "metric": "App MAU",
+      "value": "324.31M",
+      "mom": "-1.71%",
+      "date": "2026-06",
+      "url": "https://www.aicpb.com/ai-rankings/products/global-ai-rankings",
+      "snap": "aicpb-global-ai-app/2026-06"
+    }
+  ],
+  "mentionExclude": [
+    "豆包工作"
+  ],
+  "growthDate": "2026-06"
+}

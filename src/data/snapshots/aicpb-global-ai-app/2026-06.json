@@ -1,0 +1,75 @@
+{
+ "source": "aicpb",
+ "sourceName": "AI产品榜 AICPB",
+ "list": "全球 AI 榜 · App",
+ "metric": "App MAU",
+ "url": "https://www.aicpb.com/ai-rankings/products/global-ai-rankings",
+ "period": "2026-06",
+ "published": "2026-07-08",
+ "note": "AICPB 未公开采集方法，数据仅供参考；非商用引用标注来源【AI产品榜 AICPB】。 aicpb.com 页面标注 Last Updated: Jul 8, 2026，免费页面只展示前 10。",
+ "rows": [
+  {
+   "rank": 1,
+   "name": "ChatGPT",
+   "value": "995.49M",
+   "mom": "0.78%"
+  },
+  {
+   "rank": 2,
+   "name": "豆包 - 字节跳动旗下 AI 助手",
+   "value": "324.31M",
+   "mom": "-1.71%"
+  },
+  {
+   "rank": 3,
+   "name": "千问 - 阿里最强模型官方AI助手",
+   "value": "251.13M",
+   "mom": "7.46%"
+  },
+  {
+   "rank": 4,
+   "name": "Google Gemini",
+   "value": "162.74M",
+   "mom": "7.61%"
+  },
+  {
+   "rank": 5,
+   "name": "夸克-阿里AI旗舰应用",
+   "value": "159.24M",
+   "mom": "-1.78%"
+  },
+  {
+   "rank": 6,
+   "name": "DeepSeek - AI 智能助手",
+   "value": "139.08M",
+   "mom": "-1.50%"
+  },
+  {
+   "rank": 7,
+   "name": "腾讯元宝-「DeepSeek+」智能新体验",
+   "value": "103.92M",
+   "mom": "-7.05%"
+  },
+  {
+   "rank": 8,
+   "name": "百度网盘",
+   "value": "101.03M",
+   "mom": "-1.35%"
+  },
+  {
+   "rank": 9,
+   "name": "即梦AI - 抖音旗下AI图片和视频工具",
+   "value": "87.36M",
+   "mom": "-3.33%"
+  },
+  {
+   "rank": 10,
+   "name": "Dola: anteriormente Cici",
+   "value": "79.36M",
+   "mom": "1.99%"
+  }
+ ],
+ "fetched": "2026-10-22T10:15:00+08:00",
+ "badge": "AICPB 全球App",
+ "kind": "products"
+}

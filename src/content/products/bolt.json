@@ -1,0 +1,32 @@
+{
+  "id": "bolt",
+  "name": "Bolt",
+  "aliases": [
+    "Bolt.new"
+  ],
+  "url": "https://bolt.new",
+  "category": "编程/Agent",
+  "region": "global",
+  "maker": "StackBlitz",
+  "oneLiner": "浏览器里用提示词生成并运行全栈应用",
+  "score": 3,
+  "firstSeen": "2026-10-22",
+  "updated": "2026-10-22",
+  "tags": [
+    "编程工具",
+    "产品"
+  ],
+  "rankings": [
+    {
+      "source": "a16z",
+      "list": "第5版 · Brink List（Web 差一点进 Top 50）",
+      "badge": "a16z Brink",
+      "metric": "Web 月独立访问（Similarweb，2025-08）",
+      "date": "2025-08",
+      "url": "https://a16z.com/100-gen-ai-apps-5/"
+    }
+  ],
+  "matchNames": [
+    "Bolt.new"
+  ]
+}

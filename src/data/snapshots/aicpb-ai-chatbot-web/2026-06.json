@@ -1,0 +1,75 @@
+{
+ "source": "aicpb",
+ "sourceName": "AI产品榜 AICPB",
+ "list": "AI ChatBot 榜 · 网站",
+ "metric": "网站月访问量",
+ "url": "https://www.aicpb.com/ai-rankings/products/ai-chatbot-rankings",
+ "period": "2026-06",
+ "published": "2026-07-08",
+ "note": "AICPB 未公开采集方法，数据仅供参考；非商用引用标注来源【AI产品榜 AICPB】。 aicpb.com 页面标注 Last Updated: Jul 8, 2026，免费页面只展示前 10。",
+ "rows": [
+  {
+   "rank": 1,
+   "name": "ChatGPT",
+   "value": "5.56B",
+   "mom": "-3.29%"
+  },
+  {
+   "rank": 2,
+   "name": "Gemini",
+   "value": "2.95B",
+   "mom": "-1.51%"
+  },
+  {
+   "rank": 3,
+   "name": "Claude｜Anthropic",
+   "value": "965.59M",
+   "mom": "-0.61%"
+  },
+  {
+   "rank": 4,
+   "name": "DeepSeek",
+   "value": "483.80M",
+   "mom": "-10.59%"
+  },
+  {
+   "rank": 5,
+   "name": "Grok",
+   "value": "220.78M",
+   "mom": "-13.28%"
+  },
+  {
+   "rank": 6,
+   "name": "豆包｜抖音",
+   "value": "152.87M",
+   "mom": "-6.58%"
+  },
+  {
+   "rank": 7,
+   "name": "copilot｜微软",
+   "value": "121.12M",
+   "mom": "-9.38%"
+  },
+  {
+   "rank": 8,
+   "name": "AI 搜索｜百度",
+   "value": "44.85M",
+   "mom": "13.76%"
+  },
+  {
+   "rank": 9,
+   "name": "千问 qianwen.com｜阿里",
+   "value": "44.53M",
+   "mom": "0.56%"
+  },
+  {
+   "rank": 10,
+   "name": "Kimi｜月之暗面",
+   "value": "40.16M",
+   "mom": "-12.83%"
+  }
+ ],
+ "fetched": "2026-10-22T10:15:00+08:00",
+ "badge": "AICPB ChatBot",
+ "kind": "products"
+}

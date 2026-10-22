@@ -1,0 +1,19 @@
+{
+  "chatgpt": ["ChatGPT"],
+  "gemini": ["Google Gemini", "Gemini App"],
+  "claude": ["Claude｜Anthropic", "Claude.ai"],
+  "deepseek": ["DeepSeek", "Deepseek", "深度求索", "DeepSeek - AI 智能助手"],
+  "doubao": ["豆包", "Doubao", "豆包｜抖音", "豆包 - 字节跳动旗下 AI 助手"],
+  "doubao-work": ["豆包工作", "豆包工作｜字节", "Doubao Work"],
+  "notebooklm": ["NotebookLM", "notebooklm", "Gemini Notebook"],
+  "kling": ["可灵", "可灵AI", "Kling", "KlingAI", "Kling AI", "Kling ai", "可灵AI - AI图片&视频创作工具"],
+  "hailuo": ["海螺", "海螺AI", "Hailuo", "Hailuo AI"],
+  "suno": ["Suno.com"],
+  "lovable": ["Lovable.dev"],
+  "bolt": ["Bolt.new"],
+  "kilo-code": ["Kilo", "Kilo Code", "KiloCode"],
+  "trae": ["Trae", "TRAE", "Trae｜字节"],
+  "workbuddy": ["WorkBuddy", "WorkBuddy｜腾讯"],
+  "claude-code": ["Claude Code"],
+  "cursor": ["cursor", "Cursor"]
+}

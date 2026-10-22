@@ -1,0 +1,41 @@
+{
+  "id": "trae",
+  "name": "Trae",
+  "aliases": [
+    "Trae",
+    "TRAE",
+    "Trae｜字节"
+  ],
+  "url": "https://www.trae.ai",
+  "domains": [
+    "https://www.trae.cn"
+  ],
+  "category": "编程/Agent",
+  "region": "cn",
+  "maker": "字节跳动",
+  "oneLiner": "字节跳动的 AI IDE 与编程 Agent（国内版 trae.cn）",
+  "score": 4,
+  "growth": -18.99,
+  "growthNote": "AICPB PC 2026-09 环比",
+  "firstSeen": "2026-10-22",
+  "updated": "2026-10-22",
+  "tags": [
+    "编程工具",
+    "Agent"
+  ],
+  "rankings": [
+    {
+      "source": "aicpb",
+      "list": "AI办公智能体榜 TOP20 · 桌面(PC) 第3期",
+      "badge": "AICPB PC",
+      "rank": 3,
+      "metric": "PC 客户端 MAU（万）",
+      "value": "202.10万",
+      "mom": "-18.99%",
+      "date": "2026-09",
+      "url": "https://mp.weixin.qq.com/s/UQ3EV2WutqJrH8MoTM0lFw",
+      "snap": "aicpb-pc-office/2026-09"
+    }
+  ],
+  "growthDate": "2026-09"
+}

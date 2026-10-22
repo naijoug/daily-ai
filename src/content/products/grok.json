@@ -1,0 +1,66 @@
+{
+  "id": "grok",
+  "name": "Grok",
+  "aliases": [],
+  "url": "https://grok.com",
+  "category": "对话助手",
+  "region": "global",
+  "maker": "xAI",
+  "oneLiner": "xAI 的 AI 助手，带实时 X 内容检索",
+  "score": 4,
+  "growth": -13.28,
+  "growthNote": "AICPB 全球网站 2026-06 环比",
+  "firstSeen": "2026-10-11",
+  "updated": "2026-10-22",
+  "tags": [
+    "模型",
+    "产品"
+  ],
+  "rankings": [
+    {
+      "source": "a16z",
+      "list": "第5版 · Mobile Top 50",
+      "badge": "a16z App",
+      "rank": 23,
+      "metric": "移动端 MAU（Sensor Tower，2025-08）",
+      "date": "2025-08",
+      "url": "https://a16z.com/100-gen-ai-apps-5/",
+      "snap": "a16z-mobile/2025-08"
+    },
+    {
+      "source": "a16z",
+      "list": "第5版 · Web Top 50",
+      "badge": "a16z Web",
+      "rank": 4,
+      "metric": "Web 月独立访问（Similarweb，2025-08）",
+      "date": "2025-08",
+      "url": "https://a16z.com/100-gen-ai-apps-5/",
+      "snap": "a16z-web/2025-08"
+    },
+    {
+      "source": "aicpb",
+      "list": "AI ChatBot 榜 · 网站",
+      "badge": "AICPB ChatBot",
+      "rank": 5,
+      "metric": "网站月访问量",
+      "value": "220.78M",
+      "mom": "-13.28%",
+      "date": "2026-06",
+      "url": "https://www.aicpb.com/ai-rankings/products/ai-chatbot-rankings",
+      "snap": "aicpb-ai-chatbot-web/2026-06"
+    },
+    {
+      "source": "aicpb",
+      "list": "全球 AI 榜 · 网站",
+      "badge": "AICPB 全球网站",
+      "rank": 9,
+      "metric": "网站月访问量",
+      "value": "220.78M",
+      "mom": "-13.28%",
+      "date": "2026-06",
+      "url": "https://www.aicpb.com/ai-rankings/products/global-ai-rankings",
+      "snap": "aicpb-global-ai-web/2026-06"
+    }
+  ],
+  "growthDate": "2026-06"
+}

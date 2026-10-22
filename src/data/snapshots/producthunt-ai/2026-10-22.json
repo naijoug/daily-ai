@@ -1,0 +1,194 @@
+{
+ "source": "producthunt",
+ "sourceName": "Product Hunt",
+ "kind": "feed",
+ "badge": "Product Hunt",
+ "list": "Artificial Intelligence 分类 RSS",
+ "metric": "Feed 顺序（不是排名）",
+ "url": "https://www.producthunt.com/feed?category=artificial-intelligence",
+ "period": "2026-10-22",
+ "fetched": "2026-10-22T02:15:58.231Z",
+ "note": "Product Hunt AI 分类的 Atom feed 原样记录，不含票数，顺序不代表排名。",
+ "rows": [
+  {
+   "name": "Needle",
+   "url": "https://www.producthunt.com/products/needle-3",
+   "value": "The agent-native outbound engine Discussion | Link",
+   "date": "2026-10-09"
+  },
+  {
+   "name": "Woven Video",
+   "url": "https://www.producthunt.com/products/woven-video",
+   "value": "Edit any video by chat, on a real Mac timeline Discussion | Link",
+   "date": "2026-10-20"
+  },
+  {
+   "name": "Tend",
+   "url": "https://www.producthunt.com/products/tend-5",
+   "value": "Personal AI for businesses and entrepreneurs. Discussion | Link",
+   "date": "2026-10-20"
+  },
+  {
+   "name": "AskDoozy",
+   "url": "https://www.producthunt.com/products/askdoozy",
+   "value": "An AI coworker in Slack that does your real work Discussion | Link",
+   "date": "2026-10-20"
+  },
+  {
+   "name": "Notion Auto",
+   "url": "https://www.producthunt.com/products/notion-99",
+   "value": "Notion’s rebuilt Agents run for hours and cost far less Discussion | Link",
+   "date": "2026-10-20"
+  },
+  {
+   "name": "UseIt Studio",
+   "url": "https://www.producthunt.com/products/useit-studio-from-idea-to-delivery",
+   "value": "Your AI design agent for real, editable project files. Discussion | Link",
+   "date": "2026-10-14"
+  },
+  {
+   "name": "Searchtok",
+   "url": "https://www.producthunt.com/products/searchtok",
+   "value": "Make TikTok and Instagram searchable for your AI agent Discussion | Link",
+   "date": "2026-10-19"
+  },
+  {
+   "name": "Koi",
+   "url": "https://www.producthunt.com/products/koi-2",
+   "value": "Every tool you need, in one Mac app Discussion | Link",
+   "date": "2026-10-20"
+  },
+  {
+   "name": "PrivOS",
+   "url": "https://www.producthunt.com/products/privos",
+   "value": "Chat, Docs, Kanban Tasks and Al agents that act, self-hosted Discussion | Link",
+   "date": "2026-10-20"
+  },
+  {
+   "name": "ilha",
+   "url": "https://www.producthunt.com/products/ilha",
+   "value": "Your Claude Code and Codex limits, live in the notch Discussion | Link",
+   "date": "2026-10-17"
+  },
+  {
+   "name": "BAND for Developers",
+   "url": "https://www.producthunt.com/products/band",
+   "value": "Coding agents, meet teamwork Discussion | Link",
+   "date": "2026-10-12"
+  },
+  {
+   "name": "Intelli for ChatGPT & Claude",
+   "url": "https://www.producthunt.com/products/intelli",
+   "value": "Run WhatsApp, Instagram & web chat from ChatGPT or Claude Discussion | Link",
+   "date": "2026-10-20"
+  },
+  {
+   "name": "Lea by LeanAIOS",
+   "url": "https://www.producthunt.com/products/lea-by-leanaios",
+   "value": "Autonomous AI team for construction management & pre-con Discussion | Link",
+   "date": "2026-10-20"
+  },
+  {
+   "name": "Mouse-1",
+   "url": "https://www.producthunt.com/products/mouse-1",
+   "value": "A decision model for your agent harness. Discussion | Link",
+   "date": "2026-10-20"
+  },
+  {
+   "name": "The Brains",
+   "url": "https://www.producthunt.com/products/the-brains",
+   "value": "Founders and investors as MCP servers, every answer cited Discussion | Link",
+   "date": "2026-10-20"
+  },
+  {
+   "name": "TwinMind for Desktop",
+   "url": "https://www.producthunt.com/products/twinmind",
+   "value": "Transcribe meetings and dictate anywhere on Mac & Windows Discussion | Link",
+   "date": "2026-07-13"
+  },
+  {
+   "name": "Agent Pets",
+   "url": "https://www.producthunt.com/products/agent-pets",
+   "value": "Coding agents as pets that live on every page in Chrome Discussion | Link",
+   "date": "2026-10-20"
+  },
+  {
+   "name": "Scout by Fini",
+   "url": "https://www.producthunt.com/products/fini-2",
+   "value": "The AI coworker for support teams, on Slack Discussion | Link",
+   "date": "2026-10-19"
+  },
+  {
+   "name": "Triage by Chodeberg",
+   "url": "https://www.producthunt.com/products/triage-by-chodeberg",
+   "value": "Reproduce user described bugs in clean sandbox environments Discussion | Link",
+   "date": "2026-10-20"
+  },
+  {
+   "name": "Lugh Xtudio",
+   "url": "https://www.producthunt.com/products/lugh-xtudio",
+   "value": "The video studio where AI agents edit with you Discussion | Link",
+   "date": "2026-10-19"
+  },
+  {
+   "name": "call4me",
+   "url": "https://www.producthunt.com/products/call4me",
+   "value": "Give your AI agent a phone that calls and answers Discussion | Link",
+   "date": "2026-10-19"
+  },
+  {
+   "name": "RunInfra",
+   "url": "https://www.producthunt.com/products/runinfra",
+   "value": "Open models, built for agents. Discussion | Link",
+   "date": "2026-10-19"
+  },
+  {
+   "name": "bonds",
+   "url": "https://www.producthunt.com/products/bonds-2",
+   "value": "Every friends' chat gets an AI friend with superpowers Discussion | Link",
+   "date": "2026-10-17"
+  },
+  {
+   "name": "Harness²",
+   "url": "https://www.producthunt.com/products/harness-104",
+   "value": "Harness the agent. Then harness its self-improvement. Discussion | Link",
+   "date": "2026-10-19"
+  },
+  {
+   "name": "Composio Instant",
+   "url": "https://www.producthunt.com/products/composio",
+   "value": "The easiest way for AI agents to pay for their own tools Discussion | Link",
+   "date": "2026-09-30"
+  },
+  {
+   "name": "Kling 4.0",
+   "url": "https://www.producthunt.com/products/kling-4-0-4",
+   "value": "Fast and affordable AI video for high-frequency creators Discussion | Link",
+   "date": "2026-10-19"
+  },
+  {
+   "name": "Sorcerer",
+   "url": "https://www.producthunt.com/products/sorcerer",
+   "value": "Simulate an AI agent community reacting to \"what if\" Discussion | Link",
+   "date": "2026-10-19"
+  },
+  {
+   "name": "Exa 3.0",
+   "url": "https://www.producthunt.com/products/exa-ai",
+   "value": "Smarter search that gives AI agent richer data at lower cost Discussion | Link",
+   "date": "2026-10-19"
+  },
+  {
+   "name": "Stella",
+   "url": "https://www.producthunt.com/products/stella-5",
+   "value": "Your emotional wellness AI. A friend to figure it out with. Discussion | Link",
+   "date": "2026-10-18"
+  },
+  {
+   "name": "yggy",
+   "url": "https://www.producthunt.com/products/yggy",
+   "value": "The AI knowledge graph that builds itself Discussion | Link",
+   "date": "2026-10-12"
+  }
+ ]
+}

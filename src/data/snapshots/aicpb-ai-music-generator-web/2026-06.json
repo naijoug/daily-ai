@@ -1,0 +1,75 @@
+{
+ "source": "aicpb",
+ "sourceName": "AI产品榜 AICPB",
+ "list": "AI 音乐榜 · 网站",
+ "metric": "网站月访问量",
+ "url": "https://www.aicpb.com/ai-rankings/products/ai-music-generator-rankings",
+ "period": "2026-06",
+ "published": "2026-07-08",
+ "note": "AICPB 未公开采集方法，数据仅供参考；非商用引用标注来源【AI产品榜 AICPB】。 aicpb.com 页面标注 Last Updated: Jul 8, 2026，免费页面只展示前 10。",
+ "rows": [
+  {
+   "rank": 1,
+   "name": "Suno.com",
+   "value": "76.55M",
+   "mom": "-13.85%"
+  },
+  {
+   "rank": 2,
+   "name": "Voicemod Text to Song",
+   "value": "4.17M",
+   "mom": "-4.75%"
+  },
+  {
+   "rank": 3,
+   "name": "moisesa",
+   "value": "4.05M",
+   "mom": "4.77%"
+  },
+  {
+   "rank": 4,
+   "name": "Mureka-昆仑万维",
+   "value": "2.95M",
+   "mom": "-6.04%"
+  },
+  {
+   "rank": 5,
+   "name": "Landr",
+   "value": "1.91M",
+   "mom": "3.09%"
+  },
+  {
+   "rank": 6,
+   "name": "Brain.fm",
+   "value": "1.78M",
+   "mom": "-15.02%"
+  },
+  {
+   "rank": 7,
+   "name": "Udio",
+   "value": "1.65M",
+   "mom": "-8.61%"
+  },
+  {
+   "rank": 8,
+   "name": "acestudio",
+   "value": "860.56K",
+   "mom": "-0.82%"
+  },
+  {
+   "rank": 9,
+   "name": "Samplette",
+   "value": "683.05K",
+   "mom": "-14.43%"
+  },
+  {
+   "rank": 10,
+   "name": "Musicfy",
+   "value": "351.86K",
+   "mom": "8.70%"
+  }
+ ],
+ "fetched": "2026-10-22T10:15:00+08:00",
+ "badge": "AICPB 音乐",
+ "kind": "products"
+}

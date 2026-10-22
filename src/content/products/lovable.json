@@ -1,0 +1,46 @@
+{
+  "id": "lovable",
+  "name": "Lovable",
+  "aliases": [
+    "Lovable.dev"
+  ],
+  "url": "https://lovable.dev",
+  "category": "编程/Agent",
+  "region": "global",
+  "maker": "Lovable",
+  "oneLiner": "用自然语言生成全栈 Web 应用的 vibe coding 平台",
+  "score": 4,
+  "growth": -1.27,
+  "growthNote": "AICPB Vibe Coding 2026-06 环比",
+  "firstSeen": "2026-10-22",
+  "updated": "2026-10-22",
+  "tags": [
+    "编程工具",
+    "产品"
+  ],
+  "rankings": [
+    {
+      "source": "a16z",
+      "list": "第5版 · Web Top 50",
+      "badge": "a16z Web",
+      "rank": 23,
+      "metric": "Web 月独立访问（Similarweb，2025-08）",
+      "date": "2025-08",
+      "url": "https://a16z.com/100-gen-ai-apps-5/",
+      "snap": "a16z-web/2025-08"
+    },
+    {
+      "source": "aicpb",
+      "list": "Vibe Coding 榜 · 网站",
+      "badge": "AICPB Vibe Coding",
+      "rank": 3,
+      "metric": "网站月访问量",
+      "value": "34.83M",
+      "mom": "-1.27%",
+      "date": "2026-06",
+      "url": "https://www.aicpb.com/ai-rankings/products/vibe-coding-rankings",
+      "snap": "aicpb-vibe-coding-web/2026-06"
+    }
+  ],
+  "growthDate": "2026-06"
+}

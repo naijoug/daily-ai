@@ -24,6 +24,7 @@ const path = Astro.url.pathname;
       <a class="brand" href={url('/')}>Daily AI</a>
       <nav>
         <a href={url('/')} class={path === url('/') || path === url('') ? 'on' : ''}>首页</a>
+        <a href={url('/products/')} class={path.startsWith(url('/products')) ? 'on' : ''}>产品</a>
         <a href={url('/tags/')} class={path.startsWith(url('/tags')) ? 'on' : ''}>标签</a>
         <a href={url('/search/')} class={path.startsWith(url('/search')) ? 'on' : ''}>搜索</a>
         <a href={url('/favorites/')} class={path.startsWith(url('/favorites')) ? 'on' : ''}>收藏</a>
@@ -168,5 +169,67 @@ const path = Astro.url.pathname;
     .stars button { font-size:20px; padding:2px 3px; }
     .ibtn { padding:5px 10px; }
     .pager { flex-direction:column; }
+  }
+</style>
+<style is:global>
+  /* ---- v4: AI 产品 ---- */
+  .gnew { display:flex; flex-wrap:wrap; gap:4px 6px; align-items:center; font-size:11.5px; line-height:1.4; }
+  .gnewl { color:var(--muted); margin-right:2px; }
+  .pchip { background:var(--chip); color:var(--chipfg); border-radius:4px; padding:1px 7px; max-width:9em; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .fresh { margin-bottom:8px; }
+  .fstrip { display:flex; gap:10px; overflow-x:auto; padding-bottom:6px; scrollbar-width:thin; }
+  .fchip { flex:0 0 auto; display:flex; flex-direction:column; gap:0; background:var(--card); border:1px solid var(--line); border-radius:8px; padding:8px 12px; color:var(--fg); font-size:14px; line-height:1.5; min-width:120px; }
+  .fchip:hover { background:var(--hover); text-decoration:none; }
+  .fchip .muted { font-size:12px; }
+  .pbar { display:flex; flex-wrap:wrap; justify-content:space-between; gap:10px 16px; margin:20px 0 6px; align-items:center; }
+  .pctl { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .pchips { display:flex; flex-wrap:wrap; gap:6px; }
+  .pchips button { border:1px solid var(--line); background:var(--card); color:var(--fg); border-radius:999px; padding:2px 12px; cursor:pointer; font:inherit; font-size:13px; line-height:22px; }
+  .pchips button:hover { background:var(--hover); }
+  .pchips button.on { background:var(--fg); color:var(--bg); border-color:var(--fg); }
+  .pctl select, .favbar select { background:var(--card); color:var(--fg); border:1px solid var(--line); border-radius:6px; padding:4px 8px; font:inherit; font-size:13.5px; }
+  .pcard { min-height:0; }
+  .pcard[hidden] { display:none; }
+  .pcard .gtitle { justify-content:space-between; }
+  .pcard .pname { color:var(--fg); font-weight:650; font-size:16px; }
+  .pcard .gmeta { margin:0; }
+  .pcard .gsum { -webkit-line-clamp:2; }
+  .rbadge { display:inline-block; border:1px solid var(--line); border-radius:4px; padding:0 6px; font-size:11.5px; line-height:19px; color:var(--fg); background:var(--prev); margin:0 4px 4px 0; white-space:nowrap; font-variant-numeric:tabular-nums; }
+  .grow { font-size:12px; font-weight:600; font-variant-numeric:tabular-nums; }
+  .grow.up, .rm.up { color:#2f9e63; } .grow.down, .rm.down { color:#d4405a; }
+  .pact { display:flex; gap:8px; align-items:center; border-top:1px dashed var(--line); padding-top:8px; font-size:13px; }
+  .prd { margin-left:auto; color:#e9a400; font-size:12.5px; }
+  .rgrid { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:16px; margin-top:16px; }
+  @media (max-width: 960px) { .rgrid { grid-template-columns:1fr; } }
+  .rcard { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:14px 16px; min-width:0; }
+  .rhead .ibtn { white-space:nowrap; flex:0 0 auto; }
+  .rhead { display:flex; justify-content:space-between; gap:10px; align-items:flex-start; margin-bottom:8px; }
+  .rtitle { font-weight:650; font-size:15px; line-height:1.4; }
+  .rsub { font-size:12.5px; line-height:1.5; }
+  .rscroll { overflow-x:auto; }
+  .rtable { width:100%; border-collapse:collapse; font-size:13.5px; line-height:1.5; }
+  .rtable th { text-align:left; font-weight:600; color:var(--muted); font-size:12px; border-bottom:1px solid var(--line); padding:4px 6px; white-space:nowrap; }
+  .rtable td { border-bottom:1px solid var(--line); padding:5px 6px; vertical-align:top; }
+  .rtable tr:last-child td { border-bottom:none; }
+  .rn { width:2.5em; color:var(--muted); font-variant-numeric:tabular-nums; }
+  .rv, .rm { white-space:nowrap; font-variant-numeric:tabular-nums; }
+  .rname a { color:var(--fg); text-decoration:underline; text-decoration-color:var(--line); text-underline-offset:3px; }
+  .rx { margin:0 0 0 6px; font-size:11px; line-height:18px; }
+  .rnote { font-size:12.5px; line-height:1.6; margin:8px 0 0; }
+  .mnote { padding:10px 14px; background:var(--prev); border-radius:8px; border-left:3px solid var(--accent); }
+  .pdetail h2 { font-size:19px; }
+  .pdetail .pmeta { border-top:none; padding-top:0; margin:6px 0 10px; }
+  .pdetail .pmeta .ibtn[data-act=read] { margin-left:0; }
+  .mlist li.item { padding:10px 14px 10px 46px; font-size:15px; line-height:1.7; }
+  .favgroup { font-size:15px; font-weight:650; margin:24px 0 8px; }
+  @media (max-width: 600px) {
+    .pbar { flex-direction:column; align-items:stretch; }
+    .pchips { flex-wrap:nowrap; overflow-x:auto; padding-bottom:4px; }
+    .pchips button { flex:0 0 auto; }
+    .pctl { display:grid; grid-template-columns:minmax(0,1fr) auto; }
+    .pctl .pchips { min-width:0; }
+    .pbar > .pchips, .pctl { min-width:0; max-width:100%; }
+    .rcard { padding:12px; }
+    .mlist li.item { padding:10px 12px; }
   }
 </style>

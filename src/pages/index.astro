@@ -3,7 +3,11 @@ import Base from '../layouts/Base.astro';
 import Gallery from '../components/Gallery.astro';
 import { url } from '../lib/posts';
 import { allDays } from '../lib/days';
+import { allProducts } from '../lib/products';
 const days = await allDays();
+const prods = await allProducts();
+const newByDay: Record<string, { id: string; name: string }[]> = {};
+for (const p of prods.sort((a, b) => (b.score || 0) - (a.score || 0))) (newByDay[p.firstSeen] ||= []).push({ id: p.id, name: p.name });
 ---
 <Base wide>
   <h1 class="ptitle"><span>📰</span> Daily AI</h1>
@@ -12,5 +16,5 @@ const days = await allDays();
     <span class="vlabel">▦ 每日</span>
     <a class="vsearch" href={url('/search/')} aria-label="搜索">⌕ 搜索</a>
   </div>
-  <Gallery days={days} />
+  <Gallery days={days} newByDay={newByDay} />
 </Base>

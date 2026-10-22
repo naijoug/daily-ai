@@ -1,0 +1,66 @@
+{
+  "id": "kling",
+  "name": "可灵 Kling",
+  "aliases": [
+    "可灵",
+    "可灵AI",
+    "Kling",
+    "KlingAI",
+    "Kling AI",
+    "Kling ai",
+    "可灵AI - AI图片&视频创作工具"
+  ],
+  "url": "https://kling.ai",
+  "domains": [
+    "https://klingai.com"
+  ],
+  "category": "视频",
+  "region": "cn",
+  "maker": "快手",
+  "oneLiner": "快手的 AI 视频与图片生成工具",
+  "score": 4,
+  "growth": -1.69,
+  "growthNote": "AICPB 中国App 2026-06 环比",
+  "firstSeen": "2026-10-16",
+  "updated": "2026-10-22",
+  "tags": [
+    "产品"
+  ],
+  "rankings": [
+    {
+      "source": "a16z",
+      "list": "第5版 · Web Top 50",
+      "badge": "a16z Web",
+      "rank": 33,
+      "metric": "Web 月独立访问（Similarweb，2025-08）",
+      "date": "2025-08",
+      "url": "https://a16z.com/100-gen-ai-apps-5/",
+      "snap": "a16z-web/2025-08"
+    },
+    {
+      "source": "aicpb",
+      "list": "AI 视频生成榜 · 网站",
+      "badge": "AICPB 视频",
+      "rank": 3,
+      "metric": "网站月访问量",
+      "value": "12.65M",
+      "mom": "1.19%",
+      "date": "2026-06",
+      "url": "https://www.aicpb.com/ai-rankings/products/ai-video-generators-rankings",
+      "snap": "aicpb-ai-video-generators-web/2026-06"
+    },
+    {
+      "source": "aicpb",
+      "list": "中国 AI 榜 · App",
+      "badge": "AICPB 中国App",
+      "rank": 9,
+      "metric": "App MAU",
+      "value": "8.11M",
+      "mom": "-1.69%",
+      "date": "2026-06",
+      "url": "https://www.aicpb.com/ai-rankings/products/china-ai-rankings",
+      "snap": "aicpb-china-ai-app/2026-06"
+    }
+  ],
+  "growthDate": "2026-06"
+}

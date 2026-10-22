@@ -1,0 +1,83 @@
+---
+import Base from '../../layouts/Base.astro';
+import { url } from '../../lib/posts';
+import { allProducts, badges, mentionsIndex, REGION_LABEL } from '../../lib/products';
+export async function getStaticPaths() {
+  const ps = await allProducts();
+  const idx = await mentionsIndex(ps);
+  return ps.map((p) => ({ params: { id: p.id }, props: { p, mentions: idx.get(p.id) || [] } }));
+}
+const { p, mentions } = Astro.props;
+const groups = new Map<string, typeof p.rankings>();
+for (const r of p.rankings) { const k = `${r.badge || r.source}｜${r.list}`; if (!groups.has(k)) groups.set(k, []); groups.get(k)!.push(r); }
+const hist = [...groups.entries()].map(([k, rs]) => ({ k, rs: [...rs].sort((a, b) => (a.date < b.date ? 1 : -1)) }))
+  .sort((a, b) => (a.rs[0].date < b.rs[0].date ? 1 : -1));
+const host = p.url.replace(/^https?:\/\/(www\.)?/, '');
+---
+<Base title={p.name} description={p.oneLiner}>
+  <article class="prose pdetail" data-id={p.id} data-first={p.firstSeen} data-score={p.score || 0} data-pagefind-body>
+    <p class="muted crumb"><a href={url('/products/')}>AI 产品</a> / {p.category}</p>
+    <h1>{p.name}</h1>
+    <p class="dsum">{p.oneLiner}</p>
+    <div class="dbar" data-pagefind-ignore>
+      <span class={`gbadge ${p.region === 'cn' ? 'tech' : ''}`}>{REGION_LABEL[p.region]}</span>
+      {p.maker && <span class="muted">{p.maker}</span>}
+      {p.score && <span class={`ascore s${p.score}`}>AI {p.score}</span>}
+      {p.growth != null && <span class:list={['grow', p.growth >= 0 ? 'up' : 'down']}>{p.growth >= 0 ? '↑' : '↓'}{Math.abs(p.growth).toFixed(2)}% <span class="muted">{p.growthNote}</span></span>}
+      <span class="muted">首次出现 {p.firstSeen}</span>
+    </div>
+    <div class="imeta pmeta" data-pagefind-ignore>
+      <a class="ibtn" href={p.url} target="_blank" rel="noopener">{host} ↗</a>
+      {p.domains.map((d) => <a class="ibtn" href={d} target="_blank" rel="noopener">{d.replace(/^https?:\/\/(www\.)?/, '')} ↗</a>)}
+      <span class="stars" role="group" aria-label="我的评分">{[1, 2, 3, 4, 5].map((n) => <button type="button" data-star={n} aria-label={`${n} 星`}>★</button>)}</span>
+      <button type="button" class="ibtn" data-act="fav">♡ 收藏</button>
+      <button type="button" class="ibtn" data-act="read">标为已看</button>
+    </div>
+    {badges(p).length > 0 && <div class="dtags">{badges(p).map((r) => <span class="rbadge" title={r.list}>{r.badge} #{r.rank}</span>)}</div>}
+
+    <h2>榜单记录</h2>
+    {hist.length === 0 ? <p class="muted">暂无榜单记录。</p> : <div class="rscroll"><table class="rtable">
+      <thead><tr><th>榜单</th><th>数据期</th><th>#</th><th>数值</th><th>环比</th></tr></thead>
+      <tbody>{hist.flatMap(({ k, rs }) => rs.map((r, i) => {
+        const mom = r.mom && /^-?[\d.]+%$/.test(r.mom) ? parseFloat(r.mom) : null;
+        return <tr>
+          <td>{i === 0 ? <a href={r.url} target="_blank" rel="noopener">{k}</a> : <span class="muted">〃</span>}</td>
+          <td class="rv">{r.date}</td><td class="rn">{r.rank ?? '—'}</td><td class="rv">{r.value || '—'}</td>
+          <td class:list={['rm', { up: mom !== null && mom > 0, down: mom !== null && mom < 0 }]}>{r.mom || '—'}</td>
+        </tr>;
+      }))}</tbody>
+    </table></div>}
+    <p class="muted rnote">每行的口径见榜单名称（MAU、访问量、token 用量各不相同），不可横向比较。AICPB 未公开采集方法。</p>
+
+    <h2>本站提到它的条目 <span class="muted">· {mentions.length}</span></h2>
+    {mentions.length === 0 ? <p class="muted">每日速递里还没有提到它的条目。</p> :
+      <ol class="items mlist">{mentions.slice(0, 40).map((m) => <li class="item"><div class="itext"><a href={url(`/day/${m.day}/#${m.id}`)}>{m.day}</a> · {m.text}</div></li>)}</ol>}
+  </article>
+  <nav class="pager"><a href={url('/products/')}>← 全部产品</a><a href={url('/products/#models')}>模型榜 →</a></nav>
+</Base>
+<script>
+  import { load, save } from '../../lib/store';
+  const art = document.querySelector<HTMLElement>('.pdetail')!;
+  const k = `product:${art.dataset.id}`;
+  const meta = art.querySelector('.pmeta')!;
+  const upd = () => {
+    const st = load();
+    const fav = !!st.fav[k]; const fb = meta.querySelector('[data-act=fav]')!;
+    fb.textContent = fav ? '♥ 已收藏' : '♡ 收藏'; fb.classList.toggle('on', fav);
+    meta.querySelector('[data-act=read]')!.textContent = st.read[k] ? '✓ 已看' : '标为已看';
+    const rt = st.rating[k] || 0;
+    meta.querySelectorAll<HTMLElement>('[data-star]').forEach((b) => b.classList.toggle('on', Number(b.dataset.star) <= rt));
+  };
+  meta.addEventListener('click', (e) => {
+    const b = (e.target as HTMLElement).closest('button'); if (!b) return;
+    const st = load();
+    if (b.dataset.star) { const n = Number(b.dataset.star); if (st.rating[k] === n) delete st.rating[k]; else st.rating[k] = n; }
+    else if (b.dataset.act === 'read') { if (st.read[k]) delete st.read[k]; else st.read[k] = Date.now(); }
+    else if (b.dataset.act === 'fav') {
+      if (st.fav[k]) delete st.fav[k];
+      else st.fav[k] = { id: k, day: art.dataset.first!, html: `<p><strong>${art.querySelector('h1')!.textContent}</strong>：${art.querySelector('.dsum')!.textContent}</p>`, text: art.querySelector('.dsum')!.textContent || '', score: Number(art.dataset.score) || undefined, ts: Date.now() };
+    }
+    save(st); upd();
+  });
+  upd();
+</script>

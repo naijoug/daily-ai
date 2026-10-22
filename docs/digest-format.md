@@ -1,7 +1,7 @@
 # Digest 文件格式（供定时汇总任务使用）
 
 `scripts/import.mjs` 把一份 digest 转成 `src/content/posts/<type>-<YYYY-MM-DD-HHMM>.md`。
-本文规定 digest 里**可选**的两个机器可读字段：每条的 AI 评分和日摘要。没有这两个字段的旧格式照样能导入。
+本文规定 digest 里**可选**的机器可读字段：每条的 AI 评分、日摘要，以及产品登记（`## 新产品` 小节 / `[P:slug]` 标记）。没有这些字段的旧格式照样能导入。
 
 ## 文件名与类型
 
@@ -58,6 +58,58 @@
 - 写的是**截至本期的整天**（北京时间自然日）要点，而不只是本期；后面的 digest 可以综合前面几期重写。
 - 导入后写入 frontmatter `daySummary`。站点首页卡片和日页取**当天时间最晚、且带 daySummary 的那一期**。
 
+## 字段 3：产品登记（可选，`## 新产品` 小节 + `[P:…]` 标记）
+
+导入时会把产品登记进 `src/content/products/<slug>.json`（站点 /products/ 产品库），并把条目与产品互相链接。两种写法可以混用：
+
+**写法 A：`## 新产品` 小节**——小节里的每一条都会被登记为产品，不需要额外标记：
+
+```markdown
+## 新产品
+1. **Needle**：面向 agent 的外呼引擎，自动找客户写邮件 https://needle.app [P:needle|办公|global] [AI:3]
+2. **Kilo Code 2.0**：开源编程 Agent 发布 2.0，支持云端并行任务 https://kilo.ai/blog/2 [AI:4]
+```
+
+**写法 B：任意小节里的条目加 `[P:slug]`**——新闻里提到已登记的产品时用它做显式关联（不存在时也会新建）：
+
+```markdown
+1. **豆包工作上线定时任务**：…… https://www.doubao.com/work [P:doubao-work] [AI:4]
+```
+
+**标记语法**：`[P:<slug>|<类别>|<地区>]`，放在 `[AI:N]` **前面**（`[AI:N]` 仍须是行尾最后一段），前面留一个空格。
+
+- `slug`：小写字母、数字和 `-`，例如 `claude-code`、`doubao-work`。在 `## 新产品` 小节里可省略（写成 `[P:|办公|cn]` 或干脆不写标记），会用加粗名称或官网域名生成。
+- `类别`（可选）：`对话助手` / `编程/Agent` / `办公` / `图像` / `视频` / `音频` / `搜索` / `研究` / `开发者平台` / `其他`，缺省为 `其他`。
+- `地区`（可选）：`cn` / `global`（也接受 `国内` / `海外`）；缺省时 `.cn` 域名或中文名记为 `cn`，否则 `global`。
+- 正则：`/\s*[\[［]\s*P\s*[:：]\s*([a-z0-9][a-z0-9-]*)?\s*(?:\|\s*([^|\]］]*?)\s*)?(?:\|\s*(cn|global|国内|海外)\s*)?[\]］]/gi`。
+- 标记会从正文删掉；关联写进 post frontmatter `products: ["<条目序号>:<slug>", ...]`，日页条目下方会出现「产品 · slug」链接。
+
+**条目内容约定**（新建产品时用来填字段）：
+
+- 名称 = 行首 `**加粗**` 文字（取 `：` 前面的部分）。
+- 官网 = 行内**第一个非社交平台链接**（x.com、github.com、公众号、YouTube、Product Hunt、Hugging Face 等不算）。**没有官网链接的条目不会新建产品**，导入时打印警告。
+- 一句话介绍 = `：` 后面的正文去掉链接，取第一句（≤90 字）。
+- AI 评分 = 该条的 `[AI:N]`。
+
+**去重规则**（按顺序）：
+
+1. `slug` 与已有产品相同 → 同一个产品。
+2. 官网 URL 规范化（小写、去 `www.`、去 query/hash/末尾斜杠）后做**最长前缀匹配**，同时比对产品的 `url` 和备用 `domains`。例：`doubao.com/work/...` 归到「豆包工作」，`doubao.com/chat` 归到「豆包」；`kilocode.ai/...` 归到 `kilo-code`。
+3. 名称规范化（去掉「｜公司」「 - 副标题」后缀、空白和标点，小写）后对比产品名、`aliases` 和别名表 `src/data/product-aliases.json`（例：`豆包` = `Doubao` = `豆包｜抖音`）。
+
+命中已有产品时**不覆盖**已有字段，只会：`firstSeen` 取更早的日期、`updated` 取更晚的日期、补上缺失的评分、把新出现的名称写进 `aliases`。`firstSeen`（北京时间日期）决定首页日卡片上的「今日新产品」和 /products/ 的「本周新上榜」。
+
+## 榜单快照（`scripts/products-refresh.mjs`，由每日 tech digest 调用）
+
+```bash
+cd /workspace/dailyai && export PATH=~/.local/node22/bin:$PATH && node scripts/products-refresh.mjs
+```
+
+- 抓取 Product Hunt AI RSS、Hugging Face trending Spaces API、OpenRouter rankings（App 与模型的本周 token 用量）、Artificial Analysis Intelligence Index，写成 `src/data/snapshots/<key>/<北京日期>.json`。
+- 重新应用全部快照：榜单里能对上（同样的 URL / 别名去重规则）的**已登记产品**会追加一条 `rankings` 记录；不会因为上榜而自动新建产品。
+- 幂等、只增不删：同一天重跑只覆盖当天快照和同 `source+list+date` 的记录；某个源抓取失败只打印 `!` 警告并跳过，不会写空文件；退出码恒为 0。`--dry` 只抓不写，`--only openrouter,hf` 只跑部分来源。
+- 月度榜单（AICPB 公众号月榜、aicpb.com、a16z）和 LMArena（脚本访问 403）手工录入：按同样格式新建一个快照 JSON（注明 `url`、`period`、`published`、`note`，手工的加 `"manual": true`），下次运行脚本即会写进对应产品。
+
 ## 不要写进 digest 的内容
 
 导入脚本会尽力过滤，但请源头就不要输出：关注列表 / 新关注账号、X List 名称或 ID、任务失败 / 限流 / 补跑 / 抓取失败等内部运行说明。
@@ -69,4 +121,6 @@
 | AI 评分 | post frontmatter `scores: [..]`，与正文顶层列表项一一对应 |
 | 日摘要 | post frontmatter `daySummary` |
 | 条目 id | `<postId>-<序号>`，序号从 1 开始按正文顺序递增，例如 `tech-2026-10-21-2130-3` |
-| 已读 / 个人评分 / 收藏 | 读者浏览器 localStorage `dailyai:v1`，收藏页可导出/导入 JSON |
+| 已读 / 个人评分 / 收藏 | 读者浏览器 localStorage `dailyai:v1`，收藏页可导出/导入 JSON；产品用 `product:<slug>` 作键 |
+| 产品 | `src/content/products/<slug>.json`；条目关联在 post frontmatter `products` |
+| 榜单快照 | `src/data/snapshots/<key>/<日期或月份>.json` |

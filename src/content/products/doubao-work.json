@@ -1,0 +1,50 @@
+{
+  "id": "doubao-work",
+  "name": "豆包工作",
+  "aliases": [
+    "豆包工作",
+    "豆包工作｜字节",
+    "Doubao Work"
+  ],
+  "url": "https://www.doubao.com/work",
+  "category": "办公",
+  "region": "cn",
+  "maker": "字节跳动",
+  "oneLiner": "豆包品牌下的办公智能体桌面客户端：做 PPT、处理文档表格、操作电脑与定时任务",
+  "score": 4,
+  "growth": 95.64,
+  "growthNote": "AICPB PC 2026-09 环比",
+  "firstSeen": "2026-10-22",
+  "updated": "2026-10-22",
+  "tags": [
+    "Agent",
+    "产品"
+  ],
+  "rankings": [
+    {
+      "source": "aicpb",
+      "list": "AI办公智能体增速榜 TOP10 · 桌面(PC) 第3期",
+      "badge": "AICPB PC增速",
+      "rank": 1,
+      "metric": "PC 客户端 MAU（万）/ MoM 增速排序",
+      "value": "129.70万",
+      "mom": "95.64%",
+      "date": "2026-09",
+      "url": "https://mp.weixin.qq.com/s/UQ3EV2WutqJrH8MoTM0lFw",
+      "snap": "aicpb-pc-growth/2026-09"
+    },
+    {
+      "source": "aicpb",
+      "list": "AI办公智能体榜 TOP20 · 桌面(PC) 第3期",
+      "badge": "AICPB PC",
+      "rank": 8,
+      "metric": "PC 客户端 MAU（万）",
+      "value": "129.70万",
+      "mom": "95.64%",
+      "date": "2026-09",
+      "url": "https://mp.weixin.qq.com/s/UQ3EV2WutqJrH8MoTM0lFw",
+      "snap": "aicpb-pc-office/2026-09"
+    }
+  ],
+  "growthDate": "2026-09"
+}

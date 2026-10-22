@@ -22,12 +22,15 @@ function walkLinks(node) {
   }
   for (const c of node.children || []) walkLinks(c);
 }
-export default function rehypeItems() {
+export default function rehypeItems(opts = {}) {
+  const base = (opts.base || '').replace(/\/$/, '');
   return (tree, file) => {
     const fp = file.path || file.history?.[0] || '';
     if (!/content[\\/]posts[\\/]/.test(fp)) return;
     const pid = path.basename(fp, '.md');
     const scores = file.data?.astro?.frontmatter?.scores || [];
+    const prods = {};
+    for (const t of file.data?.astro?.frontmatter?.products || []) { const [i, id] = String(t).split(':'); (prods[i] ||= []).push(id); }
     walkLinks(tree);
     let n = 0;
     for (const node of tree.children) {
@@ -42,6 +45,7 @@ export default function rehypeItems() {
         const body = el('div', { className: ['itext'] }, li.children);
         const meta = el('div', { className: ['imeta'] }, [
           s ? el('span', { className: ['ascore', `s${s}`], title: `AI 评分 ${s}/5` }, [txt(`AI ${s}`)]) : txt(''),
+          ...(prods[n] || []).map((id) => el('a', { className: ['ibtn', 'plink'], href: `${base}/products/${id}/` }, [txt(`产品 · ${id}`)])),
         ]);
         li.children = [body, meta];
       }

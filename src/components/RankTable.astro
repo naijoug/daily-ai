@@ -1,0 +1,34 @@
+---
+import type { Snapshot } from '../lib/products';
+interface Props { s: Snapshot; history?: Snapshot[]; limit?: number; pmap?: Record<string, string> }
+const { s, history = [], limit = 20, pmap = {} } = Astro.props;
+const rows = s.rows.slice(0, limit);
+const hasRank = rows.some((r) => r.rank != null);
+const hasMom = rows.some((r) => r.mom);
+const hasVal = rows.some((r) => r.value);
+const pd = s.period || s.date;
+---
+<section class="rcard">
+  <header class="rhead">
+    <div>
+      <div class="rtitle">{s.sourceName} · {s.list}</div>
+      <div class="muted rsub">{s.metric}{s.metric ? ' · ' : ''}数据期 {pd}{s.published && s.published !== pd ? ` · 发布 ${s.published}` : ''}{s.manual ? ' · 手动快照' : ''}</div>
+    </div>
+    <a class="ibtn" href={s.url} target="_blank" rel="noopener">来源 ↗</a>
+  </header>
+  <div class="rscroll"><table class="rtable">
+    <thead><tr>{hasRank && <th>#</th>}<th>名称</th>{hasVal && <th>{s.kind === 'feed' && !hasRank ? '简介' : '数值'}</th>}{hasMom && <th>环比</th>}</tr></thead>
+    <tbody>{rows.map((r, i) => {
+      const pid = pmap[r.name];
+      const mom = r.mom && /^-?[\d.]+%$/.test(r.mom) ? parseFloat(r.mom) : null;
+      return <tr>
+        {hasRank && <td class="rn">{r.rank}</td>}
+        <td class="rname">{pid ? <a href={pid}>{r.name}</a> : r.url ? <a href={r.url} target="_blank" rel="noopener">{r.name}</a> : r.name}{r.org && <span class="muted"> · {r.org}</span>}{r.extra && <span class="chip rx">{r.extra}</span>}</td>
+        {hasVal && <td class="rv">{r.value}</td>}
+        {hasMom && <td class:list={['rm', { up: mom !== null && mom > 0, down: mom !== null && mom < 0 }]}>{r.mom}</td>}
+      </tr>;
+    })}</tbody>
+  </table></div>
+  {s.note && <p class="muted rnote">{s.note}</p>}
+  {history.length > 1 && <p class="muted rnote">历史快照：{history.map((h) => h.period || h.date).join('、')}</p>}
+</section>

@@ -1,0 +1,135 @@
+{
+ "source": "aicpb",
+ "sourceName": "AI产品榜 AICPB",
+ "url": "https://mp.weixin.qq.com/s/UQ3EV2WutqJrH8MoTM0lFw",
+ "period": "2026-09",
+ "published": "2026-10-22",
+ "note": "AICPB 未公开采集方法，数据仅供参考；非商用引用标注来源【AI产品榜 AICPB】。 来源为公众号「AI产品榜」文章《3555万AI办公月活用户，渗透率才10%…｜AI产品榜·桌面榜(PC)2026.09》（李榜主，2026-10-22 09:37 北京时间发布）。",
+ "list": "AI办公智能体榜 TOP20 · 桌面(PC) 第3期",
+ "metric": "PC 客户端 MAU（万）",
+ "rows": [
+  {
+   "rank": 1,
+   "name": "WorkBuddy｜腾讯",
+   "value": "1282.11万",
+   "mom": "7.93%"
+  },
+  {
+   "rank": 2,
+   "name": "百度搭子｜百度",
+   "value": "800.98万",
+   "mom": "6.52%"
+  },
+  {
+   "rank": 3,
+   "name": "Trae｜字节",
+   "value": "202.10万",
+   "mom": "-18.99%"
+  },
+  {
+   "rank": 4,
+   "name": "千问办公｜阿里",
+   "value": "189.28万",
+   "mom": "19.58%"
+  },
+  {
+   "rank": 5,
+   "name": "纳米Work｜360",
+   "value": "170.86万",
+   "mom": "77.04%"
+  },
+  {
+   "rank": 6,
+   "name": "天禧AI｜联想",
+   "value": "161.24万",
+   "mom": "3.64%"
+  },
+  {
+   "rank": 7,
+   "name": "扣子｜字节",
+   "value": "152.81万",
+   "mom": "-18.88%"
+  },
+  {
+   "rank": 8,
+   "name": "豆包工作｜字节",
+   "value": "129.70万",
+   "mom": "95.64%"
+  },
+  {
+   "rank": 9,
+   "name": "ZCode｜智谱",
+   "value": "96.43万",
+   "mom": "37.71%"
+  },
+  {
+   "rank": 10,
+   "name": "Tabbit｜美团",
+   "value": "76.69万",
+   "mom": "31.31%"
+  },
+  {
+   "rank": 11,
+   "name": "Qoder｜阿里",
+   "value": "69.67万",
+   "mom": "-24.34%"
+  },
+  {
+   "rank": 12,
+   "name": "Deepseek Harness",
+   "value": "50.04万",
+   "mom": "NEW"
+  },
+  {
+   "rank": 13,
+   "name": "小浣熊｜商汤",
+   "value": "46.79万",
+   "mom": "14.02%"
+  },
+  {
+   "rank": 14,
+   "name": "灵犀专业版｜金山办公",
+   "value": "31.55万",
+   "mom": "0.95%"
+  },
+  {
+   "rank": 15,
+   "name": "Marivs｜腾讯",
+   "value": "23.82万",
+   "mom": "-35.76%"
+  },
+  {
+   "rank": 16,
+   "name": "LobsterAl｜网易有道",
+   "value": "17.58万",
+   "mom": "-43.84%"
+  },
+  {
+   "rank": 17,
+   "name": "悟空｜阿里",
+   "value": "15.60万",
+   "mom": "-49.18%"
+  },
+  {
+   "rank": 18,
+   "name": "TeleAgent｜电信",
+   "value": "15.02万",
+   "mom": "29.15%"
+  },
+  {
+   "rank": 19,
+   "name": "AutoClaw｜智谱",
+   "value": "14.59万",
+   "mom": "8.15%"
+  },
+  {
+   "rank": 20,
+   "name": "easyclaw｜猎豹",
+   "value": "8.44万",
+   "mom": "-44.06%"
+  }
+ ],
+ "fetched": "2026-10-22T10:15:00+08:00",
+ "badge": "AICPB PC",
+ "kind": "products"
+}

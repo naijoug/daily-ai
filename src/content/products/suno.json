@@ -1,0 +1,45 @@
+{
+  "id": "suno",
+  "name": "Suno",
+  "aliases": [
+    "Suno.com"
+  ],
+  "url": "https://suno.com",
+  "category": "音频",
+  "region": "global",
+  "maker": "Suno",
+  "oneLiner": "用文字生成带人声的完整歌曲",
+  "score": 4,
+  "growth": -13.85,
+  "growthNote": "AICPB 音乐 2026-06 环比",
+  "firstSeen": "2026-10-22",
+  "updated": "2026-10-22",
+  "tags": [
+    "产品"
+  ],
+  "rankings": [
+    {
+      "source": "a16z",
+      "list": "第5版 · Web Top 50",
+      "badge": "a16z Web",
+      "rank": 15,
+      "metric": "Web 月独立访问（Similarweb，2025-08）",
+      "date": "2025-08",
+      "url": "https://a16z.com/100-gen-ai-apps-5/",
+      "snap": "a16z-web/2025-08"
+    },
+    {
+      "source": "aicpb",
+      "list": "AI 音乐榜 · 网站",
+      "badge": "AICPB 音乐",
+      "rank": 1,
+      "metric": "网站月访问量",
+      "value": "76.55M",
+      "mom": "-13.85%",
+      "date": "2026-06",
+      "url": "https://www.aicpb.com/ai-rankings/products/ai-music-generator-rankings",
+      "snap": "aicpb-ai-music-generator-web/2026-06"
+    }
+  ],
+  "growthDate": "2026-06"
+}

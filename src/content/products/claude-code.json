@@ -1,0 +1,35 @@
+{
+  "id": "claude-code",
+  "name": "Claude Code",
+  "aliases": [
+    "Claude Code"
+  ],
+  "url": "https://claude.com/product/claude-code",
+  "domains": [
+    "https://claude.ai/code"
+  ],
+  "category": "编程/Agent",
+  "region": "global",
+  "maker": "Anthropic",
+  "oneLiner": "Anthropic 的终端 / IDE 编程 Agent，读懂整个代码库并执行改动",
+  "score": 5,
+  "firstSeen": "2026-10-10",
+  "updated": "2026-10-22",
+  "tags": [
+    "编程工具",
+    "Agent"
+  ],
+  "rankings": [
+    {
+      "source": "openrouter",
+      "list": "Apps · 本周 token 用量",
+      "badge": "OpenRouter",
+      "rank": 2,
+      "metric": "经 OpenRouter 的 token 总量（本周）",
+      "value": "11.72T tokens",
+      "date": "2026-10-22",
+      "url": "https://openrouter.ai/rankings#apps",
+      "snap": "openrouter-apps-week/2026-10-22"
+    }
+  ]
+}

@@ -2,11 +2,13 @@
 // 把一份源 digest（X AI 汇总或科技速递）转换成 src/content/posts/<type>-<YYYY-MM-DD-HHMM>.md
 // 用法：node scripts/import.mjs <file> [<file> ...] [--type x-ai|tech]
 // 幂等：同一 id 会被覆盖。
-// 可选字段（格式见 docs/digest-format.md）：条目行尾 `[AI:4]` → frontmatter scores；`日摘要：…` 行 → daySummary。
+// 可选字段（格式见 docs/digest-format.md）：条目行尾 `[AI:4]` → frontmatter scores；`日摘要：…` 行 → daySummary；
+// `## 新产品` 小节的条目与带 `[P:slug]` 标记的条目 → 登记/更新 src/content/products/<slug>.json（去重：规范化域名 + 别名表），frontmatter products。
 //会去掉关注/List 相关行、内部去重笔记以及工具失败/限流之类的内部说明。
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { loadProducts, saveProduct, findProduct, loadAliases, isSocial, normUrl, normName, slugify, CATEGORIES } from './lib/products.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'src/content/posts');
@@ -52,6 +54,7 @@ function filterSentences(text) {
 // 条目行（顶层编号或 - 列表），与站点 rehype-items 插件的计数口径一致
 const ITEM_RE = /^(\d+\.|[-*])\s/;
 const SCORE_RE = /\s*[\[［]\s*AI\s*[:：]\s*([1-5])\s*[\]］]\s*$/i;
+const PROD_RE = /\s*[\[［]\s*P\s*[:：]\s*([a-z0-9][a-z0-9-]*)?\s*(?:\|\s*([^|\]］]*?)\s*)?(?:\|\s*(cn|global|国内|海外)\s*)?[\]］]/gi;
 const DAYSUM_RE = /^\s*(?:>\s*)?(?:\*\*)?(?:日摘要|DAY_SUMMARY)(?:\*\*)?\s*[:：]\s*(.+?)\s*$/i;
 
 // 抽出日摘要与 AI 评分，并从正文中去掉这些标记
@@ -59,16 +62,27 @@ function extractMeta(body) {
   let daySummary = '';
   const scores = [];
   const lines = [];
-  for (const line of body.split('\n')) {
+  const prods = []; // { index, line, slug?, category?, region?, inSection }
+  let section = '';
+  for (let line of body.split('\n')) {
     const d = line.match(DAYSUM_RE);
     if (d) { daySummary = d[1].replace(/\*\*/g, '').trim(); continue; }
+    const h = line.match(/^##\s+(.+?)\s*$/); if (h) section = h[1];
     if (ITEM_RE.test(line)) {
+      const marks = [...line.matchAll(PROD_RE)];
+      if (marks.length) line = line.replace(PROD_RE, '');
       const m = line.match(SCORE_RE);
-      scores.push(m ? Number(m[1]) : 0);
-      lines.push(m ? line.replace(SCORE_RE, '') : line);
+      const score = m ? Number(m[1]) : 0;
+      scores.push(score);
+      line = m ? line.replace(SCORE_RE, '') : line;
+      line = line.replace(/\s+$/, '');
+      const inSection = /^新产品/.test(section);
+      if (marks.length) for (const k of marks) prods.push({ index: scores.length, line, score, slug: k[1], category: k[2], region: k[3], inSection });
+      else if (inSection) prods.push({ index: scores.length, line, score, inSection });
+      lines.push(line);
     } else lines.push(line);
   }
-  return { body: lines.join('\n').replace(/\n{3,}/g, '\n\n').trim() + '\n', daySummary, scores };
+  return { body: lines.join('\n').replace(/\n{3,}/g, '\n\n').trim() + '\n', daySummary, scores, prods };
 }
 
 function clean(src, type) {
@@ -134,6 +148,40 @@ function autoTags(body) {
 
 const yq = (s) => JSON.stringify(s);
 
+// 从条目行解析产品信息并登记（新建或更新）；返回 slug，失败返回 null
+const TAG_LIST = Object.keys(TAG_RULES);
+const REGION = { cn: 'cn', global: 'global', 国内: 'cn', 海外: 'global' };
+function registerProduct(pr, day, products, aliases) {
+  const text = pr.line.replace(ITEM_RE, '').trim();
+  const urls = [...text.matchAll(/https?:\/\/[^\s)）\]>，。；]+/g)].map((m) => m[0]);
+  const site = urls.find((u) => !isSocial(u));
+  const bold = text.match(/^\*\*(.+?)\*\*/);
+  let name = (bold ? bold[1] : text.split(/[：:]/)[0]).replace(/[*`]/g, '').trim();
+  name = name.split(/[：:]/)[0].trim().slice(0, 40);
+  let p = findProduct(products, { id: pr.slug, url: site, name }, aliases);
+  if (!p) {
+    if (!site) { console.warn(`! 产品未登记（缺官网链接）：第 ${pr.index} 条「${name}」`); return null; }
+    const id = pr.slug || slugify(name) || slugify(normUrl(site).host.split('.')[0]);
+    if (!id) { console.warn(`! 产品未登记（无法生成 slug，请加 [P:slug]）：第 ${pr.index} 条「${name}」`); return null; }
+    const one = text.replace(/^\*\*.+?\*\*\s*[：:]?\s*/, '').replace(/\[([^\]]*)\]\([^)]*\)/g, '$1').replace(/https?:\/\/\S+/g, '').replace(/[*`]/g, '').replace(/\s+/g, ' ').trim();
+    const cat = CATEGORIES.includes(pr.category) ? pr.category : '其他';
+    const host = normUrl(site).host;
+    const region = REGION[pr.region] || (/\.cn$/.test(host) || /[\u4e00-\u9fff]/.test(name) ? 'cn' : 'global');
+    p = { id, name, aliases: [], url: site.replace(/[?#].*$/, ''), category: cat, region, oneLiner: one.split(/(?<=[。；;])/)[0].slice(0, 90) || name, score: pr.score || undefined, firstSeen: day, updated: day, tags: autoTags(text).filter((t) => TAG_LIST.includes(t)), rankings: [] };
+    products.push(p);
+    console.log(`  + 新产品 ${id}（${name}，${p.url}）`);
+  } else {
+    if (!p.firstSeen || day < p.firstSeen) p.firstSeen = day;
+    if (!p.updated || day > p.updated) p.updated = day;
+    if (pr.category && CATEGORIES.includes(pr.category) && p.category === '其他') p.category = pr.category;
+    if (name && normName(name) !== normName(p.name) && !(p.aliases || []).some((a) => normName(a) === normName(name)) && !(aliases[p.id] || []).some((a) => normName(a) === normName(name))) p.aliases = [...(p.aliases || []), name];
+    if (!p.score && pr.score) p.score = pr.score;
+    console.log(`  · 更新产品 ${p.id}（firstSeen ${p.firstSeen}）`);
+  }
+  saveProduct(p);
+  return p.id;
+}
+
 function importFile(file, forcedType) {
   const base = path.basename(file, '.md');
   const m = base.match(/^(\d{4})-(\d{2})-(\d{2})-(\d{2})(\d{2})$/);
@@ -142,7 +190,9 @@ function importFile(file, forcedType) {
   const type = detectType(file, forcedType);
   const src = fs.readFileSync(file, 'utf8');
   const cleaned = clean(src, type);
-  const { body, daySummary, scores } = extractMeta(cleaned.body);
+  const { body, daySummary, scores, prods } = extractMeta(cleaned.body);
+  const products = prods.length ? loadProducts() : []; const aliases = prods.length ? loadAliases() : {};
+  const prodRefs = [...new Set(prods.map((pr) => { const id = registerProduct(pr, `${Y}-${M}-${D}`, products, aliases); return id ? `${pr.index}:${id}` : null; }).filter(Boolean))];
   const coverage = cleaned.coverage;
   const nScored = scores.filter(Boolean).length;
   if (nScored && nScored < scores.length) console.warn(`! ${base}: ${scores.length - nScored}/${scores.length} 条没有 [AI:n] 评分（记为 0，不显示）`);
@@ -162,6 +212,7 @@ function importFile(file, forcedType) {
     coverage ? `coverage: ${yq(coverage)}` : null,
     nScored ? `scores: [${scores.join(',')}]` : null,
     daySummary ? `daySummary: ${yq(daySummary)}` : null,
+    prodRefs.length ? `products: [${prodRefs.map(yq).join(', ')}]` : null,
     '---',
     '',
   ].filter((x) => x !== null).join('\n');
@@ -169,7 +220,7 @@ function importFile(file, forcedType) {
   const id = `${type}-${base}`;
   const dest = path.join(OUT, `${id}.md`);
   fs.writeFileSync(dest, fm + body);
-  console.log(`✓ ${id}  [${tags.join(', ')}]  items=${scores.length} scored=${nScored}${daySummary ? ' +daySummary' : ''}`);
+  console.log(`✓ ${id}  [${tags.join(', ')}]  items=${scores.length} scored=${nScored}${daySummary ? ' +daySummary' : ''}${prodRefs.length ? ` products=${prodRefs.length}` : ''}`);
   return dest;
 }
 

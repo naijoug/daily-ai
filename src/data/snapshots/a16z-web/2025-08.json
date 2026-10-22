@@ -1,0 +1,215 @@
+{
+ "source": "a16z",
+ "sourceName": "a16z Top 100 Gen AI Consumer Apps",
+ "list": "第5版 · Web Top 50",
+ "metric": "Web 月独立访问（Similarweb，2025-08）",
+ "url": "https://a16z.com/100-gen-ai-apps-5/",
+ "period": "2025-08",
+ "published": "2025-08-27",
+ "note": "a16z《The Top 100 Gen AI Consumer Apps》第 5 版（2025-08-27 发布）。榜单数据来自 Similarweb / Sensor Tower 2025 年 8 月，约半年更新一次。",
+ "rows": [
+  {
+   "rank": 1,
+   "name": "ChatGPT"
+  },
+  {
+   "rank": 2,
+   "name": "Gemini"
+  },
+  {
+   "rank": 3,
+   "name": "DeepSeek"
+  },
+  {
+   "rank": 4,
+   "name": "Grok"
+  },
+  {
+   "rank": 5,
+   "name": "character.ai"
+  },
+  {
+   "rank": 6,
+   "name": "Perplexity"
+  },
+  {
+   "rank": 7,
+   "name": "Claude"
+  },
+  {
+   "rank": 8,
+   "name": "JanitorAI"
+  },
+  {
+   "rank": 9,
+   "name": "Quark"
+  },
+  {
+   "rank": 10,
+   "name": "Google AI Studio"
+  },
+  {
+   "rank": 11,
+   "name": "remove.bg"
+  },
+  {
+   "rank": 12,
+   "name": "Doubao"
+  },
+  {
+   "rank": 13,
+   "name": "NotebookLM"
+  },
+  {
+   "rank": 14,
+   "name": "SpicyChat"
+  },
+  {
+   "rank": 15,
+   "name": "Suno"
+  },
+  {
+   "rank": 16,
+   "name": "QuillBot"
+  },
+  {
+   "rank": 17,
+   "name": "Kimi"
+  },
+  {
+   "rank": 18,
+   "name": "PolyBuzz"
+  },
+  {
+   "rank": 19,
+   "name": "SeaArt"
+  },
+  {
+   "rank": 20,
+   "name": "Qwen3"
+  },
+  {
+   "rank": 21,
+   "name": "ElevenLabs"
+  },
+  {
+   "rank": 22,
+   "name": "Hugging Face"
+  },
+  {
+   "rank": 23,
+   "name": "Lovable"
+  },
+  {
+   "rank": 24,
+   "name": "Crushon AI"
+  },
+  {
+   "rank": 25,
+   "name": "Gamma"
+  },
+  {
+   "rank": 26,
+   "name": "Cursor"
+  },
+  {
+   "rank": 27,
+   "name": "Pixelcut"
+  },
+  {
+   "rank": 28,
+   "name": "Midjourney"
+  },
+  {
+   "rank": 29,
+   "name": "TurboScribe"
+  },
+  {
+   "rank": 30,
+   "name": "Photoroom"
+  },
+  {
+   "rank": 31,
+   "name": "Manus"
+  },
+  {
+   "rank": 32,
+   "name": "Civitai"
+  },
+  {
+   "rank": 33,
+   "name": "KlingAI"
+  },
+  {
+   "rank": 34,
+   "name": "cutout.pro"
+  },
+  {
+   "rank": 35,
+   "name": "Adot"
+  },
+  {
+   "rank": 36,
+   "name": "DeepAI"
+  },
+  {
+   "rank": 37,
+   "name": "Poe"
+  },
+  {
+   "rank": 38,
+   "name": "ZeroGPT"
+  },
+  {
+   "rank": 39,
+   "name": "Google Labs"
+  },
+  {
+   "rank": 40,
+   "name": "Leonardo.Ai"
+  },
+  {
+   "rank": 41,
+   "name": "Replit"
+  },
+  {
+   "rank": 42,
+   "name": "candy.ai"
+  },
+  {
+   "rank": 43,
+   "name": "JuicyChat"
+  },
+  {
+   "rank": 44,
+   "name": "VEED"
+  },
+  {
+   "rank": 45,
+   "name": "Hailuo AI"
+  },
+  {
+   "rank": 46,
+   "name": "Meta AI"
+  },
+  {
+   "rank": 47,
+   "name": "Remaker"
+  },
+  {
+   "rank": 48,
+   "name": "Joi"
+  },
+  {
+   "rank": 49,
+   "name": "Monica"
+  },
+  {
+   "rank": 50,
+   "name": "ourdream.ai"
+  }
+ ],
+ "fetched": "2026-10-22T10:15:00+08:00",
+ "badge": "a16z Web",
+ "kind": "products"
+}

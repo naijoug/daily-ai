@@ -1,0 +1,38 @@
+{
+  "id": "perplexity",
+  "name": "Perplexity",
+  "aliases": [],
+  "url": "https://www.perplexity.ai",
+  "category": "搜索",
+  "region": "global",
+  "maker": "Perplexity",
+  "oneLiner": "带引用来源的 AI 搜索与问答引擎",
+  "score": 4,
+  "firstSeen": "2026-10-16",
+  "updated": "2026-10-22",
+  "tags": [
+    "产品"
+  ],
+  "rankings": [
+    {
+      "source": "a16z",
+      "list": "第5版 · Mobile Top 50",
+      "badge": "a16z App",
+      "rank": 10,
+      "metric": "移动端 MAU（Sensor Tower，2025-08）",
+      "date": "2025-08",
+      "url": "https://a16z.com/100-gen-ai-apps-5/",
+      "snap": "a16z-mobile/2025-08"
+    },
+    {
+      "source": "a16z",
+      "list": "第5版 · Web Top 50",
+      "badge": "a16z Web",
+      "rank": 6,
+      "metric": "Web 月独立访问（Similarweb，2025-08）",
+      "date": "2025-08",
+      "url": "https://a16z.com/100-gen-ai-apps-5/",
+      "snap": "a16z-web/2025-08"
+    }
+  ]
+}

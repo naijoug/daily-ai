@@ -1,0 +1,31 @@
+{
+  "id": "cline",
+  "name": "Cline",
+  "aliases": [],
+  "url": "https://cline.bot",
+  "category": "编程/Agent",
+  "region": "global",
+  "maker": "Cline",
+  "oneLiner": "开源的 IDE 内编程 Agent，可读写文件、跑终端命令、操作浏览器",
+  "score": 4,
+  "firstSeen": "2026-10-22",
+  "updated": "2026-10-22",
+  "tags": [
+    "编程工具",
+    "Agent",
+    "开源"
+  ],
+  "rankings": [
+    {
+      "source": "openrouter",
+      "list": "Apps · 本周 token 用量",
+      "badge": "OpenRouter",
+      "rank": 8,
+      "metric": "经 OpenRouter 的 token 总量（本周）",
+      "value": "2.61T tokens",
+      "date": "2026-10-22",
+      "url": "https://openrouter.ai/rankings#apps",
+      "snap": "openrouter-apps-week/2026-10-22"
+    }
+  ]
+}

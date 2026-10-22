@@ -1,0 +1,75 @@
+{
+ "source": "aicpb",
+ "sourceName": "AI产品榜 AICPB",
+ "list": "全球 AI 榜 · 网站",
+ "metric": "网站月访问量",
+ "url": "https://www.aicpb.com/ai-rankings/products/global-ai-rankings",
+ "period": "2026-06",
+ "published": "2026-07-08",
+ "note": "AICPB 未公开采集方法，数据仅供参考；非商用引用标注来源【AI产品榜 AICPB】。 aicpb.com 页面标注 Last Updated: Jul 8, 2026，免费页面只展示前 10。",
+ "rows": [
+  {
+   "rank": 1,
+   "name": "ChatGPT",
+   "value": "5.56B",
+   "mom": "-3.29%"
+  },
+  {
+   "rank": 2,
+   "name": "New Bing",
+   "value": "3.68B",
+   "mom": "0.73%"
+  },
+  {
+   "rank": 3,
+   "name": "Gemini",
+   "value": "2.95B",
+   "mom": "-1.51%"
+  },
+  {
+   "rank": 4,
+   "name": "Claude｜Anthropic",
+   "value": "965.59M",
+   "mom": "-0.61%"
+  },
+  {
+   "rank": 5,
+   "name": "DeepSeek",
+   "value": "483.80M",
+   "mom": "-10.59%"
+  },
+  {
+   "rank": 6,
+   "name": "Github Copilot",
+   "value": "371.18M",
+   "mom": "-3.28%"
+  },
+  {
+   "rank": 7,
+   "name": "Shop",
+   "value": "314.90M",
+   "mom": "0.32%"
+  },
+  {
+   "rank": 8,
+   "name": "notebooklm",
+   "value": "223.04M",
+   "mom": "-13.74%"
+  },
+  {
+   "rank": 9,
+   "name": "Grok",
+   "value": "220.78M",
+   "mom": "-13.28%"
+  },
+  {
+   "rank": 10,
+   "name": "Character AI",
+   "value": "193.61M",
+   "mom": "3.62%"
+  }
+ ],
+ "fetched": "2026-10-22T10:15:00+08:00",
+ "badge": "AICPB 全球网站",
+ "kind": "products"
+}
