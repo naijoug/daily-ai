@@ -2,10 +2,10 @@
   "id": "carbon-x",
   "name": "Carbon-X",
   "aliases": [],
-  "url": "https://www.techmeme.com/261022/p15",
-  "category": "其他",
+  "url": "https://huggingface.co/HuggingFaceBio/Carbon-X",
+  "category": "研究",
   "region": "global",
-  "oneLiner": "基于 Qwen3-14B，在 302B token 的 DNA、生物文本和英文混合数据上继续训练，再做 SFT 和 GRPO。",
+  "oneLiner": "Hugging Face 开源的 14B DNA + 自然语言模型，对话里贴序列即可判断突变致病性等，单卡可跑。",
   "score": 3,
   "firstSeen": "2026-10-22",
   "updated": "2026-10-22",
@@ -14,5 +14,6 @@
     "Dev Tools",
     "Open Source"
   ],
-  "rankings": []
+  "rankings": [],
+  "maker": "Hugging Face"
 }
