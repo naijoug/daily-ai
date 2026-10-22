@@ -91,7 +91,7 @@ const sorted = [...products].sort((a, b) => (b.score || 0) - (a.score || 0) || a
 </Base>
 <script>
   import { load, save } from '../../lib/store';
-  import { setFav, setRead } from '../../lib/icons';
+  import { setFav, setRead, starsStatic } from '../../lib/icons';
   const tabs = document.querySelectorAll<HTMLButtonElement>('[data-tab]');
   const panels = document.querySelectorAll<HTMLElement>('[data-panel]');
   const show = (t: string) => { tabs.forEach((b) => b.classList.toggle('on', b.dataset.tab === t)); panels.forEach((p) => (p.hidden = p.dataset.panel !== t)); };
@@ -132,7 +132,7 @@ const sorted = [...products].sort((a, b) => (b.score || 0) - (a.score || 0) || a
       const fav = !!st.fav[k]; const b = c.querySelector('[data-fav]')!;
       setFav(b, fav);
       const r = st.rating[k];
-      c.querySelector('[data-mine]')!.textContent = (r ? '★'.repeat(r) : '') + (st.read[k] ? ' 已看' : '');
+      c.querySelector('[data-mine]')!.innerHTML = starsStatic(r || 0) + (st.read[k] ? ' <span>已看</span>' : '');
       c.classList.toggle('done', !!st.read[k]);
     }
   }

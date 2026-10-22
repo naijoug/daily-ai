@@ -161,12 +161,19 @@ const path = Astro.url.pathname;
   .icob.on[data-act=read] { color:#c96a4b; border-color:transparent; } [data-theme=dark] .icob.on[data-act=read] { color:#e0a38a; }
   .icob.on .ic-ck circle { fill:currentColor; fill-opacity:.16; stroke:currentColor; stroke-opacity:.75; } .icob.on .ic-ck .tick { stroke:currentColor; }
 
-  .stars { display:inline-flex; }
-  .stars button { background:none; border:none; padding:2px 2px; font-size:17px; line-height:1; color:var(--line); cursor:pointer; filter:grayscale(1); }
-  [data-theme=dark] .stars button { color:#555; }
-  .stars button.on { color:#e9a400 !important; filter:none; }
-  .stars:hover button { color:#e9a400; } .stars button:hover ~ button { color:var(--line); }
-  .mine { color:#e9a400; }
+  .stars { display:inline-flex; align-items:center; gap:1px; height:28px; }
+  .stars button { display:inline-flex; align-items:center; justify-content:center; width:19px; height:28px; padding:0; background:none; border:none; border-radius:6px; cursor:pointer; color:rgba(55,53,47,.28); transition:color .15s, transform .1s; }
+  [data-theme=dark] .stars button { color:rgba(255,255,255,.24); }
+  .stars .ic-st { stroke-width:1.6; transition:fill .15s; }
+  .stars button.on { color:#c96a4b; } [data-theme=dark] .stars button.on { color:#e0a38a; }
+  .stars button.on .ic-st, .mine .ic-st { fill:currentColor; fill-opacity:.55; }
+  .stars:hover button { color:#d97757; } .stars:hover button .ic-st { fill:currentColor; fill-opacity:.4; }
+  .stars button:hover ~ button { color:rgba(55,53,47,.28); } [data-theme=dark] .stars button:hover ~ button { color:rgba(255,255,255,.24); }
+  .stars button:hover ~ button .ic-st { fill:none; }
+  .stars button:active { transform:scale(.88); }
+  .stars button:focus-visible { outline:2px solid #d97757; outline-offset:-2px; }
+  .mine { display:inline-flex; align-items:center; gap:1px; color:#c96a4b; vertical-align:middle; } [data-theme=dark] .mine { color:#e0a38a; }
+  .mine .ic-st { width:13px; height:13px; stroke-width:1.6; }
   .ibtn { background:none; border:1px solid var(--line); color:var(--muted); border-radius:6px; padding:3px 10px; font:inherit; font-size:12.5px; cursor:pointer; text-decoration:none !important; }
   .ibtn:hover { background:var(--hover); color:var(--fg); }
   .ibtn.on { color:#d4405a; border-color:color-mix(in srgb, #d4405a 40%, transparent); }
@@ -183,7 +190,7 @@ const path = Astro.url.pathname;
     .ebody { font-size:16px; line-height:1.8; }
     li.item { padding:12px 12px 8px 12px; border-radius:8px; }
     li.item::before { position:static; display:inline-block; margin:0 6px 0 0; vertical-align:1px; float:left; }
-    .stars button { font-size:20px; padding:2px 3px; }
+    .stars button { width:26px; }
     .ibtn { padding:5px 10px; }
     .pager { flex-direction:column; }
   }
@@ -215,7 +222,7 @@ const path = Astro.url.pathname;
   .grow { font-size:12px; font-weight:600; font-variant-numeric:tabular-nums; }
   .grow.up, .rm.up { color:#2f9e63; } .grow.down, .rm.down { color:#d4405a; }
   .pact { display:flex; gap:8px; align-items:center; border-top:1px dashed var(--line); padding-top:8px; font-size:13px; }
-  .prd { margin-left:auto; color:#e9a400; font-size:12.5px; }
+  .prd { margin-left:auto; display:inline-flex; align-items:center; gap:4px; color:var(--muted); font-size:12.5px; }
   .rgrid { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:16px; margin-top:16px; }
   @media (max-width: 960px) { .rgrid { grid-template-columns:1fr; } }
   .rcard { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:14px 16px; min-width:0; }

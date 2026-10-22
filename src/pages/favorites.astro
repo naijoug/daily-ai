@@ -24,7 +24,7 @@ import { url } from '../lib/posts';
 </Base>
 <script>
   import { load, save, merge } from '../lib/store';
-  import { BOOKMARK } from '../lib/icons';
+  import { BOOKMARK, starsStatic } from '../lib/icons';
   const root = document.querySelector<HTMLElement>('.favpage')!;
   const base = root.dataset.base!;
   const list = root.querySelector('[data-groups]')!;
@@ -46,7 +46,7 @@ import { url } from '../lib/posts';
       return `<li class="item${st.read[f.id] ? ' read' : ''}" data-id="${esc(f.id)}">
         <div class="itext">${f.html}</div>
         <div class="imeta">${f.score ? `<span class="ascore s${f.score}" title="AI 评分 ${f.score}/5" aria-label="AI 评分 ${f.score}/5">${f.score}</span>` : ''}
-          ${mine ? `<span class="mine">${'★'.repeat(mine)}</span>` : ''}
+          ${starsStatic(mine)}
           ${link}
           <button type="button" class="ibtn icob on" data-unfav aria-pressed="true" aria-label="取消收藏" title="取消收藏">${BOOKMARK}</button></div></li>`;
     };
