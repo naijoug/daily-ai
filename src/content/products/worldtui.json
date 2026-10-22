@@ -1,0 +1,16 @@
+{
+  "id": "worldtui",
+  "name": "WorldTUI",
+  "aliases": [],
+  "url": "https://simedw.com/2026/10/21/world-model-terminal/",
+  "category": "其他",
+  "region": "global",
+  "oneLiner": "作者用 Docker 里录下的 33.6 万段真实终端会话微调 Qwen2.5-Coder-0.5B，背后没有 shell 也没有文件系统，每按一次键，模型就预测屏幕要怎么变，能跑",
+  "score": 3,
+  "firstSeen": "2026-10-22",
+  "updated": "2026-10-22",
+  "tags": [
+    "Models"
+  ],
+  "rankings": []
+}

@@ -1,0 +1,17 @@
+{
+  "id": "claude-for-google-workspace",
+  "name": "Claude for Google Workspace",
+  "aliases": [],
+  "url": "https://claude.com/resources/articles/claude-now-works-in-google-docs-sheets-and-slides",
+  "category": "办公",
+  "region": "global",
+  "oneLiner": "所有付费版可用，以侧边栏插件的形式出现，能读当前文件和你选中的内容并直接改：Docs 里就地改句子，大改动给出可逐条应用的建议卡片；",
+  "score": 4,
+  "firstSeen": "2026-10-22",
+  "updated": "2026-10-22",
+  "tags": [
+    "Models",
+    "Dev Tools"
+  ],
+  "rankings": []
+}

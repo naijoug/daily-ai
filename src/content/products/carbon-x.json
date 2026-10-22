@@ -1,0 +1,18 @@
+{
+  "id": "carbon-x",
+  "name": "Carbon-X",
+  "aliases": [],
+  "url": "https://www.techmeme.com/261022/p15",
+  "category": "其他",
+  "region": "global",
+  "oneLiner": "基于 Qwen3-14B，在 302B token 的 DNA、生物文本和英文混合数据上继续训练，再做 SFT 和 GRPO。",
+  "score": 3,
+  "firstSeen": "2026-10-22",
+  "updated": "2026-10-22",
+  "tags": [
+    "Models",
+    "Dev Tools",
+    "Open Source"
+  ],
+  "rankings": []
+}

@@ -7,7 +7,7 @@
  "metric": "prompt + completion tokens（本周）",
  "url": "https://openrouter.ai/rankings",
  "period": "2026-10-22",
- "fetched": "2026-10-22T02:27:56.997Z",
+ "fetched": "2026-10-22T13:36:21.224Z",
  "note": "按页面给出的本周 token 总量排序。",
  "rows": [
   {

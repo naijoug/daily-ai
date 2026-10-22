@@ -1,0 +1,17 @@
+{
+  "id": "resend-inboxes",
+  "name": "Resend Inboxes",
+  "aliases": [],
+  "url": "https://resend.com/inboxes",
+  "category": "开发者平台",
+  "region": "global",
+  "oneLiner": "开发者邮件服务 Resend 推出收件箱 API，一次调用就能给应用或每个 agent 开一个专属地址，按会话拉取和回复邮件；",
+  "score": 3,
+  "firstSeen": "2026-10-22",
+  "updated": "2026-10-22",
+  "tags": [
+    "Agents",
+    "Products"
+  ],
+  "rankings": []
+}
