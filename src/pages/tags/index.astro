@@ -2,11 +2,11 @@
 import Base from '../../layouts/Base.astro';
 import { url } from '../../lib/posts';
 import { allDays } from '../../lib/days';
-import { TAGS } from '../../content.config';
+import { TAGS, tagSlug } from '../../content.config';
 const days = await allDays();
 const counts = TAGS.map((t) => [t, days.filter((d) => d.tags.includes(t)).length] as const).filter(([, n]) => n > 0);
 ---
-<Base title="标签">
-  <h1>标签</h1>
-  <p>{counts.map(([t, n]) => <a class="chip" href={url(`/tags/${t}/`)}>{t} · {n} 天</a>)}</p>
+<Base title="Tags">
+  <h1>Tags</h1>
+  <p>{counts.map(([t, n]) => <a class="chip" href={url(`/tags/${tagSlug(t)}/`)}>{t} · {n} {n === 1 ? "day" : "days"}</a>)}</p>
 </Base>

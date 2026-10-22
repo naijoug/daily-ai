@@ -14,15 +14,15 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'src/content/posts');
 
 const TAG_RULES = {
-  '模型': /模型|LLM|GPT|Claude|Gemini|Qwen|DeepSeek|Llama|MoE|参数|权重|Opus|Sonnet|Mistral|MiniMax|推理/i,
-  'Agent': /agent|智能体|harness|子 agent|多 agent/i,
-  '编程工具': /Codex|Claude Code|Cursor|OpenCode|IDE|编程|编码|代码|coding|CLI|MCP|skill|插件|git/i,
-  '开源': /开源|GitHub|Apache 2\.0|MIT|Hugging Face|open[- ]?source|开放权重|权重开放/i,
-  '产品': /发布|上线|推出|App|产品|功能|Product Hunt/i,
-  '研究': /论文|arXiv|研究|基准|benchmark|评测|实验|技术报告/i,
-  '行业': /融资|估值|收购|IPO|收入|营收|亿美元|公司|市场|价格战|裁员/i,
-  '安全': /安全|漏洞|攻击|泄露|越权|隐私|风险|security|CVE|黑客/i,
-  '中文社区': /V2EX|LinuxDo|linux\.do|知乎|中文圈|掘金|少数派|IT之家|公众号|宝玉|dotey/i,
+  'Models': /模型|LLM|GPT|Claude|Gemini|Qwen|DeepSeek|Llama|MoE|参数|权重|Opus|Sonnet|Mistral|MiniMax|推理/i,
+  'Agents': /agent|智能体|harness|子 agent|多 agent/i,
+  'Dev Tools': /Codex|Claude Code|Cursor|OpenCode|IDE|编程|编码|代码|coding|CLI|MCP|skill|插件|git/i,
+  'Open Source': /开源|GitHub|Apache 2\.0|MIT|Hugging Face|open[- ]?source|开放权重|权重开放/i,
+  'Products': /发布|上线|推出|App|产品|功能|Product Hunt/i,
+  'Research': /论文|arXiv|研究|基准|benchmark|评测|实验|技术报告/i,
+  'Industry': /融资|估值|收购|IPO|收入|营收|亿美元|公司|市场|价格战|裁员/i,
+  'Security': /安全|漏洞|攻击|泄露|越权|隐私|风险|security|CVE|黑客/i,
+  'Chinese Community': /V2EX|LinuxDo|linux\.do|知乎|中文圈|掘金|少数派|IT之家|公众号|宝玉|dotey/i,
 };
 
 // 关注 / List 管理相关行
@@ -139,7 +139,7 @@ function autoTags(body) {
   const scored = [];
   for (const [tag, re] of Object.entries(TAG_RULES)) {
     const n = (body.match(new RegExp(re.source, re.flags + 'g')) || []).length;
-    if (n >= (tag === '中文社区' ? 2 : 3)) scored.push([tag, n]);
+    if (n >= (tag === 'Chinese Community' ? 2 : 3)) scored.push([tag, n]);
   }
   scored.sort((a, b) => b[1] - a[1]);
   const order = Object.keys(TAG_RULES);

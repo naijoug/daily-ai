@@ -124,3 +124,8 @@ cd /workspace/dailyai && export PATH=~/.local/node22/bin:$PATH && node scripts/p
 | 已读 / 个人评分 / 收藏 | 读者浏览器 localStorage `dailyai:v1`，收藏页可导出/导入 JSON；产品用 `product:<slug>` 作键 |
 | 产品 | `src/content/products/<slug>.json`；条目关联在 post frontmatter `products` |
 | 榜单快照 | `src/data/snapshots/<key>/<日期或月份>.json` |
+
+
+## 标签（英文）
+
+导入脚本 `scripts/import.mjs` 的 `TAG_RULES` 自动打标签，取值固定为英文（见 `src/content.config.ts` 的 `TAGS`）：Models、Agents、Dev Tools、Open Source、Products、Research、Industry、Security、Chinese Community。标签页 URL 用小写连字符 slug（如 `/tags/dev-tools/`）。产品 JSON 的 `tags` 也用同一组英文值。

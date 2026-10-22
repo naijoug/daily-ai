@@ -13,7 +13,7 @@ const { days, newByDay = {} } = Astro.props as { days: Day[]; newByDay?: Record<
         {d.aiCount > 0 && <span class="gbadge x-ai">AI Hot {d.aiCount}</span>}
         {d.techCount > 0 && <span class="gbadge tech">Tech {d.techCount}</span>}
         {d.top > 0 && <span class="gtop" title="AI 评分 ≥4 的条目">★ {d.top} 条高分</span>}
-        <span class="gprog" data-prog>0/{d.total} 已读</span>
+        <span class="gprog" data-prog>0/{d.total} read</span>
       </div>
     </a>
   ))}
@@ -25,7 +25,7 @@ const { days, newByDay = {} } = Astro.props as { days: Day[]; newByDay?: Record<
     const pids = (c.dataset.pids || '').split(',');
     const read = Object.keys(st.read).filter((id) => pids.some((p) => id.startsWith(p + '-'))).length;
     const el = c.querySelector('[data-prog]')!;
-    el.textContent = `${read}/${c.dataset.total} 已读`;
+    el.textContent = `${read}/${c.dataset.total} read`;
     if (read) el.classList.add('on');
     if (read >= Number(c.dataset.total)) c.classList.add('done');
   });

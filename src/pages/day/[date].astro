@@ -1,4 +1,5 @@
 ---
+import { tagSlug } from '../../content.config';
 import Base from '../../layouts/Base.astro';
 import { render } from 'astro:content';
 import { url } from '../../lib/posts';
@@ -20,11 +21,11 @@ const sections = [
     <h1>{day.title}</h1>
     <p class="dsum">{day.summary}</p>
     <div class="dbar" data-pagefind-ignore>
-      <span class="muted">北京时间 · {day.posts.length} 期 · {day.total} 条</span>
-      <span class="dprog" data-dprog>0/{day.total} 已读</span>
-      <label class="dhide"><input type="checkbox" data-hideread /> 隐藏已读</label>
+      <span class="muted">Beijing Time · {day.posts.length} {day.posts.length === 1 ? 'run' : 'runs'} · {day.total} items</span>
+      <span class="dprog" data-dprog>0/{day.total} read</span>
+      <label class="dhide"><input type="checkbox" data-hideread /> Hide read</label>
     </div>
-    <div class="dtags">{day.tags.map((t) => <a class="chip" href={url(`/tags/${t}/`)}>{t}</a>)}</div>
+    <div class="dtags">{day.tags.map((t) => <a class="chip" href={url(`/tags/${tagSlug(t)}/`)}>{t}</a>)}</div>
     {sections.map((s) => <section class="dsec">
       <h2 class="dhead"><span class={`gbadge ${s.key}`}>{s.label}</span></h2>
       {s.list.map(({ p, Content }) => <div class="entry" id={p.id}>
@@ -60,7 +61,7 @@ const sections = [
       const rt = st.rating[id] || 0;
       li.querySelectorAll<HTMLElement>('[data-star]').forEach((b) => b.classList.toggle('on', Number(b.dataset.star) <= rt));
     }
-    prog.textContent = `${r}/${total} 已读`;
+    prog.textContent = `${r}/${total} read`;
   };
   for (const li of items) {
     const meta = li.querySelector('.imeta')!;

@@ -2,16 +2,15 @@
 import Base from '../../layouts/Base.astro';
 import Gallery from '../../components/Gallery.astro';
 import { allDays } from '../../lib/days';
-import { TAGS } from '../../content.config';
+import { TAGS, tagSlug } from '../../content.config';
 export async function getStaticPaths() {
   const days = await allDays();
-  return TAGS.map((tag) => ({ params: { tag }, props: { days: days.filter((d) => d.tags.includes(tag)) } })).filter((x) => x.props.days.length);
+  return TAGS.map((tag) => ({ params: { tag: tagSlug(tag) }, props: { tag, days: days.filter((d) => d.tags.includes(tag)) } })).filter((x) => x.props.days.length);
 }
-const { tag } = Astro.params;
-const { days } = Astro.props;
+const { tag, days } = Astro.props;
 ---
-<Base wide title={`标签：${tag}`}>
-  <h1>标签：{tag}</h1>
-  <p class="muted" style="margin-bottom:20px">共 {days.length} 天。</p>
+<Base wide title={`Tag: ${tag}`}>
+  <h1>Tag: {tag}</h1>
+  <p class="muted" style="margin-bottom:20px">{days.length} {days.length === 1 ? "day" : "days"}</p>
   <Gallery days={days} />
 </Base>

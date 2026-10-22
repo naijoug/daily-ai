@@ -2,7 +2,8 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
-export const TAGS = ['模型', 'Agent', '编程工具', '开源', '产品', '研究', '行业', '安全', '中文社区'] as const;
+export const TAGS = ['Models', 'Agents', 'Dev Tools', 'Open Source', 'Products', 'Research', 'Industry', 'Security', 'Chinese Community'] as const;
+export const tagSlug = (t: string) => t.toLowerCase().replace(/\s+/g, '-');
 
 const posts = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/posts' }),
