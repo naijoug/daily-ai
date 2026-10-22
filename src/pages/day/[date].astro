@@ -90,31 +90,20 @@ const sections = [
   const applyHide = () => { items.forEach((li) => li.classList.remove('keep')); art.classList.toggle('hideread', hide.checked); localStorage.setItem('dailyai:hideread', hide.checked ? '1' : '0'); };
   hide.addEventListener('change', applyHide); applyHide();
   upd();
-  // 自动已读：条目底部滚出视口顶部（读完划过），或 ≥60% 可见持续 1.5s。
-  // 打开页面时已在视口上方的条目（如锚点跳转）不算。隐藏已读只在加载/切换开关时生效，所以自动标记不会让条目突然消失。
-  const timers = new Map<HTMLElement, number>();
-  const seenInView = new Set<HTMLElement>();
+  // 自动已读：鼠标在条目上连续停留 2s 才标已读，移出即重置。滚动不触发；触屏（无 hover 能力）只能手动。
+  // 隐藏已读只在加载/切换开关时生效，所以自动标记不会让条目突然消失。
   const autoRead = (li: HTMLElement) => {
     const id = li.dataset.id!; if (manualUnread.has(id)) return;
     const st = load(); if (st.read[id]) return;
     st.read[id] = Date.now(); save(st);
-    // 已开启隐藏已读时不立即隐藏：标记为 keep，直到下次切换/刷新
     if (art.classList.contains('hideread')) li.classList.add('keep');
     upd();
   };
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver((ents) => {
-      for (const e of ents) {
-        const li = e.target as HTMLElement;
-        if (e.isIntersecting) seenInView.add(li);
-        if (e.intersectionRatio >= 0.6 || (e.isIntersecting && e.intersectionRect.height >= innerHeight * 0.6)) {
-          if (!timers.has(li)) timers.set(li, window.setTimeout(() => { timers.delete(li); autoRead(li); }, 1500));
-        } else {
-          const t = timers.get(li); if (t) { clearTimeout(t); timers.delete(li); }
-          if (!e.isIntersecting && seenInView.has(li) && e.boundingClientRect.bottom <= (e.rootBounds?.top ?? 0)) autoRead(li);
-        }
-      }
-    }, { threshold: [0, 0.6, 1] });
-    items.forEach((li) => io.observe(li));
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    for (const li of items) {
+      let t = 0;
+      li.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'mouse') return; clearTimeout(t); t = window.setTimeout(() => autoRead(li), 2000); });
+      li.addEventListener('pointerleave', () => { clearTimeout(t); t = 0; });
+    }
   }
 </script>
