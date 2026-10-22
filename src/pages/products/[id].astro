@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { url } from '../../lib/posts';
+import { favBtn, readBtn } from '../../lib/icons';
 import { allProducts, badges, mentionsIndex, REGION_LABEL } from '../../lib/products';
 export async function getStaticPaths() {
   const ps = await allProducts();
@@ -22,7 +23,7 @@ const host = p.url.replace(/^https?:\/\/(www\.)?/, '');
     <div class="dbar" data-pagefind-ignore>
       <span class={`gbadge ${p.region === 'cn' ? 'tech' : ''}`}>{REGION_LABEL[p.region]}</span>
       {p.maker && <span class="muted">{p.maker}</span>}
-      {p.score && <span class={`ascore s${p.score}`}>AI {p.score}</span>}
+      {p.score && <span class={`ascore s${p.score}`} title={`AI 评分 ${p.score}/5`} aria-label={`AI 评分 ${p.score}/5`}>{p.score}</span>}
       {p.growth != null && <span class:list={['grow', p.growth >= 0 ? 'up' : 'down']}>{p.growth >= 0 ? '↑' : '↓'}{Math.abs(p.growth).toFixed(2)}% <span class="muted">{p.growthNote}</span></span>}
       <span class="muted">首次出现 {p.firstSeen}</span>
     </div>
@@ -30,8 +31,7 @@ const host = p.url.replace(/^https?:\/\/(www\.)?/, '');
       <a class="ibtn" href={p.url} target="_blank" rel="noopener">{host} ↗</a>
       {p.domains.map((d) => <a class="ibtn" href={d} target="_blank" rel="noopener">{d.replace(/^https?:\/\/(www\.)?/, '')} ↗</a>)}
       <span class="stars" role="group" aria-label="我的评分">{[1, 2, 3, 4, 5].map((n) => <button type="button" data-star={n} aria-label={`${n} 星`}>★</button>)}</span>
-      <button type="button" class="ibtn" data-act="fav">♡ 收藏</button>
-      <button type="button" class="ibtn" data-act="read">标为已看</button>
+      <Fragment set:html={favBtn() + readBtn()} />
     </div>
     {badges(p).length > 0 && <div class="dtags">{badges(p).map((r) => <span class="rbadge" title={r.list}>{r.badge} #{r.rank}</span>)}</div>}
 
@@ -57,14 +57,15 @@ const host = p.url.replace(/^https?:\/\/(www\.)?/, '');
 </Base>
 <script>
   import { load, save } from '../../lib/store';
+  import { setFav, setRead } from '../../lib/icons';
   const art = document.querySelector<HTMLElement>('.pdetail')!;
   const k = `product:${art.dataset.id}`;
   const meta = art.querySelector('.pmeta')!;
   const upd = () => {
     const st = load();
     const fav = !!st.fav[k]; const fb = meta.querySelector('[data-act=fav]')!;
-    fb.textContent = fav ? '♥ 已收藏' : '♡ 收藏'; fb.classList.toggle('on', fav);
-    meta.querySelector('[data-act=read]')!.textContent = st.read[k] ? '✓ 已看' : '标为已看';
+    setFav(fb, fav);
+    setRead(meta.querySelector('[data-act=read]')!, !!st.read[k], '已看');
     const rt = st.rating[k] || 0;
     meta.querySelectorAll<HTMLElement>('[data-star]').forEach((b) => b.classList.toggle('on', Number(b.dataset.star) <= rt));
   };

@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import RankTable from '../../components/RankTable.astro';
 import { url } from '../../lib/posts';
+import { favBtn } from '../../lib/icons';
 import { allProducts, badges, latestSnapshots, REGION_LABEL, bjToday, addDays } from '../../lib/products';
 import { PRODUCT_CATEGORIES } from '../../content.config';
 const products = await allProducts();
@@ -61,7 +62,7 @@ const sorted = [...products].sort((a, b) => (b.score || 0) - (a.score || 0) || a
       {sorted.map((p) => {
         const bs = badges(p).slice(0, 3);
         return <article class="gcard pcard" data-id={p.id} data-cat={p.category} data-region={p.region} data-score={p.score || 0} data-growth={p.growth ?? ''} data-first={p.firstSeen}>
-          <div class="gtitle"><a class="pname" href={url(`/products/${p.id}/`)}>{p.name}</a>{p.score && <span class={`ascore s${p.score}`} title="AI 评分">AI {p.score}</span>}</div>
+          <div class="gtitle"><a class="pname" href={url(`/products/${p.id}/`)}>{p.name}</a>{p.score && <span class={`ascore s${p.score}`} title={`AI 评分 ${p.score}/5`} aria-label={`AI 评分 ${p.score}/5`}>{p.score}</span>}</div>
           <div class="gmeta"><span class={`gbadge ${p.region === 'cn' ? 'tech' : ''}`}>{REGION_LABEL[p.region]}</span><span>{p.category}</span>{p.maker && <span>· {p.maker}</span>}</div>
           <p class="gsum">{p.oneLiner}</p>
           <div class="gfoot">
@@ -70,7 +71,7 @@ const sorted = [...products].sort((a, b) => (b.score || 0) - (a.score || 0) || a
           </div>
           <div class="pact">
             <a class="ibtn" href={p.url} target="_blank" rel="noopener">官网 ↗</a>
-            <button type="button" class="ibtn" data-fav aria-pressed="false">♡ 收藏</button>
+            <Fragment set:html={favBtn('data-fav')} />
             <span class="prd muted" data-mine></span>
           </div>
         </article>;
@@ -90,6 +91,7 @@ const sorted = [...products].sort((a, b) => (b.score || 0) - (a.score || 0) || a
 </Base>
 <script>
   import { load, save } from '../../lib/store';
+  import { setFav, setRead } from '../../lib/icons';
   const tabs = document.querySelectorAll<HTMLButtonElement>('[data-tab]');
   const panels = document.querySelectorAll<HTMLElement>('[data-panel]');
   const show = (t: string) => { tabs.forEach((b) => b.classList.toggle('on', b.dataset.tab === t)); panels.forEach((p) => (p.hidden = p.dataset.panel !== t)); };
@@ -128,7 +130,7 @@ const sorted = [...products].sort((a, b) => (b.score || 0) - (a.score || 0) || a
     for (const c of cards) {
       const k = KEY(c.dataset.id!);
       const fav = !!st.fav[k]; const b = c.querySelector('[data-fav]')!;
-      b.textContent = fav ? '♥ 已收藏' : '♡ 收藏'; b.classList.toggle('on', fav); b.setAttribute('aria-pressed', String(fav));
+      setFav(b, fav);
       const r = st.rating[k];
       c.querySelector('[data-mine]')!.textContent = (r ? '★'.repeat(r) : '') + (st.read[k] ? ' 已看' : '');
       c.classList.toggle('done', !!st.read[k]);

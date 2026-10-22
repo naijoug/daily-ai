@@ -40,11 +40,14 @@ const sections = [
 </Base>
 <script>
   import { load, save } from '../../lib/store';
+  import { favBtn, readBtn, setFav, setRead } from '../../lib/icons';
   const art = document.querySelector<HTMLElement>('article.day')!;
   const day = art.dataset.day!;
   const total = Number(art.dataset.total);
   const items = [...art.querySelectorAll<HTMLElement>('li.item')];
   const prog = art.querySelector('[data-dprog]')!;
+  // 手动标为未读的条目：本次会话内不再自动标已读
+  const manualUnread = new Set<string>();
   const upd = () => {
     const st = load();
     let r = 0;
@@ -52,11 +55,8 @@ const sections = [
       const id = li.dataset.id!;
       const isRead = !!st.read[id]; if (isRead) r++;
       li.classList.toggle('read', isRead);
-      li.querySelector('[data-act=read]')!.textContent = isRead ? '✓ 已读' : '标为已读';
-      li.querySelector('[data-act=read]')!.setAttribute('aria-pressed', String(isRead));
-      const fav = !!st.fav[id];
-      const fb = li.querySelector('[data-act=fav]')!;
-      fb.textContent = fav ? '♥ 已收藏' : '♡ 收藏'; fb.classList.toggle('on', fav); fb.setAttribute('aria-pressed', String(fav));
+      setRead(li.querySelector('[data-act=read]')!, isRead);
+      setFav(li.querySelector('[data-act=fav]')!, !!st.fav[id]);
       const rt = st.rating[id] || 0;
       li.querySelectorAll<HTMLElement>('[data-star]').forEach((b) => b.classList.toggle('on', Number(b.dataset.star) <= rt));
     }
@@ -67,12 +67,12 @@ const sections = [
     meta.setAttribute('data-pagefind-ignore', '');
     meta.insertAdjacentHTML('beforeend',
       `<span class="stars" role="group" aria-label="我的评分">${[1,2,3,4,5].map((n) => `<button type="button" data-star="${n}" aria-label="${n} 星">★</button>`).join('')}</span>` +
-      `<button type="button" class="ibtn" data-act="fav"></button><button type="button" class="ibtn" data-act="read"></button>`);
+      favBtn() + readBtn());
     meta.addEventListener('click', (e) => {
       const b = (e.target as HTMLElement).closest('button'); if (!b) return;
       const st = load(); const id = li.dataset.id!;
       if (b.dataset.star) { const n = Number(b.dataset.star); if (st.rating[id] === n) delete st.rating[id]; else st.rating[id] = n; }
-      else if (b.dataset.act === 'read') { if (st.read[id]) delete st.read[id]; else st.read[id] = Date.now(); }
+      else if (b.dataset.act === 'read') { if (st.read[id]) { delete st.read[id]; manualUnread.add(id); } else st.read[id] = Date.now(); }
       else if (b.dataset.act === 'fav') {
         if (st.fav[id]) delete st.fav[id];
         else { const t = li.querySelector('.itext')!; st.fav[id] = { id, day, html: t.innerHTML, text: (t.textContent || '').trim(), score: Number(li.dataset.score) || undefined, ts: Date.now() }; }
@@ -87,7 +87,34 @@ const sections = [
   }
   const hide = art.querySelector<HTMLInputElement>('[data-hideread]')!;
   hide.checked = localStorage.getItem('dailyai:hideread') === '1';
-  const applyHide = () => { art.classList.toggle('hideread', hide.checked); localStorage.setItem('dailyai:hideread', hide.checked ? '1' : '0'); };
+  const applyHide = () => { items.forEach((li) => li.classList.remove('keep')); art.classList.toggle('hideread', hide.checked); localStorage.setItem('dailyai:hideread', hide.checked ? '1' : '0'); };
   hide.addEventListener('change', applyHide); applyHide();
   upd();
+  // 自动已读：条目底部滚出视口顶部（读完划过），或 ≥60% 可见持续 1.5s。
+  // 打开页面时已在视口上方的条目（如锚点跳转）不算。隐藏已读只在加载/切换开关时生效，所以自动标记不会让条目突然消失。
+  const timers = new Map<HTMLElement, number>();
+  const seenInView = new Set<HTMLElement>();
+  const autoRead = (li: HTMLElement) => {
+    const id = li.dataset.id!; if (manualUnread.has(id)) return;
+    const st = load(); if (st.read[id]) return;
+    st.read[id] = Date.now(); save(st);
+    // 已开启隐藏已读时不立即隐藏：标记为 keep，直到下次切换/刷新
+    if (art.classList.contains('hideread')) li.classList.add('keep');
+    upd();
+  };
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((ents) => {
+      for (const e of ents) {
+        const li = e.target as HTMLElement;
+        if (e.isIntersecting) seenInView.add(li);
+        if (e.intersectionRatio >= 0.6 || (e.isIntersecting && e.intersectionRect.height >= innerHeight * 0.6)) {
+          if (!timers.has(li)) timers.set(li, window.setTimeout(() => { timers.delete(li); autoRead(li); }, 1500));
+        } else {
+          const t = timers.get(li); if (t) { clearTimeout(t); timers.delete(li); }
+          if (!e.isIntersecting && seenInView.has(li) && e.boundingClientRect.bottom <= (e.rootBounds?.top ?? 0)) autoRead(li);
+        }
+      }
+    }, { threshold: [0, 0.6, 1] });
+    items.forEach((li) => io.observe(li));
+  }
 </script>
