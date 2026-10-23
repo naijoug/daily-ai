@@ -1,32 +1,40 @@
 ---
 import { url } from '../lib/posts';
+import { t, ia, iattr } from '../lib/i18n';
 import type { Day } from '../lib/days';
+import I from './I.astro';
+import L from './L.astro';
+import DayTitle from './DayTitle.astro';
 const { days, newByDay = {} } = Astro.props as { days: Day[]; newByDay?: Record<string, { id: string; name: string }[]> };
 ---
 <div class="gallery">
   {days.map((d) => (
     <a class="gcard" href={url(`/day/${d.date}/`)} data-pids={d.pids.join(',')} data-total={d.total}>
-      <div class="gtitle"><span class="gicon">📄</span><span>{d.title}</span></div>
-      <p class="gsum">{d.summary}</p>
-      {newByDay[d.date]?.length > 0 && <div class="gnew" title="Products first seen on this day"><span class="gnewl">New today</span>{newByDay[d.date].slice(0, 3).map((p) => <span class="pchip">{p.name}</span>)}{newByDay[d.date].length > 3 && <span class="muted">+{newByDay[d.date].length - 3}</span>}</div>}
+      <div class="gtitle"><span class="gicon">📄</span><DayTitle date={d.date} wd={d.wd} /></div>
+      <p class="gsum"><L en={d.summaryEn} zh={d.summary} /></p>
+      {newByDay[d.date]?.length > 0 && <div class="gnew" {...iattr({ title: 'gallery.newTitle' })}><I class="gnewl" k="gallery.new" />{newByDay[d.date].slice(0, 3).map((p) => <span class="pchip">{p.name}</span>)}{newByDay[d.date].length > 3 && <span class="muted">+{newByDay[d.date].length - 3}</span>}</div>}
       <div class="gfoot">
         {d.aiCount > 0 && <span class="gbadge x-ai">AI Hot {d.aiCount}</span>}
         {d.techCount > 0 && <span class="gbadge tech">Tech {d.techCount}</span>}
-        {d.top > 0 && <span class="gtop" title="Items with AI score ≥ 4">★ {d.top} top-rated</span>}
-        <span class="gprog" data-prog>0/{d.total} read</span>
+        {d.top > 0 && <span class="gtop" {...iattr({ title: 'gallery.topTitle' })} {...ia('gallery.top', { n: d.top })}>{t('gallery.top', { n: d.top })}</span>}
+        <span class="gprog" data-prog>{t('prog', { r: 0, t: d.total })}</span>
       </div>
     </a>
   ))}
 </div>
 <script>
   import { load } from '../lib/store';
+  import { tt, onLang } from '../lib/i18n';
   const st = load();
-  document.querySelectorAll<HTMLElement>('.gcard').forEach((c) => {
-    const pids = (c.dataset.pids || '').split(',');
-    const read = Object.keys(st.read).filter((id) => pids.some((p) => id.startsWith(p + '-'))).length;
-    const el = c.querySelector('[data-prog]')!;
-    el.textContent = `${read}/${c.dataset.total} read`;
-    if (read) el.classList.add('on');
-    if (read >= Number(c.dataset.total)) c.classList.add('done');
-  });
+  function paint() {
+    document.querySelectorAll<HTMLElement>('.gcard').forEach((c) => {
+      const pids = (c.dataset.pids || '').split(',');
+      const read = Object.keys(st.read).filter((id) => pids.some((p) => id.startsWith(p + '-'))).length;
+      const el = c.querySelector('[data-prog]')!;
+      el.textContent = tt('prog', { r: read, t: c.dataset.total });
+      if (read) el.classList.add('on');
+      if (read >= Number(c.dataset.total)) c.classList.add('done');
+    });
+  }
+  paint(); onLang(paint);
 </script>

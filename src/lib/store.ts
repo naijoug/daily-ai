@@ -1,5 +1,5 @@
 // 本地个人数据（静态站，存 localStorage）。key: dailyai:v1
-export type FavItem = { id: string; day: string; html: string; text: string; score?: number; ts: number };
+export type FavItem = { id: string; day: string; html: string; text: string; score?: number; ts: number; tr?: { lang: 'en' | 'zh'; html: string } };
 export type Store = { v: 1; read: Record<string, number>; rating: Record<string, number>; fav: Record<string, FavItem> };
 const KEY = 'dailyai:v1';
 export function load(): Store {

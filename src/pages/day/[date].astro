@@ -1,5 +1,9 @@
 ---
 import { tagSlug } from '../../content.config';
+import I from '../../components/I.astro';
+import L from '../../components/L.astro';
+import DayTitle from '../../components/DayTitle.astro';
+import { t } from '../../lib/i18n';
 import Base from '../../layouts/Base.astro';
 import { render } from 'astro:content';
 import { url } from '../../lib/posts';
@@ -15,33 +19,34 @@ const sections = [
   { key: 'tech', label: 'Tech', list: await Promise.all(day.tech.map(render1)) },
 ].filter((s) => s.list.length);
 ---
-<Base title={day.title} description={day.summary}>
+<Base tkey="day.title" targs={{ date: day.date, wdk: day.wd }} description={day.summaryEn || day.summary}>
   <article class="prose day" data-pagefind-body data-day={day.date} data-total={day.total} data-pids={day.pids.join(',')}>
-    <p class="muted crumb"><a href={url('/')}>Daily AI</a> / Daily</p>
-    <h1>{day.title}</h1>
-    <p class="dsum">{day.summary}</p>
+    <p class="muted crumb"><a href={url('/')}>Daily AI</a> / <I k="day.crumb" /></p>
+    <h1><DayTitle date={day.date} wd={day.wd} /></h1>
+    <p class="dsum"><L en={day.summaryEn} zh={day.summary} /></p>
     <div class="dbar" data-pagefind-ignore>
-      <span class="muted">Beijing Time · {day.posts.length} {day.posts.length === 1 ? 'run' : 'runs'} · {day.total} items</span>
-      <span class="dprog" data-dprog>0/{day.total} read</span>
-      <label class="dhide"><input type="checkbox" data-hideread /> Hide read</label>
+      <I class="muted" k="day.meta" a={{ n: day.posts.length, t: day.total }} />
+      <span class="dprog" data-dprog>{t('prog', { r: 0, t: day.total })}</span>
+      <label class="dhide"><input type="checkbox" data-hideread /> <I k="day.hide" /></label>
     </div>
-    <div class="dtags">{day.tags.map((t) => <a class="chip" href={url(`/tags/${tagSlug(t)}/`)}>{t}</a>)}</div>
+    <div class="dtags">{day.tags.map((tg) => <I tag="a" class="chip" href={url(`/tags/${tagSlug(tg)}/`)} k={`tag.${tg}`} />)}</div>
     {sections.map((s) => <section class="dsec">
       <h2 class="dhead"><span class={`gbadge ${s.key}`}>{s.label}</span></h2>
       {s.list.map(({ p, Content }) => <div class="entry" id={p.id}>
-        <div class="tmark" data-pagefind-ignore><span>{hhmm(p.data.date)}</span>{p.data.coverage && <em>{covEn(p.data.coverage)}</em>}</div>
+        <div class="tmark" data-pagefind-ignore><span>{hhmm(p.data.date)}</span>{p.data.coverage && <em><L en={covEn(p.data.coverage)} zh={p.data.coverage} /></em>}</div>
         <div class="ebody"><Content /></div>
       </div>)}
     </section>)}
   </article>
-  <nav class="pager" aria-label="Pagination">
-    <span>{older && <a href={url(`/day/${older.date}/`)}>← {older.title}</a>}</span>
-    <span>{newer && <a href={url(`/day/${newer.date}/`)}>{newer.title} →</a>}</span>
+  <nav class="pager" data-i18n-attrs='{"aria-label":"day.pager"}' aria-label="Pagination">
+    <span>{older && <a href={url(`/day/${older.date}/`)}>← <DayTitle date={older.date} wd={older.wd} /></a>}</span>
+    <span>{newer && <a href={url(`/day/${newer.date}/`)}><DayTitle date={newer.date} wd={newer.wd} /> →</a>}</span>
   </nav>
 </Base>
 <script>
   import { load, save } from '../../lib/store';
   import { favBtn, readBtn, setFav, setRead, starsHtml, setStars, starKeys } from '../../lib/icons';
+  import { tt, onLang } from '../../lib/i18n';
   const art = document.querySelector<HTMLElement>('article.day')!;
   const day = art.dataset.day!;
   const total = Number(art.dataset.total);
@@ -61,7 +66,7 @@ const sections = [
       const rt = st.rating[id] || 0;
       setStars(li, rt);
     }
-    prog.textContent = `${r}/${total} read`;
+    prog.textContent = tt('prog', { r, t: total });
   };
   for (const li of items) {
     const meta = li.querySelector('.imeta')!;
@@ -77,7 +82,10 @@ const sections = [
       else if (b.dataset.act === 'read') { if (st.read[id]) { delete st.read[id]; manualUnread.add(id); li.classList.remove('dim'); } else { st.read[id] = Date.now(); if (art.classList.contains('hideread')) li.classList.add('keep'); } }
       else if (b.dataset.act === 'fav') {
         if (st.fav[id]) delete st.fav[id];
-        else { const t = li.querySelector('.itext')!; st.fav[id] = { id, day, html: t.innerHTML, text: (t.textContent || '').trim(), score: Number(li.dataset.score) || undefined, ts: Date.now() }; }
+        else {
+          const t = li.querySelector('.itext')!; const trd = li.querySelector<HTMLElement>('details.itr'); const trb = trd?.querySelector('.itr-body');
+          st.fav[id] = { id, day, html: t.innerHTML, text: (t.textContent || '').trim(), score: Number(li.dataset.score) || undefined, ts: Date.now(), ...(trd && trb ? { tr: { lang: trd.dataset.tlang as 'en' | 'zh', html: trb.innerHTML } } : {}) };
+        }
       }
       save(st); upd();
     });
@@ -91,7 +99,7 @@ const sections = [
   hide.checked = localStorage.getItem('dailyai:hideread') === '1';
   const applyHide = () => { items.forEach((li) => li.classList.remove('keep')); art.classList.toggle('hideread', hide.checked); localStorage.setItem('dailyai:hideread', hide.checked ? '1' : '0'); };
   hide.addEventListener('change', applyHide); applyHide();
-  upd();
+  upd(); onLang(() => upd());
   // ===== 自动已读：按内容长度计算停留时间 =====
   // 有效字数 units = CJK 字符 ×cjkWeight + 拉丁单词 ×wordWeight（不含链接文字、@handle、[AI:N] 标记）
   // fullReadSeconds = units / wpm * 60；requiredSeconds = clamp(fullReadSeconds * fraction, minSec, maxSec)

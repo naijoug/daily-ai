@@ -1,30 +1,33 @@
 ---
 import Base from '../layouts/Base.astro';
 import { url } from '../lib/posts';
+import I from '../components/I.astro';
+import { t, iattr } from '../lib/i18n';
 ---
-<Base title="Favorites" description="Your favorite items (stored in this browser)">
+<Base tkey="fav.title" description="Your favorite items (stored in this browser)">
   <article class="prose favpage" data-base={url('')}>
-    <h1>Favorites</h1>
-    <p class="muted">Favorites, read state and ratings are stored only in this browser (localStorage). Export JSON to move them to another device.</p>
+    <I tag="h1" k="fav.title" />
+    <I tag="p" class="muted" k="fav.desc" />
     <div class="favbar">
-      <select data-sort aria-label="Sort">
-        <option value="ts">By date favorited</option>
-        <option value="mine">By my rating</option>
-        <option value="ai">By AI score</option>
-        <option value="day">By date</option>
+      <select data-sort {...iattr({ 'aria-label': 'sort' })}>
+        <I tag="option" value="ts" k="fav.s.ts" />
+        <I tag="option" value="mine" k="fav.s.mine" />
+        <I tag="option" value="ai" k="fav.s.ai" />
+        <I tag="option" value="day" k="fav.s.day" />
       </select>
       <span class="grow"></span>
-      <button type="button" class="ibtn" data-export>Export JSON</button>
-      <label class="ibtn">Import JSON<input type="file" accept="application/json,.json" data-import hidden /></label>
+      <I tag="button" type="button" class="ibtn" data-export k="fav.export" />
+      <label class="ibtn"><I k="fav.import" /><input type="file" accept="application/json,.json" data-import hidden /></label>
     </div>
     <p class="muted" data-stat></p>
     <div data-groups></div>
-    <p class="empty" data-empty hidden>No favorites yet. Click the bookmark icon under an item on a day page, or on a product page.</p>
+    <I tag="p" class="empty" data-empty hidden k="fav.empty" />
   </article>
 </Base>
 <script>
   import { load, save, merge } from '../lib/store';
-  import { BOOKMARK, starsStatic } from '../lib/icons';
+  import { BOOKMARK, starsStatic, trDetails } from '../lib/icons';
+  import { tt, applyI18n, onLang } from '../lib/i18n';
   const root = document.querySelector<HTMLElement>('.favpage')!;
   const base = root.dataset.base!;
   const list = root.querySelector('[data-groups]')!;
@@ -37,22 +40,22 @@ import { url } from '../lib/posts';
     favs.sort((a, b) => k === 'mine' ? (st.rating[b.id] || 0) - (st.rating[a.id] || 0) || b.ts - a.ts
       : k === 'ai' ? (b.score || 0) - (a.score || 0) || b.ts - a.ts
       : k === 'day' ? (a.day < b.day ? 1 : a.day > b.day ? -1 : 0) || b.ts - a.ts : b.ts - a.ts);
-    root.querySelector('[data-stat]')!.textContent = `${favs.length} favorites · ${Object.keys(st.read).length} read · ${Object.keys(st.rating).length} rated`;
+    root.querySelector('[data-stat]')!.textContent = tt('fav.stat', { f: favs.length, r: Object.keys(st.read).length, m: Object.keys(st.rating).length });
     (root.querySelector('[data-empty]') as HTMLElement).hidden = favs.length > 0;
     const isP = (f: { id: string }) => f.id.startsWith('product:');
     const li = (f: typeof favs[number]) => {
       const mine = st.rating[f.id] || 0;
-      const link = isP(f) ? `<a class="ibtn" href="${base}/products/${esc(f.id.slice(8))}/">Product page</a>` : `<a class="ibtn" href="${base}/day/${esc(f.day)}/#${esc(f.id)}">${esc(f.day)} source</a>`;
+      const link = isP(f) ? `<a class="ibtn" href="${base}/products/${esc(f.id.slice(8))}/">${tt('fav.product')}</a>` : `<a class="ibtn" href="${base}/day/${esc(f.day)}/#${esc(f.id)}">${tt('fav.source', { day: esc(f.day) })}</a>`;
       return `<li class="item${st.read[f.id] ? ' read dim' : ''}" data-id="${esc(f.id)}">
-        <div class="itext">${f.html}</div>
-        <div class="imeta">${f.score ? `<span class="ascore s${f.score}" title="AI score ${f.score}/5" aria-label="AI score ${f.score}/5">${f.score}</span>` : ''}
+        <div class="itext">${f.html}</div>${f.tr ? trDetails(f.tr.lang, f.tr.html) : ''}
+        <div class="imeta">${f.score ? `<span class="ascore s${f.score}" title="${tt('ai.score', { n: f.score })}" aria-label="${tt('ai.score', { n: f.score })}">${f.score}</span>` : ''}
           ${starsStatic(mine)}
           ${link}
-          <button type="button" class="ibtn icob on" data-unfav aria-pressed="true" aria-label="Remove favorite" title="Remove favorite">${BOOKMARK}</button></div></li>`;
+          <button type="button" class="ibtn icob on" data-unfav aria-pressed="true" aria-label="${tt('fav.remove')}" title="${tt('fav.remove')}">${BOOKMARK}</button></div></li>`;
     };
     const prods = favs.filter(isP), items = favs.filter((f) => !isP(f));
-    list.innerHTML = (prods.length ? `<div class="favgroup">Products · ${prods.length}</div><ol class="items favs">${prods.map(li).join('')}</ol>` : '')
-      + (items.length ? `<div class="favgroup">Items · ${items.length}</div><ol class="items favs">${items.map(li).join('')}</ol>` : '');
+    list.innerHTML = (prods.length ? `<div class="favgroup">${tt('fav.gp', { n: prods.length })}</div><ol class="items favs">${prods.map(li).join('')}</ol>` : '')
+      + (items.length ? `<div class="favgroup">${tt('fav.gi', { n: items.length })}</div><ol class="items favs">${items.map(li).join('')}</ol>` : '');
   }
   list.addEventListener('click', (e) => {
     const b = (e.target as HTMLElement).closest('[data-unfav]'); if (!b) return;
@@ -69,10 +72,10 @@ import { url } from '../lib/posts';
     const f = (e.target as HTMLInputElement).files?.[0]; if (!f) return;
     try {
       const data = JSON.parse(await f.text());
-      if (typeof data !== 'object' || !data) throw new Error('Invalid format');
-      save(merge(load(), data)); render(); alert('Imported and merged with existing data');
-    } catch (err) { alert('Import failed: ' + (err as Error).message); }
+      if (typeof data !== 'object' || !data) throw new Error(tt('fav.badfmt'));
+      save(merge(load(), data)); render(); alert(tt('fav.imported'));
+    } catch (err) { alert(tt('fav.failed') + (err as Error).message); }
     (e.target as HTMLInputElement).value = '';
   });
-  render();
+  render(); onLang(render);
 </script>

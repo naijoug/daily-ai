@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Gallery from '../components/Gallery.astro';
 import { url } from '../lib/posts';
+import I from '../components/I.astro';
 import { allDays } from '../lib/days';
 import { allProducts } from '../lib/products';
 const days = await allDays();
@@ -11,10 +12,10 @@ for (const p of prods.sort((a, b) => (b.score || 0) - (a.score || 0))) (newByDay
 ---
 <Base wide>
   <h1 class="ptitle"><span>📰</span> Daily AI</h1>
-  <p class="muted">One page per day: AI Hot and Tech digests from X. {days.length} days.</p>
+  <I tag="p" class="muted" k="home.intro" a={{ n: days.length }} />
   <div class="views">
-    <span class="vlabel">▦ Daily</span>
-    <a class="vsearch" href={url('/search/')} aria-label="Search">⌕ Search</a>
+    <I class="vlabel" k="home.daily" />
+    <I tag="a" class="vsearch" href={url('/search/')} k="home.search" />
   </div>
   <Gallery days={days} newByDay={newByDay} />
 </Base>

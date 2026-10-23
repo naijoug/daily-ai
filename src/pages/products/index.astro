@@ -3,7 +3,10 @@ import Base from '../../layouts/Base.astro';
 import RankTable from '../../components/RankTable.astro';
 import { url } from '../../lib/posts';
 import { favBtn } from '../../lib/icons';
-import { allProducts, badges, latestSnapshots, REGION_LABEL, catLabel, bjToday, addDays } from '../../lib/products';
+import I from '../../components/I.astro';
+import L from '../../components/L.astro';
+import { t, iattr } from '../../lib/i18n';
+import { allProducts, badges, latestSnapshots, bjToday, addDays } from '../../lib/products';
 import { PRODUCT_CATEGORIES } from '../../content.config';
 const products = await allProducts();
 const today = bjToday();
@@ -24,36 +27,36 @@ prodBoards.sort((a, b) => order(a.key) - order(b.key) || a.key.localeCompare(b.k
 const modelBoards = latestSnapshots('models').sort((a, b) => ['openrouter-models-week', 'aa-intelligence', 'lmarena-text'].indexOf(a.key) - ['openrouter-models-week', 'aa-intelligence', 'lmarena-text'].indexOf(b.key));
 const sorted = [...products].sort((a, b) => (b.score || 0) - (a.score || 0) || a.name.localeCompare(b.name));
 ---
-<Base wide title="AI Products" description="AI product library: rankings from a16z, AICPB, OpenRouter and more, plus our daily digests">
-  <h1 class="ptitle"><span>🧩</span> AI Products</h1>
-  <p class="muted">{products.length} products. Ranking data comes from public sources such as a16z, AICPB, OpenRouter, each labeled with source and date; lists use different methodologies and are not merged into one score.</p>
+<Base wide tkey="p.title" description="AI product library: rankings from a16z, AICPB, OpenRouter and more, plus our daily digests">
+  <h1 class="ptitle"><span>🧩</span> <I k="p.title" /></h1>
+  <I tag="p" class="muted" k="p.intro" a={{ n: products.length }} />
   <div class="views" data-pagefind-ignore>
     <div class="vtabs" role="tablist">
-      <button type="button" data-tab="all" class="on">▦ Products</button>
-      <button type="button" data-tab="rank">☰ Rankings</button>
-      <button type="button" data-tab="models">◆ Models</button>
+      <button type="button" data-tab="all" class="on"><I k="p.tab.all" /></button>
+      <button type="button" data-tab="rank"><I k="p.tab.rank" /></button>
+      <button type="button" data-tab="models"><I k="p.tab.models" /></button>
     </div>
-    <a class="vsearch" href={url('/search/')}>⌕ Search</a>
+    <I tag="a" class="vsearch" href={url('/search/')} k="p.search" />
   </div>
 
   <div data-panel="all">
     {fresh.length > 0 && <section class="fresh">
-      <div class="gsec">New this week <span class="muted">· first seen after {weekAgo}</span></div>
-      <div class="fstrip">{fresh.map((p) => <a class="fchip" href={url(`/products/${p.id}/`)}><b>{p.name}</b><span class="muted">{p.firstSeen.slice(5)} · {catLabel(p.category)}</span></a>)}</div>
+      <div class="gsec"><I k="p.fresh" /> <I class="muted" k="p.fresh.sub" a={{ d: weekAgo }} /></div>
+      <div class="fstrip">{fresh.map((p) => <a class="fchip" href={url(`/products/${p.id}/`)}><b>{p.name}</b><span class="muted">{p.firstSeen.slice(5)} · <I k={`cat.${p.category}`} /></span></a>)}</div>
     </section>}
     <div class="pbar">
       <div class="pchips" data-cat>
-        <button type="button" class="on" data-v="">All</button>
-        {cats.map((c) => <button type="button" data-v={c}>{catLabel(c)}</button>)}
+        <button type="button" class="on" data-v=""><I k="all" /></button>
+        {cats.map((c) => <button type="button" data-v={c}><I k={`cat.${c}`} /></button>)}
       </div>
       <div class="pctl">
         <div class="pchips" data-region>
-          <button type="button" class="on" data-v="">All</button><button type="button" data-v="cn">Domestic</button><button type="button" data-v="global">Global</button>
+          <button type="button" class="on" data-v=""><I k="all" /></button><button type="button" data-v="cn"><I k="region.cn" /></button><button type="button" data-v="global"><I k="region.global" /></button>
         </div>
-        <select data-sort aria-label="Sort">
-          <option value="score">By AI score</option>
-          <option value="trend">By trend (latest MoM)</option>
-          <option value="new">By newest (first seen)</option>
+        <select data-sort {...iattr({ 'aria-label': 'sort' })}>
+          <I tag="option" value="score" k="p.s.score" />
+          <I tag="option" value="trend" k="p.s.trend" />
+          <I tag="option" value="new" k="p.s.new" />
         </select>
       </div>
     </div>
@@ -62,15 +65,15 @@ const sorted = [...products].sort((a, b) => (b.score || 0) - (a.score || 0) || a
       {sorted.map((p) => {
         const bs = badges(p).slice(0, 3);
         return <article class="gcard pcard" data-id={p.id} data-cat={p.category} data-region={p.region} data-score={p.score || 0} data-growth={p.growth ?? ''} data-first={p.firstSeen}>
-          <div class="gtitle"><a class="pname" href={url(`/products/${p.id}/`)}>{p.name}</a>{p.score && <span class={`ascore s${p.score}`} title={`AI score ${p.score}/5`} aria-label={`AI score ${p.score}/5`}>{p.score}</span>}</div>
-          <div class="gmeta"><span class={`gbadge ${p.region === 'cn' ? 'tech' : ''}`}>{REGION_LABEL[p.region]}</span><span>{catLabel(p.category)}</span>{p.maker && <span>· {p.maker}</span>}</div>
-          <p class="gsum">{p.oneLiner}</p>
+          <div class="gtitle"><a class="pname" href={url(`/products/${p.id}/`)}>{p.name}</a>{p.score && <span class={`ascore s${p.score}`} {...iattr({ title: 'ai.score', 'aria-label': 'ai.score' }, { n: p.score })}>{p.score}</span>}</div>
+          <div class="gmeta"><span class={`gbadge ${p.region === 'cn' ? 'tech' : ''}`}><I k={`region.${p.region}`} /></span><I k={`cat.${p.category}`} />{p.maker && <span>· {p.maker}</span>}</div>
+          <p class="gsum"><L en={p.oneLinerEn} zh={p.oneLiner} /></p>
           <div class="gfoot">
             {bs.map((r) => <span class="rbadge" title={`${r.list} · ${r.date}`}>{r.badge} #{r.rank}</span>)}
             {p.growth != null && <span class:list={['grow', p.growth >= 0 ? 'up' : 'down']} title={p.growthNote}>{p.growth >= 0 ? '↑' : '↓'}{Math.abs(p.growth).toFixed(1)}%</span>}
           </div>
           <div class="pact">
-            <a class="ibtn" href={p.url} target="_blank" rel="noopener">Website ↗</a>
+            <I tag="a" class="ibtn" href={p.url} target="_blank" rel="noopener" k="p.site" />
             <Fragment set:html={favBtn('data-fav')} />
             <span class="prd muted" data-mine></span>
           </div>
@@ -80,18 +83,19 @@ const sorted = [...products].sort((a, b) => (b.score || 0) - (a.score || 0) || a
   </div>
 
   <div data-panel="rank" hidden>
-    <p class="muted">Product rankings are recorded as published; each table states its source, data period and methodology. AICPB does not disclose its collection method, so treat it as indicative only; Product Hunt / HF are automatic daily snapshots.</p>
+    <I tag="p" class="muted" k="p.rank.note" />
     <div class="rgrid">{prodBoards.map((b) => <RankTable s={b.latest} history={b.history} pmap={pmap} limit={b.latest.kind === 'feed' ? 15 : 20} />)}</div>
   </div>
 
   <div data-panel="models" hidden id="models">
-    <p class="muted mnote">Model rankings are shown separately from the product library. The three sources measure different things (OpenRouter: token usage, Artificial Analysis: benchmark composite index, LMArena: human blind-vote score), so they are shown side by side and not combined into one score.</p>
+    <I tag="p" class="muted mnote" k="p.models.note" />
     <div class="rgrid">{modelBoards.map((b) => <RankTable s={b.latest} history={b.history} />)}</div>
   </div>
 </Base>
 <script>
   import { load, save } from '../../lib/store';
   import { setFav, setRead, starsStatic } from '../../lib/icons';
+  import { tt, getLang, onLang } from '../../lib/i18n';
   const tabs = document.querySelectorAll<HTMLButtonElement>('[data-tab]');
   const panels = document.querySelectorAll<HTMLElement>('[data-panel]');
   const show = (t: string) => { tabs.forEach((b) => b.classList.toggle('on', b.dataset.tab === t)); panels.forEach((p) => (p.hidden = p.dataset.panel !== t)); };
@@ -113,7 +117,7 @@ const sorted = [...products].sort((a, b) => (b.score || 0) - (a.score || 0) || a
       const ok = (!state.cat || c.dataset.cat === state.cat) && (!state.region || c.dataset.region === state.region);
       c.hidden = !ok; if (ok) n++; grid.appendChild(c);
     }
-    document.querySelector('[data-count]')!.textContent = `Showing ${n} / ${cards.length}`;
+    document.querySelector('[data-count]')!.textContent = tt('p.count', { n, t: cards.length });
   }
   for (const [sel, key] of [['[data-cat]', 'cat'], ['[data-region]', 'region']] as const) {
     const box = document.querySelector(sel)!;
@@ -124,6 +128,7 @@ const sorted = [...products].sort((a, b) => (b.score || 0) - (a.score || 0) || a
     });
   }
   sortSel.addEventListener('change', apply);
+  const gs = (c: HTMLElement) => (c.querySelector(`.gsum [data-l=${getLang()}]`) || c.querySelector('.gsum'))!.textContent || '';
   const KEY = (id: string) => `product:${id}`;
   function paint() {
     const st = load();
@@ -132,7 +137,7 @@ const sorted = [...products].sort((a, b) => (b.score || 0) - (a.score || 0) || a
       const fav = !!st.fav[k]; const b = c.querySelector('[data-fav]')!;
       setFav(b, fav);
       const r = st.rating[k];
-      c.querySelector('[data-mine]')!.innerHTML = starsStatic(r || 0) + (st.read[k] ? ' <span>Seen</span>' : '');
+      c.querySelector('[data-mine]')!.innerHTML = starsStatic(r || 0) + (st.read[k] ? ` <span>${tt('p.seen')}</span>` : '');
       c.classList.toggle('done', !!st.read[k]);
     }
   }
@@ -141,8 +146,8 @@ const sorted = [...products].sort((a, b) => (b.score || 0) - (a.score || 0) || a
     const c = b.closest<HTMLElement>('.pcard')!; const k = KEY(c.dataset.id!);
     const st = load();
     if (st.fav[k]) delete st.fav[k];
-    else st.fav[k] = { id: k, day: c.dataset.first!, html: `<p><strong>${c.querySelector('.pname')!.textContent}</strong>: ${c.querySelector('.gsum')!.textContent}</p>`, text: c.querySelector('.gsum')!.textContent || '', score: Number(c.dataset.score) || undefined, ts: Date.now() };
+    else st.fav[k] = { id: k, day: c.dataset.first!, html: `<p><strong>${c.querySelector('.pname')!.textContent}</strong>: ${gs(c)}</p>`, text: gs(c), score: Number(c.dataset.score) || undefined, ts: Date.now() };
     save(st); paint();
   });
-  apply(); paint();
+  apply(); paint(); onLang(() => { apply(); paint(); });
 </script>

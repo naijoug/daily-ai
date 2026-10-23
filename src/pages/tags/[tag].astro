@@ -3,14 +3,15 @@ import Base from '../../layouts/Base.astro';
 import Gallery from '../../components/Gallery.astro';
 import { allDays } from '../../lib/days';
 import { TAGS, tagSlug } from '../../content.config';
+import I from '../../components/I.astro';
 export async function getStaticPaths() {
   const days = await allDays();
   return TAGS.map((tag) => ({ params: { tag: tagSlug(tag) }, props: { tag, days: days.filter((d) => d.tags.includes(tag)) } })).filter((x) => x.props.days.length);
 }
 const { tag, days } = Astro.props;
 ---
-<Base wide title={`Tag: ${tag}`}>
-  <h1>Tag: {tag}</h1>
-  <p class="muted" style="margin-bottom:20px">{days.length} {days.length === 1 ? "day" : "days"}</p>
+<Base wide tkey="tag.title" targs={{ tag, tagk: `tag.${tag}` }}>
+  <h1><I k="tag.title" a={{ tag, tagk: `tag.${tag}` }} /></h1>
+  <I tag="p" class="muted" style="margin-bottom:20px" k="days" a={{ n: days.length }} />
   <Gallery days={days} />
 </Base>

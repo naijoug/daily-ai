@@ -35,7 +35,7 @@ export function loadProducts() {
   if (!fs.existsSync(PRODUCTS_DIR)) return [];
   return fs.readdirSync(PRODUCTS_DIR).filter((f) => f.endsWith('.json')).map((f) => JSON.parse(fs.readFileSync(path.join(PRODUCTS_DIR, f), 'utf8')));
 }
-const ORDER = ['id', 'name', 'aliases', 'url', 'domains', 'category', 'region', 'maker', 'oneLiner', 'score', 'growth', 'growthNote', 'firstSeen', 'updated', 'tags', 'rankings'];
+const ORDER = ['id', 'name', 'aliases', 'url', 'domains', 'category', 'region', 'maker', 'oneLiner', 'oneLinerEn', 'score', 'growth', 'growthNote', 'firstSeen', 'updated', 'tags', 'rankings'];
 export function saveProduct(p) {
   fs.mkdirSync(PRODUCTS_DIR, { recursive: true });
   const o = {};

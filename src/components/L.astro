@@ -1,0 +1,6 @@
+---
+// 双语内容并排输出，CSS 按 <html data-lang> 只显示一个；缺其中一种时两种语言都显示现有的那一种。
+const { en, zh, tag = 'span', ...rest } = Astro.props as { en?: string; zh?: string; tag?: string; [x: string]: any };
+const Tag = tag as any;
+---
+{en && zh && en !== zh ? <><Tag {...rest} data-l="en">{en}</Tag><Tag {...rest} data-l="zh" lang="zh-CN">{zh}</Tag></> : <Tag {...rest}>{en || zh}</Tag>}

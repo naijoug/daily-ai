@@ -16,6 +16,7 @@ const posts = defineCollection({
     coverage: z.string().optional(),
     scores: z.array(z.number().int().min(0).max(5)).default([]),
     daySummary: z.string().optional(),
+    daySummaryEn: z.string().optional(),
     products: z.array(z.string()).default([]),
   }),
 });
@@ -30,7 +31,7 @@ const products = defineCollection({
   schema: z.object({
     id: z.string(), name: z.string(), aliases: z.array(z.string()).default([]), url: z.string().url(),
     domains: z.array(z.string()).default([]), category: z.enum(PRODUCT_CATEGORIES), region: z.enum(['cn', 'global']),
-    maker: z.string().optional(), oneLiner: z.string(), score: z.number().int().min(1).max(5).optional(),
+    maker: z.string().optional(), oneLiner: z.string(), oneLinerEn: z.string().optional(), score: z.number().int().min(1).max(5).optional(),
     growth: z.number().optional(), growthNote: z.string().optional(), growthDate: z.string().optional(),
     firstSeen: z.string(), updated: z.string(), tags: z.array(z.enum(TAGS)).default([]),
     mentionExclude: z.array(z.string()).default([]), matchNames: z.array(z.string()).optional(), rankings: z.array(ranking).default([]),

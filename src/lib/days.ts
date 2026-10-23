@@ -11,7 +11,8 @@ export const hhmm = (d: Date) => timeFmt.format(d);
 const WD = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 // frontmatter 的 coverage 仍按中文存（覆盖 … 北京时间），展示时转英文
 export const covEn = (s: string) => s.replace(/覆盖\s*/g, 'Covers ').replace(/\s*北京时间/g, ' Beijing Time');
-export const dayTitle = (k: string) => `${k} · ${WD[new Date(`${k}T12:00:00+08:00`).getUTCDay()]}`;
+const wdIdx = (k: string) => new Date(`${k}T12:00:00+08:00`).getUTCDay();
+export const dayTitle = (k: string) => `${k} · ${WD[wdIdx(k)]}`;
 export async function allDays() {
   const posts = await allPosts();
   const map = new Map<string, typeof posts>();
@@ -26,10 +27,11 @@ export async function allDays() {
     const countItems = (b = '') => b.split('\n').filter((l) => /^(\d+\.|[-*])\s/.test(l)).length;
     const nItems = (arr: typeof asc) => arr.reduce((s, p) => s + countItems(p.body), 0);
     const withSum = [...asc].reverse().find((p) => p.data.daySummary);
+    const summaryEn = withSum?.data.daySummaryEn || '';
     const summary = withSum?.data.daySummary || [...heads(xai.at(-1)?.body, 1), ...heads(tech.at(-1)?.body, 1)].join('；');
     const allScores = asc.flatMap((p) => p.data.scores);
     const top = allScores.filter((x) => x >= 4).length;
-    return { date, summary, total: nItems(asc), aiCount: nItems(xai), techCount: nItems(tech), top, pids: asc.map((p) => p.id), title: dayTitle(date), posts: asc, xai, tech, aiHeads: latest(xai), techHeads: latest(tech), tags, last: asc[asc.length - 1].data.date };
+    return { date, summary, summaryEn, wd: wdIdx(date), total: nItems(asc), aiCount: nItems(xai), techCount: nItems(tech), top, pids: asc.map((p) => p.id), title: dayTitle(date), posts: asc, xai, tech, aiHeads: latest(xai), techHeads: latest(tech), tags, last: asc[asc.length - 1].data.date };
   });
 }
 export type Day = Awaited<ReturnType<typeof allDays>>[number];

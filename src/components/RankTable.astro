@@ -1,4 +1,5 @@
 ---
+import I from './I.astro';
 import type { Snapshot } from '../lib/products';
 interface Props { s: Snapshot; history?: Snapshot[]; limit?: number; pmap?: Record<string, string> }
 const { s, history = [], limit = 20, pmap = {} } = Astro.props;
@@ -12,12 +13,12 @@ const pd = s.period || s.date;
   <header class="rhead">
     <div>
       <div class="rtitle">{s.sourceName} · {s.list}</div>
-      <div class="muted rsub">{s.metric}{s.metric ? ' · ' : ''}Data period {pd}{s.published && s.published !== pd ? ` · Published ${s.published}` : ''}{s.manual ? ' · Manual snapshot' : ''}</div>
+      <div class="muted rsub">{s.metric}{s.metric ? ' · ' : ''}<I k="r.period" a={{ d: pd }} />{s.published && s.published !== pd && <Fragment> · <I k="r.published" a={{ d: s.published }} /></Fragment>}{s.manual && <Fragment> · <I k="r.manual" /></Fragment>}</div>
     </div>
-    <a class="ibtn" href={s.url} target="_blank" rel="noopener">Source ↗</a>
+    <I tag="a" class="ibtn" href={s.url} target="_blank" rel="noopener" k="r.source" />
   </header>
   <div class="rscroll"><table class="rtable">
-    <thead><tr>{hasRank && <th>#</th>}<th>Name</th>{hasVal && <th>{s.kind === 'feed' && !hasRank ? 'Summary' : 'Value'}</th>}{hasMom && <th>MoM</th>}</tr></thead>
+    <thead><tr>{hasRank && <th>#</th>}<th><I k="r.name" /></th>{hasVal && <th><I k={s.kind === 'feed' && !hasRank ? 'r.summary' : 'r.value'} /></th>}{hasMom && <th><I k="r.mom" /></th>}</tr></thead>
     <tbody>{rows.map((r, i) => {
       const pid = pmap[r.name];
       const mom = r.mom && /^-?[\d.]+%$/.test(r.mom) ? parseFloat(r.mom) : null;
@@ -30,5 +31,5 @@ const pd = s.period || s.date;
     })}</tbody>
   </table></div>
   {s.note && <p class="muted rnote">{s.note}</p>}
-  {history.length > 1 && <p class="muted rnote">Earlier snapshots: {history.map((h) => h.period || h.date).join(', ')}</p>}
+  {history.length > 1 && <p class="muted rnote"><I k="r.earlier" a={{ l: history.map((h) => h.period || h.date) }} /></p>}
 </section>

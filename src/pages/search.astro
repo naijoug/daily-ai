@@ -1,13 +1,17 @@
 ---
 import Base from '../layouts/Base.astro';
+import I from '../components/I.astro';
 import { url } from '../lib/posts';
+import { DICT } from '../lib/i18n';
+const tr = (l: 'en' | 'zh') => ({ placeholder: DICT[l]['search.ph'], zero_results: DICT[l]['search.zero'], many_results: DICT[l]['search.many'], one_result: DICT[l]['search.one'] });
 ---
-<Base title="Search">
-  <h1>Search</h1>
+<Base tkey="search.title">
+  <I tag="h1" k="search.title" />
   <link href={url('/pagefind/pagefind-ui.css')} rel="stylesheet" />
   <div id="search"></div>
-  <script is:inline define:vars={{ src: url('/pagefind/pagefind-ui.js') }}>
-    const s=document.createElement('script');s.src=src;s.onload=()=>{new PagefindUI({element:'#search',showSubResults:true,translations:{placeholder:'Search all digests…',zero_results:'No results for “[SEARCH_TERM]”',many_results:'[COUNT] results for “[SEARCH_TERM]”',one_result:'1 result for “[SEARCH_TERM]”'}});const q=new URLSearchParams(location.search).get('q');if(q){const i=document.querySelector('#search input');}};document.head.appendChild(s);
+  <script is:inline define:vars={{ src: url('/pagefind/pagefind-ui.js'), TR: { en: tr('en'), zh: tr('zh') } }}>
+    function init(){var el=document.getElementById('search');el.innerHTML='';var l=document.documentElement.dataset.lang==='zh'?'zh':'en';new PagefindUI({element:'#search',showSubResults:true,translations:TR[l]});}
+    var s=document.createElement('script');s.src=src;s.onload=function(){init();window.addEventListener('langchange',init);};document.head.appendChild(s);
   </script>
   <style is:global>#search{--pagefind-ui-primary:var(--accent);--pagefind-ui-text:var(--fg);--pagefind-ui-background:var(--card);--pagefind-ui-border:var(--line);--pagefind-ui-tag:var(--chip);}</style>
 </Base>

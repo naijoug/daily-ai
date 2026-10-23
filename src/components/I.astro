@@ -1,0 +1,6 @@
+---
+import { t, ia } from '../lib/i18n';
+const { k, a, tag = 'span', ...rest } = Astro.props as { k: string; a?: Record<string, any>; tag?: string; [x: string]: any };
+const Tag = tag as any;
+---
+<Tag {...rest} {...ia(k, a)}>{t(k, a)}</Tag>

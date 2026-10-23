@@ -3,10 +3,11 @@ import Base from '../../layouts/Base.astro';
 import { url } from '../../lib/posts';
 import { allDays } from '../../lib/days';
 import { TAGS, tagSlug } from '../../content.config';
+import I from '../../components/I.astro';
 const days = await allDays();
 const counts = TAGS.map((t) => [t, days.filter((d) => d.tags.includes(t)).length] as const).filter(([, n]) => n > 0);
 ---
-<Base title="Tags">
-  <h1>Tags</h1>
-  <p>{counts.map(([t, n]) => <a class="chip" href={url(`/tags/${tagSlug(t)}/`)}>{t} · {n} {n === 1 ? "day" : "days"}</a>)}</p>
+<Base tkey="tags.title">
+  <I tag="h1" k="tags.title" />
+  <p>{counts.map(([tg, n]) => <a class="chip" href={url(`/tags/${tagSlug(tg)}/`)}><I k={`tag.${tg}`} /> · <I k="days" a={{ n }} /></a>)}</p>
 </Base>

@@ -22,6 +22,39 @@ function walkLinks(node) {
   }
   for (const c of node.children || []) walkLinks(c);
 }
+// ---- 双语条目：紧跟在条目后的 `> ` 引用块 = 另一种语言的译文，渲染成默认折叠的 <details class="itr"> ----
+const CJK = /[\u3400-\u4dbf\u4e00-\u9fff\u3040-\u30ff\uac00-\ud7af]/g;
+const plain = (n) => (n.type === 'text' ? n.value : (n.children || []).map(plain).join(''));
+const langOf = (text) => {
+  const t = text.replace(/https?:\/\/\S+/g, ' ');
+  const cjk = (t.match(CJK) || []).length; const lat = (t.match(/[A-Za-z]{2,}/g) || []).length;
+  return cjk >= Math.max(4, lat * 0.6) ? 'zh' : 'en';
+};
+const MARK = /^\s*[\[［]\s*(en|zh)\s*[\]］]\s*/i;
+// 小节标题（markdown 里保持中文）→ 英文显示；中文由站点字典 sec.<原文> 切回
+const SEC_EN = { 'AI 热点': 'AI Hot Topics', '有趣用法和干货': 'Tips & Hands-on', '新产品': 'New Products', '开源': 'Open Source', '科技新闻': 'Tech News', '中文社区': 'Chinese Community', '科技速递': 'Tech Digest' };
+const LABEL = { zh: ['Show 中文', 'Hide 中文'], en: ['Show English', 'Hide English'] };
+function takeTranslation(bq) {
+  // 返回 { lang, children }；取 [en]/[zh] 标记，缺省按文字推断
+  let lang = null;
+  const first = bq.children.find((c) => c.type === 'element');
+  const fp = first && first.tagName === 'p' ? first : null;
+  const t0 = fp?.children?.[0];
+  if (t0 && t0.type === 'text') { const m = t0.value.match(MARK); if (m) { lang = m[1].toLowerCase(); t0.value = t0.value.slice(m[0].length); } }
+  const children = bq.children.filter((c) => !(c.type === 'text' && !c.value.trim()));
+  if (!lang) lang = langOf(plain(bq));
+  return { lang, children };
+}
+function trNode(tr) {
+  const lbl = LABEL[tr.lang];
+  return el('details', { className: ['itr'], dataTlang: tr.lang }, [
+    el('summary', {}, [
+      el('span', { className: ['s-show'], dataI18n: `tr.show.${tr.lang}` }, [txt(lbl[0])]),
+      el('span', { className: ['s-hide'], dataI18n: `tr.hide.${tr.lang}` }, [txt(lbl[1])]),
+    ]),
+    el('div', { className: ['itr-body'], ...(tr.lang === 'zh' ? { lang: 'zh-CN' } : {}) }, tr.children),
+  ]);
+}
 export default function rehypeItems(opts = {}) {
   const base = (opts.base || '').replace(/\/$/, '');
   return (tree, file) => {
@@ -33,6 +66,23 @@ export default function rehypeItems(opts = {}) {
     for (const t of file.data?.astro?.frontmatter?.products || []) { const [i, id] = String(t).split(':'); (prods[i] ||= []).push(id); }
     walkLinks(tree);
     let n = 0;
+    // 1) 紧跟在列表后（中间没有空行）的 blockquote → 挂到上一条的译文
+    const kids = tree.children.filter((c) => !(c.type === 'text' && !c.value.trim()));
+    const dropped = new Set(); const trOf = new Map(); let prevList = null;
+    for (const c of kids) {
+      if (c.type === 'element' && ['ol', 'ul'].includes(c.tagName)) { prevList = c; continue; }
+      if (c.type === 'element' && c.tagName === 'blockquote' && prevList) {
+        const lastLi = [...prevList.children].reverse().find((x) => x.type === 'element' && x.tagName === 'li');
+        const adj = lastLi && c.position && prevList.position && c.position.start.line === prevList.position.end.line + 1;
+        if (adj) { trOf.set(lastLi, takeTranslation(c)); dropped.add(c); prevList.__mergeNext = true; continue; }
+      }
+      if (c.type === 'element' && c.tagName === 'h2') {
+        const k = plain(c).trim();
+        if (SEC_EN[k]) { c.properties = { ...c.properties, dataI18n: `sec.${k}` }; c.children = [txt(SEC_EN[k])]; }
+      }
+      prevList = null;
+    }
+    tree.children = tree.children.filter((c) => !dropped.has(c));
     for (const node of tree.children) {
       if (node.type !== 'element' || !['ol', 'ul'].includes(node.tagName)) continue;
       node.properties.className = ['items'];
@@ -42,13 +92,27 @@ export default function rehypeItems(opts = {}) {
         const id = `${pid}-${n}`;
         const s = scores[n - 1];
         li.properties = { ...li.properties, id, className: ['item'], dataId: id, ...(s ? { dataScore: String(s) } : {}) };
-        const body = el('div', { className: ['itext'] }, li.children);
+        // 缩进写在条目内的 blockquote 同样当作译文
+        let tr = trOf.get(li);
+        if (!tr) { const bq = li.children.find((c) => c.type === 'element' && c.tagName === 'blockquote'); if (bq) { tr = takeTranslation(bq); li.children = li.children.filter((c) => c !== bq); } }
+        const plang = langOf(li.children.map(plain).join(''));
+        li.properties.dataLang = plang;
+        const body = el('div', { className: ['itext'], ...(plang === 'zh' ? { lang: 'zh-CN' } : {}) }, li.children);
         const meta = el('div', { className: ['imeta'] }, [
-          s ? el('span', { className: ['ascore', `s${s}`], title: `AI score ${s}/5`, ariaLabel: `AI score ${s}/5` }, [txt(String(s))]) : txt(''),
-          ...(prods[n] || []).map((id) => el('a', { className: ['ibtn', 'plink'], href: `${base}/products/${id}/` }, [txt(`Product · ${id}`)])),
+          s ? el('span', { className: ['ascore', `s${s}`], title: `AI score ${s}/5`, ariaLabel: `AI score ${s}/5`, dataI18nAttrs: JSON.stringify({ title: 'ai.score', 'aria-label': 'ai.score' }), dataI18nA: JSON.stringify({ n: s }) }, [txt(String(s))]) : txt(''),
+          ...(prods[n] || []).map((id) => el('a', { className: ['ibtn', 'plink'], href: `${base}/products/${id}/`, dataI18n: 'plink', dataI18nA: JSON.stringify({ id }) }, [txt(`Product · ${id}`)])),
         ]);
-        li.children = [body, meta];
+        li.children = [body, ...(tr && tr.children.length ? [trNode(tr)] : []), meta];
       }
     }
+    // 被译文引用块隔开的相邻列表合并回一个列表
+    const out = [];
+    for (const c of tree.children) {
+      const prev = out[out.length - 1];
+      if (prev?.__mergeNext && c.type === 'text' && !c.value.trim()) continue;
+      if (prev?.__mergeNext && c.type === 'element' && c.tagName === prev.tagName) { prev.children.push(...c.children); prev.__mergeNext = c.__mergeNext; continue; }
+      out.push(c);
+    }
+    tree.children = out;
   };
 }
