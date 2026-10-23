@@ -1,0 +1,17 @@
+{
+  "id": "embeddinggemma-2",
+  "name": "EmbeddingGemma 2",
+  "aliases": [],
+  "url": "https://ai.google.dev/gemma/docs/embeddinggemma",
+  "category": "开发者平台",
+  "region": "global",
+  "oneLiner": "把文本（含代码）、图片、视频、音频映射到同一个 768 维向量空间，由 270M 文本主干加可按需加载的视觉（170M）、音频（300M）编码器组成，只用文本时可以不加载另外两块。",
+  "score": 4,
+  "firstSeen": "2026-10-23",
+  "updated": "2026-10-23",
+  "tags": [
+    "Dev Tools",
+    "Open Source"
+  ],
+  "rankings": []
+}

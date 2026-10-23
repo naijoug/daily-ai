@@ -1,0 +1,17 @@
+{
+  "id": "minimax-m3-1-flash",
+  "name": "MiniMax M3.1 Flash",
+  "aliases": [],
+  "url": "https://modelscope.cn/models/MiniMax/MiniMax-M3.1-Flash",
+  "category": "对话助手",
+  "region": "cn",
+  "oneLiner": "MiniMax 今天开源 M3.1 Flash，相比 M3 全面提升。",
+  "score": 4,
+  "firstSeen": "2026-10-23",
+  "updated": "2026-10-23",
+  "tags": [
+    "Models",
+    "Open Source"
+  ],
+  "rankings": []
+}

@@ -1,0 +1,17 @@
+{
+  "id": "loom-record-for-agents",
+  "name": "Loom Record for agents",
+  "aliases": [],
+  "url": "https://www.loom.com/",
+  "category": "办公",
+  "region": "global",
+  "oneLiner": "Loom 新版 Mac 应用加了「为 agent 录制」，同时录下视频、声音和屏幕上的操作，自动转成任何 AI 工具都能执行的 prompt，省得你打字描述屏幕上发生了什么；",
+  "score": 3,
+  "firstSeen": "2026-10-23",
+  "updated": "2026-10-23",
+  "tags": [
+    "Agents",
+    "Products"
+  ],
+  "rankings": []
+}

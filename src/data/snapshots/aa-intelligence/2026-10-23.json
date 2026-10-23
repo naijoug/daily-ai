@@ -1,0 +1,133 @@
+{
+ "source": "aa",
+ "sourceName": "Artificial Analysis",
+ "kind": "models",
+ "badge": "AA Index",
+ "list": "Intelligence Index（前 20）",
+ "metric": "Artificial Analysis Intelligence Index（综合多项评测）",
+ "url": "https://artificialanalysis.ai/leaderboards/models",
+ "period": "2026-10-23",
+ "fetched": "2026-10-23T01:36:16.509Z",
+ "rows": [
+  {
+   "rank": 1,
+   "name": "Claude Opus 5.5 (Max, Default Fallback)",
+   "org": "Anthropic",
+   "value": "57.6"
+  },
+  {
+   "rank": 2,
+   "name": "Claude Sonnet 5.5 (Max, Default Fallback)",
+   "org": "Anthropic",
+   "value": "56.0"
+  },
+  {
+   "rank": 3,
+   "name": "Claude Opus 5.5 (Xhigh, Default Fallback)",
+   "org": "Anthropic",
+   "value": "56.0"
+  },
+  {
+   "rank": 4,
+   "name": "Muse Wonder Full (Max)",
+   "org": "Meta",
+   "value": "55.8"
+  },
+  {
+   "rank": 5,
+   "name": "Claude Opus 5.5 (High, Default Fallback)",
+   "org": "Anthropic",
+   "value": "53.6"
+  },
+  {
+   "rank": 6,
+   "name": "Claude Fable 5.1 (Max, Default Fallback)",
+   "org": "Anthropic",
+   "value": "53.4"
+  },
+  {
+   "rank": 7,
+   "name": "Claude Fable 5.1 (Xhigh, Default Fallback)",
+   "org": "Anthropic",
+   "value": "53.2"
+  },
+  {
+   "rank": 8,
+   "name": "GPT-6 Astra (Max)",
+   "org": "OpenAI",
+   "value": "52.7"
+  },
+  {
+   "rank": 9,
+   "name": "Gemini 4 Argon (High)",
+   "org": "Google",
+   "value": "52.6"
+  },
+  {
+   "rank": 10,
+   "name": "Muse Wonder (Max)",
+   "org": "Meta",
+   "value": "52.4"
+  },
+  {
+   "rank": 11,
+   "name": "GPT-6 Astra (Xhigh)",
+   "org": "OpenAI",
+   "value": "52.4"
+  },
+  {
+   "rank": 12,
+   "name": "Claude Sonnet 5.5 (Xhigh, Default Fallback)",
+   "org": "Anthropic",
+   "value": "51.9"
+  },
+  {
+   "rank": 13,
+   "name": "GPT-6.1 Sol (Max)",
+   "org": "OpenAI",
+   "value": "51.8"
+  },
+  {
+   "rank": 14,
+   "name": "Claude Opus 5.5 (Medium, Default Fallback)",
+   "org": "Anthropic",
+   "value": "51.2"
+  },
+  {
+   "rank": 15,
+   "name": "Claude Fable 5.1 (High, Default Fallback)",
+   "org": "Anthropic",
+   "value": "51.2"
+  },
+  {
+   "rank": 16,
+   "name": "GPT-6.1 Sol (Xhigh)",
+   "org": "OpenAI",
+   "value": "51.0"
+  },
+  {
+   "rank": 17,
+   "name": "GPT-6 Astra (High)",
+   "org": "OpenAI",
+   "value": "50.9"
+  },
+  {
+   "rank": 18,
+   "name": "GPT-6.1 Sol (High)",
+   "org": "OpenAI",
+   "value": "50.2"
+  },
+  {
+   "rank": 19,
+   "name": "GPT-6 Astra (Medium)",
+   "org": "OpenAI",
+   "value": "49.6"
+  },
+  {
+   "rank": 20,
+   "name": "Claude Fable 5.1 (Medium, Default Fallback)",
+   "org": "Anthropic",
+   "value": "48.9"
+  }
+ ]
+}
