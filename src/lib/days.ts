@@ -9,8 +9,30 @@ const timeFmt = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Shanghai', ho
 export const dayKey = (d: Date) => dayFmt.format(d);
 export const hhmm = (d: Date) => timeFmt.format(d);
 const WD = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-// frontmatter 的 coverage 仍按中文存（覆盖 … 北京时间），展示时转英文
-export const covEn = (s: string) => s.replace(/覆盖\s*/g, 'Covers ').replace(/\s*北京时间/g, ' Beijing Time');
+// frontmatter 的 coverage 是自由文本（北京时间，多种写法）。这里解析成起止时刻（epoch ms），页面再按读者时区换算。
+const bjParts = (d: Date) => { const p = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Shanghai', hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).formatToParts(d).map((x) => [x.type, x.value])); return { Y: +p.year, M: +p.month, D: +p.day, h: +p.hour % 24, m: +p.minute }; };
+const bj = (Y: number, M: number, D: number, h: number, m: number) => Date.UTC(Y, M - 1, D, h - 8, m);
+const COV_RE = /(?:(\d{4})-(\d{1,2})-(\d{1,2})|(\d{1,2})\/(\d{1,2}))?\s*(\d{1,2}):(\d{2})\s*[–—-]\s*(?:(?:(\d{4})-(\d{1,2})-(\d{1,2})|(\d{1,2})\/(\d{1,2}))\s*)?(\d{1,2}):(\d{2})/;
+export function parseCov(cov: string | undefined, run: Date): { s: number; e: number; note: string } | null {
+  if (!cov) return null;
+  const m = cov.match(COV_RE); if (!m) return null;
+  const r = bjParts(run); const DAY = 864e5;
+  const dateOf = (Y?: string, M?: string, D?: string, M2?: string, D2?: string) => {
+    if (Y) return { Y: +Y, M: +M!, D: +D! };
+    if (M2) { let y = r.Y; if (bj(y, +M2, +D2!, 12, 0) > run.getTime() + 2 * DAY) y -= 1; return { Y: y, M: +M2, D: +D2! }; }
+    return null;
+  };
+  const sd = dateOf(m[1], m[2], m[3], m[4], m[5]); const ed = dateOf(m[8], m[9], m[10], m[11], m[12]);
+  const [h1, n1, h2, n2] = [+m[6], +m[7], +m[13], +m[14]];
+  let s: number, e: number;
+  if (sd && ed) { s = bj(sd.Y, sd.M, sd.D, h1, n1); e = bj(ed.Y, ed.M, ed.D, h2, n2); }
+  else if (sd) { s = bj(sd.Y, sd.M, sd.D, h1, n1); e = bj(sd.Y, sd.M, sd.D, h2, n2); if (e <= s) e += DAY; }
+  else { e = bj(r.Y, r.M, r.D, h2, n2); if (e > run.getTime() + 6 * 36e5) e -= DAY; s = bj(r.Y, r.M, r.D, h1, n1); while (s > e) s -= DAY; while (e - s > DAY) s += DAY; }
+  if (!(e > s) || e - s > 3 * DAY) return null;
+  const note = cov.slice((m.index || 0) + m[0].length).replace(/北京时间/g, '').replace(/^[\s，,、（(]+|[\s，,、）)]+$/g, '').trim();
+  return { s, e, note };
+}
+export const covPlain = (c: string) => c.replace(/^覆盖\s*/, '').replace(/[（(]?北京时间[，,]?/g, '').replace(/[）)]\s*$/, '').trim();
 const wdIdx = (k: string) => new Date(`${k}T12:00:00+08:00`).getUTCDay();
 export const dayTitle = (k: string) => `${k} · ${WD[wdIdx(k)]}`;
 export async function allDays() {

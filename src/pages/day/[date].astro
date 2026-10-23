@@ -7,7 +7,8 @@ import { t } from '../../lib/i18n';
 import Base from '../../layouts/Base.astro';
 import { render } from 'astro:content';
 import { url } from '../../lib/posts';
-import { allDays, hhmm, covEn } from '../../lib/days';
+import { allDays, hhmm, parseCov, covPlain } from '../../lib/days';
+import { rangeText } from '../../lib/tz';
 export async function getStaticPaths() {
   const days = await allDays();
   return days.map((d, i) => ({ params: { date: d.date }, props: { day: d, newer: days[i - 1], older: days[i + 1] } }));
@@ -25,15 +26,22 @@ const sections = [
     <h1><DayTitle date={day.date} wd={day.wd} /></h1>
     <p class="dsum"><L en={day.summaryEn} zh={day.summary} /></p>
     <div class="dbar" data-pagefind-ignore>
-      <I class="muted" k="day.meta" a={{ n: day.posts.length, t: day.total }} />
+      <button type="button" class="tzbtn tzv" data-tz-open data-tz-label data-tz-at={`${day.date}T12:00:00+08:00`} aria-haspopup="dialog" aria-expanded="false">UTC+8</button>
+      <I class="muted tzrest" k="day.meta" a={{ n: day.posts.length, t: day.total }} />
       <span class="dprog" data-dprog>{t('prog', { r: 0, t: day.total })}</span>
       <label class="dhide"><input type="checkbox" data-hideread /> <I k="day.hide" /></label>
     </div>
+    <I tag="p" class="allread muted" k="day.allread" data-allread data-pagefind-ignore hidden />
     <div class="dtags">{day.tags.map((tg) => <I tag="a" class="chip" href={url(`/tags/${tagSlug(tg)}/`)} k={`tag.${tg}`} />)}</div>
     {sections.map((s) => <section class="dsec">
       <h2 class="dhead"><span class={`gbadge ${s.key}`}>{s.label}</span></h2>
       {s.list.map(({ p, Content }) => <div class="entry" id={p.id}>
-        <div class="tmark" data-pagefind-ignore><span>{hhmm(p.data.date)}</span>{p.data.coverage && <em><L en={covEn(p.data.coverage)} zh={p.data.coverage} /></em>}</div>
+        {(() => { const c = parseCov(p.data.coverage, p.data.date); return (
+        <div class="tmark" data-pagefind-ignore>
+          <span class="tchip tzv" data-tz-hm={p.data.date.toISOString()} data-tz-day={day.date}>{hhmm(p.data.date)}</span><small class="tzdd tzv" data-tz-dd></small>
+          {c ? <em><I class="cov-l" k="day.cov" /> <span class="cov-r tzv" data-tz-cov data-tz-cs={new Date(c.s).toISOString()} data-tz-ce={new Date(c.e).toISOString()} title={c.note || undefined}>{rangeText(c.s, c.e, 'o:480')}</span></em>
+            : p.data.coverage ? <em>{covPlain(p.data.coverage)}</em> : null}
+        </div>); })()}
         <div class="ebody"><Content /></div>
       </div>)}
     </section>)}
@@ -54,6 +62,28 @@ const sections = [
   const prog = art.querySelector('[data-dprog]')!;
   // 手动标为未读的条目：本次会话内不再自动标已读
   const manualUnread = new Set<string>();
+  const dsecs = [...art.querySelectorAll<HTMLElement>('.dsec')];
+  const allRead = art.querySelector<HTMLElement>('[data-allread]')!;
+  // 「隐藏已读」时：整节/整期/小节标题下已无可见条目则一并隐藏，全部读完显示提示
+  const refreshEmpty = () => {
+    const hiding = art.classList.contains('hideread');
+    const vis = (li: Element) => !(hiding && li.classList.contains('read') && !li.classList.contains('keep'));
+    let any = false;
+    for (const sec of dsecs) {
+      let secAny = false;
+      for (const en of sec.querySelectorAll<HTMLElement>('.entry')) {
+        const lis = [...en.querySelectorAll('li.item')]; const enAny = lis.some(vis);
+        for (const h of en.querySelectorAll<HTMLElement>('.ebody > h2, .ebody > h3')) {
+          let n = h.nextElementSibling; let hAny = false;
+          while (n && !/^H[1-6]$/.test(n.tagName)) { if (n.matches('li.item') || [...n.querySelectorAll('li.item')].some(vis)) hAny = true; n = n.nextElementSibling; }
+          h.classList.toggle('allhid', !hAny);
+        }
+        en.classList.toggle('allhid', !enAny); if (enAny) secAny = true;
+      }
+      sec.classList.toggle('allhid', !secAny); if (secAny) any = true;
+    }
+    allRead.hidden = !(hiding && !any && items.length > 0);
+  };
   const upd = () => {
     const st = load();
     let r = 0;
@@ -67,6 +97,7 @@ const sections = [
       setStars(li, rt);
     }
     prog.textContent = tt('prog', { r, t: total });
+    refreshEmpty();
   };
   for (const li of items) {
     const meta = li.querySelector('.imeta')!;
@@ -98,7 +129,7 @@ const sections = [
   const hide = art.querySelector<HTMLInputElement>('[data-hideread]')!;
   hide.checked = localStorage.getItem('dailyai:hideread') === '1';
   const applyHide = () => { items.forEach((li) => li.classList.remove('keep')); art.classList.toggle('hideread', hide.checked); localStorage.setItem('dailyai:hideread', hide.checked ? '1' : '0'); };
-  hide.addEventListener('change', applyHide); applyHide();
+  hide.addEventListener('change', () => { applyHide(); refreshEmpty(); }); applyHide();
   upd(); onLang(() => upd());
   // ===== 自动已读：按内容长度计算停留时间 =====
   // 有效字数 units = CJK 字符 ×cjkWeight + 拉丁单词 ×wordWeight（不含链接文字、@handle、[AI:N] 标记）

@@ -23,7 +23,10 @@ const nav = (p: string) => (p === '/' ? path === url('/') || path === url('') : 
   <script is:inline>
     (function(){try{var l=localStorage.getItem('dailyai:lang');if(l!=='zh')l='en';var h=document.documentElement;h.setAttribute('data-lang',l);if(l==='zh'){h.lang='zh-CN';h.classList.add('i18n-wait');setTimeout(function(){h.classList.remove('i18n-wait')},2500);}}catch(e){}})();
   </script>
-  <noscript><style>.i18n-wait body{visibility:visible!important}</style></noscript>
+  <script is:inline>
+    (function(){try{var p=localStorage.getItem('dailyai:tz')||'auto',h=document.documentElement,o;if(p.indexOf('o:')===0)o=+p.slice(2);else{var z=p.indexOf('z:')===0?p.slice(2):Intl.DateTimeFormat().resolvedOptions().timeZone;var n=Date.now(),m={};new Intl.DateTimeFormat('en-US',{timeZone:z,hourCycle:'h23',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit'}).formatToParts(new Date(n)).forEach(function(x){m[x.type]=x.value});o=Math.round((Date.UTC(+m.year,+m.month-1,+m.day,+m.hour%24,+m.minute,+m.second)-Math.floor(n/1000)*1000)/60000)}if(o!==480){h.classList.add('tz-wait');setTimeout(function(){h.classList.remove('tz-wait')},2500)}}catch(e){}})();
+  </script>
+  <noscript><style>.i18n-wait body{visibility:visible!important}.tz-wait .tzv{visibility:visible!important}</style></noscript>
   <script is:inline>
     (function(){var t=localStorage.getItem('theme');if(!t)t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';document.documentElement.dataset.theme=t;})();
   </script>
@@ -32,27 +35,84 @@ const nav = (p: string) => (p === '/' ? path === url('/') || path === url('') : 
   <header class="site">
     <div class:list={["wrap bar", { wide }]}>
       <a class="brand" href={url('/')}>Daily AI</a>
-      <nav>
-        <I tag="a" k="nav.home" href={url('/')} class={nav('/')} />
-        <I tag="a" k="nav.products" href={url('/products/')} class={nav('/products/')} />
-        <I tag="a" k="nav.tags" href={url('/tags/')} class={nav('/tags/')} />
-        <I tag="a" k="nav.search" href={url('/search/')} class={nav('/search/')} />
-        <I tag="a" k="nav.favorites" href={url('/favorites/')} class={nav('/favorites/')} />
-        <a href={url('/rss.xml')}>RSS</a>
-        <span class="langsw" role="group" data-i18n-attrs='{"aria-label":"lang.label"}' aria-label={t('lang.label')}>
-          <button type="button" data-setlang="en" aria-pressed="true" lang="en" title="English">EN</button><button type="button" data-setlang="zh" aria-pressed="false" lang="zh-CN" title="中文">中</button>
-        </span>
-        <button id="theme" type="button" aria-label={t('theme.toggle')} title={t('theme.toggle')} data-i18n-attrs='{"aria-label":"theme.toggle","title":"theme.toggle"}'>◐</button>
-      </nav>
+      <div class="hright">
+        <nav class="mainnav" data-i18n-attrs='{"aria-label":"nav.label"}' aria-label={t('nav.label')}>
+          <I tag="a" k="nav.home" href={url('/')} class={nav('/')} />
+          <I tag="a" k="nav.products" href={url('/products/')} class={nav('/products/')} />
+          <I tag="a" k="nav.tags" href={url('/tags/')} class={nav('/tags/')} />
+          <I tag="a" k="nav.search" href={url('/search/')} class={nav('/search/')} />
+          <I tag="a" k="nav.favorites" href={url('/favorites/')} class={nav('/favorites/')} />
+          <a href={url('/rss.xml')}>RSS</a>
+        </nav>
+        <div class="hctl">
+          <span class="langsw" role="group" data-i18n-attrs='{"aria-label":"lang.label"}' aria-label={t('lang.label')}>
+            <button type="button" data-setlang="en" aria-pressed="true" lang="en" title="English">EN</button><button type="button" data-setlang="zh" aria-pressed="false" lang="zh-CN" title="中文">中</button>
+          </span>
+          <button type="button" class="tzbtn tzpill tzv" data-tz-open data-tz-label aria-haspopup="dialog" aria-expanded="false">UTC+8</button>
+          <button id="theme" type="button" aria-label={t('theme.toggle')} title={t('theme.toggle')} data-i18n-attrs='{"aria-label":"theme.toggle","title":"theme.toggle"}'>◐</button>
+        </div>
+      </div>
     </div>
   </header>
   <main class:list={["wrap", { wide }]}><slot /></main>
   <footer class="wrap foot"><I k="foot.text" /> · <I tag="a" k="foot.rss" href={url('/rss.xml')} /></footer>
 
   <script>
-    import { applyI18n, setLang, updateSwitcher, getLang } from '../lib/i18n';
+    import { applyI18n, setLang, updateSwitcher, getLang, tt, onLang } from '../lib/i18n';
+    import { applyTz, getPref, setPref, effectiveZone, offsetAt, offsetLabel, COMMON_ZONES, OFFSETS, onTz } from '../lib/tz';
     if (getLang() !== 'en') applyI18n();
     updateSwitcher();
+    applyTz();
+    // ---- 时区弹层 ----
+    let pop: HTMLElement | null = null; let anchor: HTMLElement | null = null;
+    const zlabel = (p: string) => offsetLabel(offsetAt(Date.now(), p));
+    const paintBtns = () => {
+      const l = zlabel(getPref());
+      document.querySelectorAll<HTMLElement>('[data-tz-open]').forEach((b) => { const txt = tt('tz.btn', { z: b.textContent || l }); b.title = txt; b.setAttribute('aria-label', txt); });
+    };
+    const fill = () => {
+      const cur = getPref(); const sel = pop!.querySelector('select')!; sel.innerHTML = '';
+      const opt = (v: string, text: string, parent: Element) => { const o = document.createElement('option'); o.value = v; o.textContent = text; if (v === cur) o.selected = true; parent.appendChild(o); };
+      const browser = effectiveZone('auto').z || 'UTC';
+      opt('auto', tt('tz.auto.cur', { z: `${browser} ${zlabel('auto')}` }), sel);
+      const g1 = document.createElement('optgroup'); g1.label = tt('tz.common'); sel.appendChild(g1);
+      for (const z of COMMON_ZONES) opt('z:' + z, `${tt('tz.' + z)} (${zlabel('z:' + z)})`, g1);
+      if (cur.startsWith('z:') && !COMMON_ZONES.includes(cur.slice(2))) opt(cur, `${cur.slice(2)} (${zlabel(cur)})`, g1);
+      const g2 = document.createElement('optgroup'); g2.label = tt('tz.offsets'); sel.appendChild(g2);
+      for (const m of OFFSETS) opt('o:' + m, offsetLabel(m), g2);
+      pop!.querySelector('[data-tzp-title]')!.textContent = tt('tz.label');
+      pop!.querySelector('[data-tzp-note]')!.textContent = tt('tz.note');
+      pop!.setAttribute('aria-label', tt('tz.label'));
+      const c = pop!.querySelector<HTMLElement>('[data-tzp-close]')!; c.setAttribute('aria-label', tt('tz.close')); c.title = tt('tz.close');
+    };
+    const place = () => {
+      if (!pop || !anchor) return; const r = anchor.getBoundingClientRect(); const w = pop.offsetWidth;
+      pop.style.top = `${Math.round(r.bottom + 6)}px`; pop.style.left = `${Math.round(Math.max(8, Math.min(r.left, innerWidth - w - 8)))}px`;
+    };
+    const closePop = (refocus = true) => { if (!pop || pop.hidden) return; pop.hidden = true; document.querySelectorAll('[data-tz-open]').forEach((b) => b.setAttribute('aria-expanded', 'false')); if (refocus) anchor?.focus(); };
+    const openPop = (a: HTMLElement) => {
+      if (!pop) {
+        pop = document.createElement('div'); pop.id = 'tzpop'; pop.setAttribute('role', 'dialog'); pop.hidden = true;
+        pop.innerHTML = '<div class="tzp-h"><strong data-tzp-title></strong><button type="button" data-tzp-close>×</button></div><select aria-labelledby="tzp-t"></select><p class="muted" data-tzp-note></p>';
+        pop.querySelector('[data-tzp-title]')!.id = 'tzp-t';
+        document.body.appendChild(pop);
+        pop.querySelector('select')!.addEventListener('change', (e) => { setPref((e.target as HTMLSelectElement).value); closePop(); });
+        pop.querySelector('[data-tzp-close]')!.addEventListener('click', () => closePop());
+        pop.addEventListener('keydown', (e) => { if (e.key === 'Escape') { e.stopPropagation(); closePop(); } });
+      }
+      anchor = a; fill(); pop.hidden = false; place();
+      document.querySelectorAll('[data-tz-open]').forEach((b) => b.setAttribute('aria-expanded', String(b === a)));
+      pop.querySelector('select')!.focus();
+    };
+    document.addEventListener('click', (e) => {
+      const t = e.target as HTMLElement; const b = t.closest<HTMLElement>('[data-tz-open]');
+      if (b) { if (pop && !pop.hidden && anchor === b) closePop(); else openPop(b); return; }
+      if (pop && !pop.hidden && !pop.contains(t)) closePop(false);
+    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePop(); });
+    addEventListener('resize', place);
+    onTz(() => { paintBtns(); if (pop && !pop.hidden) fill(); }); onLang(() => { paintBtns(); if (pop && !pop.hidden) fill(); });
+    paintBtns();
     document.documentElement.classList.remove('i18n-wait');
     document.querySelectorAll<HTMLElement>('[data-setlang]').forEach((b) => b.addEventListener('click', () => { if (b.dataset.setlang !== getLang()) setLang(b.dataset.setlang as 'en' | 'zh'); }));
   </script>
@@ -82,7 +142,10 @@ const nav = (p: string) => (p === '/' ? path === url('/') || path === url('') : 
   a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
   .wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
   header.site { border-bottom: 1px solid var(--line); position: sticky; top:0; background: var(--bg); z-index: 5; }
-  .bar { display:flex; align-items:center; justify-content:space-between; height:56px; gap:12px; }
+  .bar { display:flex; align-items:center; justify-content:space-between; min-height:56px; gap:12px; }
+  .hright { display:flex; align-items:center; gap:14px; min-width:0; }
+  .hctl { display:flex; align-items:center; gap:6px; flex:none; }
+  .hctl .langsw { margin-left:0; }
   .brand { font-weight:700; font-size:18px; color: var(--fg); }
   nav { display:flex; gap:14px; align-items:center; flex-wrap:wrap; font-size:15px; }
   nav a { color: var(--muted); } nav a.on { color: var(--fg); font-weight:600; }
@@ -107,7 +170,30 @@ const nav = (p: string) => (p === '/' ? path === url('/') || path === url('') : 
   .foot { color: var(--muted); font-size: 13px; padding: 24px 20px 40px; border-top: 1px solid var(--line); }
   .pager { display:flex; justify-content:space-between; gap:12px; margin-top: 36px; font-size:14px; }
   .brand { white-space:nowrap; }
-  @media (max-width: 600px) { nav { flex-wrap:nowrap; overflow-x:auto; gap:12px; font-size:14px; white-space:nowrap; } }
+  @media (max-width: 600px) {
+    nav { flex-wrap:nowrap; overflow-x:auto; gap:12px; font-size:14px; white-space:nowrap; }
+    .bar { flex-wrap:wrap; padding-top:6px; padding-bottom:2px; row-gap:0; }
+    .hright { display:contents; }
+    .brand { order:1; } .hctl { order:2; margin-left:auto; } .mainnav { order:3; flex:0 0 100%; padding:6px 0 8px; scrollbar-width:none; }
+    .mainnav::-webkit-scrollbar { display:none; }
+  }
+  html.tz-wait .tzv { visibility:hidden; }
+  .tzbtn { background:none; border:none; color:inherit; font:inherit; cursor:pointer; padding:0; text-decoration:underline dotted; text-underline-offset:3px; text-decoration-color:var(--muted); }
+  .tzbtn:hover { color:var(--fg); } .tzbtn:focus-visible { outline:2px solid var(--accent); outline-offset:2px; border-radius:3px; }
+  .tzpill { border:1px solid var(--line); border-radius:7px; font-size:12px; line-height:1; padding:6px 8px; color:var(--muted); text-decoration:none; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .tzpill:hover, .tzpill[aria-expanded=true] { background:var(--hover); color:var(--fg); }
+  .dbar .tzbtn { color:var(--muted); font-size:14px; }
+  .tzdd { font-size:11px; color:var(--muted); margin-left:-4px; }
+  #tzpop { position:fixed; z-index:20; width:min(340px, calc(100vw - 16px)); background:var(--card); color:var(--fg); border:1px solid var(--line); border-radius:10px; padding:10px 12px 12px; box-shadow:0 8px 28px rgba(0,0,0,.35); font-size:13.5px; line-height:1.6; }
+  #tzpop[hidden] { display:none; }
+  #tzpop .tzp-h { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+  #tzpop .tzp-h button { background:none; border:none; color:var(--muted); font-size:18px; line-height:1; cursor:pointer; padding:0 4px; border-radius:4px; }
+  #tzpop .tzp-h button:hover { color:var(--fg); }
+  #tzpop select { width:100%; background:var(--bg); color:var(--fg); border:1px solid var(--line); border-radius:6px; padding:6px 8px; font:inherit; font-size:13px; }
+  #tzpop select:focus-visible, #tzpop button:focus-visible { outline:2px solid var(--accent); outline-offset:1px; }
+  #tzpop p { margin:8px 0 0; font-size:12px; line-height:1.55; }
+  .allhid { display:none !important; }
+  .allread { margin:18px 0; padding:14px 16px; text-align:center; border:1px dashed var(--line); border-radius:10px; }
   .wrap.wide { max-width: 1120px; padding-left: 40px; padding-right: 40px; }
   main.wide { padding-top: 48px; }
   .ptitle { font-size: 40px; font-weight: 700; margin: 0 0 6px; display:flex; gap:12px; align-items:center; }
@@ -119,7 +205,7 @@ const nav = (p: string) => (p === '/' ? path === url('/') || path === url('') : 
   h2.dhead { border:none !important; margin:0 0 8px !important; padding:0 !important; font-size:15px !important; }
   h2.dhead .gbadge { font-size:13px; padding:2px 10px; }
   .tmark { display:flex; gap:10px; align-items:baseline; font-size:12.5px; color:var(--muted); }
-  .tmark span { font-variant-numeric: tabular-nums; font-weight:600; color:var(--fg); background:var(--chip); border-radius:4px; padding:0 6px; }
+  .tmark .tchip { font-variant-numeric: tabular-nums; font-weight:600; color:var(--fg); background:var(--chip); border-radius:4px; padding:0 6px; }
   .tmark em { font-style:normal; }
   .vtabs { display:flex; gap:4px; }
   .vtabs button { background:none; border:none; color:var(--muted); font:inherit; font-size:14px; padding:6px 8px; cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-1px; border-radius:4px 4px 0 0; }

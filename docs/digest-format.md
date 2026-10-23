@@ -6,6 +6,7 @@
 ## 文件名与类型
 
 - 文件名：`YYYY-MM-DD-HHMM.md`（北京时间），例如 `2026-10-22-0915.md`。
+- **时区**：存储与按天分组一律用北京时间（UTC+8），写 `覆盖 MM/DD HH:mm – MM/DD HH:mm 北京时间` 即可。站点在页面上**不显示**“北京时间”字样，而是把运行时间和覆盖区间按读者浏览器时区（可手动切换，`dailyai:tz`）换算后显示；区间请写成可解析的 `[MM/DD ]HH:mm – [MM/DD ]HH:mm` 形式，括号里的备注不会显示。
 - 类型：路径中含 `x-ai` → `x-ai`；含 `tech` → `tech`；否则传 `--type x-ai|tech`。
 - 导入：`node scripts/import.mjs <file> [...]`，同 id 会覆盖（幂等）。
 

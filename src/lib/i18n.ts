@@ -5,7 +5,7 @@ export const LANG_KEY = 'dailyai:lang';
 type Dict = Record<string, string>;
 const en: Dict = {
   'site.title': 'Daily AI · Daily AI digest',
-  'nav.home': 'Home', 'nav.products': 'Products', 'nav.tags': 'Tags', 'nav.search': 'Search', 'nav.favorites': 'Favorites',
+  'nav.label': 'Main navigation', 'nav.home': 'Home', 'nav.products': 'Products', 'nav.tags': 'Tags', 'nav.search': 'Search', 'nav.favorites': 'Favorites',
   'theme.toggle': 'Toggle theme', 'lang.label': 'Language', 'lang.en': 'English', 'lang.zh': '中文',
   'foot.text': 'Content from the daily digests', 'foot.rss': 'Subscribe via RSS',
   // home / gallery
@@ -13,8 +13,10 @@ const en: Dict = {
   'gallery.newTitle': 'Products first seen on this day', 'gallery.new': 'New today', 'gallery.topTitle': 'Items with AI score ≥ 4', 'gallery.top': '★ {n} top-rated',
   'prog': '{r}/{t} read',
   // day
-  'day.crumb': 'Daily', 'day.title': '{date} · {wd}', 'day.meta': 'Beijing Time · {n} runs · {t} items', 'day.meta.one': 'Beijing Time · 1 run · {t} items',
-  'day.hide': 'Hide read', 'day.pager': 'Pagination', 'day.cov': 'Covers {s} Beijing Time',
+  'day.crumb': 'Daily', 'day.title': '{date} · {wd}', 'day.meta': '· {n} runs · {t} items', 'day.meta.one': '· 1 run · {t} items',
+  'day.hide': 'Hide read', 'day.pager': 'Pagination', 'day.cov': 'Covers', 'day.allread': '✓ All read · uncheck “Hide read” to show them again',
+  'tz.label': 'Time zone', 'tz.btn': 'Time zone: {z}. Click to change', 'tz.auto': 'Auto (browser)', 'tz.auto.cur': 'Auto (browser) · {z}', 'tz.common': 'Common time zones', 'tz.offsets': 'UTC offsets', 'tz.note': 'Digest times are recorded in UTC+8 and converted for display. Days stay grouped by the UTC+8 date.', 'tz.close': 'Close',
+  'tz.Asia/Shanghai': 'China · Asia/Shanghai', 'tz.Asia/Tokyo': 'Japan · Asia/Tokyo', 'tz.Asia/Kolkata': 'India · Asia/Kolkata', 'tz.Europe/London': 'UK · Europe/London', 'tz.Europe/Berlin': 'Germany · Europe/Berlin', 'tz.America/New_York': 'US Eastern · America/New_York', 'tz.America/Los_Angeles': 'US Pacific · America/Los_Angeles', 'tz.Australia/Sydney': 'Australia · Australia/Sydney',
   'sec.AI 热点': 'AI Hot Topics', 'sec.有趣用法和干货': 'Tips & Hands-on', 'sec.新产品': 'New Products', 'sec.开源': 'Open Source', 'sec.科技新闻': 'Tech News', 'sec.中文社区': 'Chinese Community', 'sec.科技速递': 'Tech Digest',
   'wd.0': 'Sun', 'wd.1': 'Mon', 'wd.2': 'Tue', 'wd.3': 'Wed', 'wd.4': 'Thu', 'wd.5': 'Fri', 'wd.6': 'Sat',
   // item controls
@@ -51,14 +53,16 @@ const en: Dict = {
 };
 const zh: Dict = {
   'site.title': 'Daily AI · 每日 AI 动态',
-  'nav.home': '首页', 'nav.products': '产品', 'nav.tags': '标签', 'nav.search': '搜索', 'nav.favorites': '收藏',
+  'nav.label': '主导航', 'nav.home': '首页', 'nav.products': '产品', 'nav.tags': '标签', 'nav.search': '搜索', 'nav.favorites': '收藏',
   'theme.toggle': '切换深浅色', 'lang.label': '语言', 'lang.en': 'English', 'lang.zh': '中文',
   'foot.text': '内容来自每日汇总', 'foot.rss': '订阅 RSS',
   'home.intro': '每天一页：X 上的 AI Hot 与 Tech 速递。共 {n} 天。', 'home.daily': '▦ 每日', 'home.search': '⌕ 搜索',
   'gallery.newTitle': '首次出现在这一天的产品', 'gallery.new': '今日新产品', 'gallery.topTitle': 'AI 评分 ≥4 的条目', 'gallery.top': '★ {n} 条高分',
   'prog': '{r}/{t} 已读',
-  'day.crumb': '每日', 'day.title': '{date} · {wd}', 'day.meta': '北京时间 · {n} 期 · {t} 条', 'day.meta.one': '北京时间 · 1 期 · {t} 条',
-  'day.hide': '隐藏已读', 'day.pager': '翻页', 'day.cov': '覆盖 {s} 北京时间',
+  'day.crumb': '每日', 'day.title': '{date} · {wd}', 'day.meta': '· {n} 期 · {t} 条', 'day.meta.one': '· 1 期 · {t} 条',
+  'day.hide': '隐藏已读', 'day.pager': '翻页', 'day.cov': '覆盖', 'day.allread': '✓ 已全部读完 · 取消勾选「隐藏已读」可重新显示',
+  'tz.label': '时区', 'tz.btn': '时区：{z}，点击切换', 'tz.auto': '自动（浏览器）', 'tz.auto.cur': '自动（浏览器）· {z}', 'tz.common': '常用时区', 'tz.offsets': 'UTC 偏移', 'tz.note': '汇总时间按 UTC+8 记录，显示时换算为所选时区；每日页仍按 UTC+8 日期分组。', 'tz.close': '关闭',
+  'tz.Asia/Shanghai': '中国 · Asia/Shanghai', 'tz.Asia/Tokyo': '日本 · Asia/Tokyo', 'tz.Asia/Kolkata': '印度 · Asia/Kolkata', 'tz.Europe/London': '英国 · Europe/London', 'tz.Europe/Berlin': '德国 · Europe/Berlin', 'tz.America/New_York': '美东 · America/New_York', 'tz.America/Los_Angeles': '美西 · America/Los_Angeles', 'tz.Australia/Sydney': '澳大利亚 · Australia/Sydney',
   'sec.AI 热点': 'AI 热点', 'sec.有趣用法和干货': '有趣用法和干货', 'sec.新产品': '新产品', 'sec.开源': '开源', 'sec.科技新闻': '科技新闻', 'sec.中文社区': '中文社区', 'sec.科技速递': '科技速递',
   'wd.0': '周日', 'wd.1': '周一', 'wd.2': '周二', 'wd.3': '周三', 'wd.4': '周四', 'wd.5': '周五', 'wd.6': '周六',
   'fav': '收藏', 'fav.remove': '取消收藏', 'read.mark': '标为已读', 'read.done': '已读 · 点击标为未读',
