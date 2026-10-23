@@ -29,6 +29,16 @@ export function starKeys(root: Element) {
   });
 }
 
-// 翻译折叠块：<details class="itr">，默认折叠；标签随 UI 语言（data-i18n）
-export const trDetails = (lang: 'en' | 'zh', html: string) =>
-  `<details class="itr" data-tlang="${lang}"><summary><span class="s-show" data-i18n="tr.show.${lang}">${tt('tr.show.' + lang, {}).replace(/[<>&]/g, '')}</span><span class="s-hide" data-i18n="tr.hide.${lang}">${tt('tr.hide.' + lang)}</span></summary><div class="itr-body"${lang === 'zh' ? ' lang="zh-CN"' : ''}>${html}</div></details>`;
+// 翻译折叠块：<details class="itr">，默认折叠；summary 只有地球图标，名称随 UI 语言与开合状态（见 Base.astro 的 toggle 同步）
+export const GLOBE = '<svg class="ic ic-gl" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 1 0 0-18z"/><path d="M3 12h18"/><path d="M12 3c2.6 2.4 4 5.6 4 9s-1.4 6.6-4 9c-2.6-2.4-4-5.6-4-9s1.4-6.6 4-9z"/></svg>';
+export const trDetails = (lang: 'en' | 'zh', html: string) => {
+  const l = tt('tr.show.' + lang).replace(/[<>&"]/g, '');
+  return `<details class="itr" data-tlang="${lang}"><summary class="ibtn icob" aria-label="${l}" title="${l}" data-i18n-attrs='{"title":"tr.show.${lang}","aria-label":"tr.show.${lang}"}'>${GLOBE}</summary><div class="itr-body"${lang === 'zh' ? ' lang="zh-CN"' : ''}>${html}</div></details>`;
+};
+// 按开合状态同步 summary 的名称（折叠=显示，展开=收起）
+export function syncTr(root: ParentNode = document) {
+  root.querySelectorAll<HTMLDetailsElement>('details.itr').forEach((d) => {
+    const s = d.querySelector('summary'); if (!s) return;
+    const t = tt(`tr.${d.open ? 'hide' : 'show'}.${d.dataset.tlang}`); s.setAttribute('aria-label', t); s.setAttribute('title', t);
+  });
+}

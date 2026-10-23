@@ -47,10 +47,11 @@ import { t, iattr } from '../lib/i18n';
       const mine = st.rating[f.id] || 0;
       const link = isP(f) ? `<a class="ibtn" href="${base}/products/${esc(f.id.slice(8))}/">${tt('fav.product')}</a>` : `<a class="ibtn" href="${base}/day/${esc(f.day)}/#${esc(f.id)}">${tt('fav.source', { day: esc(f.day) })}</a>`;
       return `<li class="item${st.read[f.id] ? ' read dim' : ''}" data-id="${esc(f.id)}">
-        <div class="itext">${f.html}</div>${f.tr ? trDetails(f.tr.lang, f.tr.html) : ''}
+        <div class="itext">${f.html}</div>
         <div class="imeta">${f.score ? `<span class="ascore s${f.score}" title="${tt('ai.score', { n: f.score })}" aria-label="${tt('ai.score', { n: f.score })}">${f.score}</span>` : ''}
           ${starsStatic(mine)}
           ${link}
+          ${f.tr ? trDetails(f.tr.lang, f.tr.html) : ''}
           <button type="button" class="ibtn icob on" data-unfav aria-pressed="true" aria-label="${tt('fav.remove')}" title="${tt('fav.remove')}">${BOOKMARK}</button></div></li>`;
     };
     const prods = favs.filter(isP), items = favs.filter((f) => !isP(f));

@@ -59,10 +59,14 @@ const nav = (p: string) => (p === '/' ? path === url('/') || path === url('') : 
 
   <script>
     import { applyI18n, setLang, updateSwitcher, getLang, tt, onLang } from '../lib/i18n';
+    import { syncTr } from '../lib/icons';
     import { applyTz, getPref, setPref, effectiveZone, offsetAt, offsetLabel, COMMON_ZONES, OFFSETS, onTz } from '../lib/tz';
     if (getLang() !== 'en') applyI18n();
     updateSwitcher();
     applyTz();
+    // 译文开关（地球图标）：名称随开合状态与语言同步
+    document.addEventListener('toggle', (e) => { const d = e.target as HTMLElement; if (d.matches?.('details.itr')) syncTr(d.parentElement!); }, true);
+    onLang(() => syncTr());
     // ---- 时区弹层 ----
     let pop: HTMLElement | null = null; let anchor: HTMLElement | null = null;
     const zlabel = (p: string) => offsetLabel(offsetAt(Date.now(), p));
@@ -262,15 +266,18 @@ const nav = (p: string) => (p === '/' ? path === url('/') || path === url('') : 
   .hideread li.item.read:not(.keep) { display:none; }
   .itext > :first-child { margin-top:0; } .itext > :last-child { margin-bottom:0; }
   /* ---- 译文折叠块（默认收起） ---- */
-  details.itr { margin-top:8px; }
-  details.itr > summary { display:inline-flex; align-items:center; gap:5px; list-style:none; cursor:pointer; user-select:none; font-size:12px; color:var(--muted); padding:1px 6px 1px 2px; border-radius:5px; opacity:.8; transition:opacity .15s, color .15s, background .15s; }
+  /* 地球图标开关在页脚行内（details 不生成盒子，summary 即页脚的一个图标按钮）；展开的译文换行显示在页脚下方 */
+  details.itr { display:contents; }
+  details.itr > summary { list-style:none; cursor:pointer; user-select:none; order:8; color:var(--muted); }
   details.itr > summary::-webkit-details-marker { display:none; }
-  details.itr > summary::before { content:''; width:5px; height:5px; border-right:1.5px solid currentColor; border-bottom:1.5px solid currentColor; transform:rotate(-45deg); transition:transform .15s; margin:0 2px 1px 3px; }
-  details.itr[open] > summary::before { transform:rotate(45deg); }
-  details.itr > summary:hover { opacity:1; color:var(--fg); background:var(--hover); }
-  details.itr > summary:focus-visible { outline:2px solid var(--accent); outline-offset:1px; opacity:1; }
-  details.itr .s-hide, details.itr[open] .s-show { display:none; } details.itr[open] .s-hide { display:inline; }
-  .itr-body { margin:6px 0 2px 4px; padding:2px 0 2px 12px; border-left:2px solid color-mix(in srgb, var(--accent) 35%, transparent); color:var(--muted); font-size:.93em; line-height:1.75; }
+  details.itr > summary::marker { content:''; }
+  details.itr > summary:hover { color:var(--fg); background:var(--hover); }
+  details.itr[open] > summary { color:#c96a4b; } [data-theme=dark] details.itr[open] > summary { color:#e0a38a; }
+  details.itr[open] > summary .ic-gl { stroke-width:2.1; }
+  details.itr::details-content { flex:0 0 100%; order:20; min-width:0; }
+  details.itr:not([open])::details-content { display:none; }
+  .imeta .ibtn[data-act=read] { order:9; }
+  .itr-body { flex:0 0 100%; order:20; margin:6px 0 2px 4px; padding:2px 0 2px 12px; border-left:2px solid color-mix(in srgb, var(--accent) 35%, transparent); color:var(--muted); font-size:.93em; line-height:1.75; }
   [data-theme=dark] .itr-body { color:#b4b4b4; }
   .itr-body > :first-child { margin-top:0; } .itr-body > :last-child { margin-bottom:0; } .itr-body p { margin:.4em 0; }
   .itr-body a { text-decoration:underline; text-decoration-color:color-mix(in srgb, var(--accent) 40%, transparent); text-underline-offset:3px; word-break:break-all; }

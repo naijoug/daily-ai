@@ -24,7 +24,7 @@ const en: Dict = {
   'seen.mark': 'Mark as seen', 'seen.done': 'Seen · click to mark unseen',
   'stars.group': 'My rating', 'star.rate': 'Rate {n}/5', 'star.clear': 'Rate {n}/5 · click again to clear', 'mine': 'My rating {n}/5',
   'ai.score': 'AI score {n}/5', 'plink': 'Product · {id}',
-  'tr.show.zh': 'Show 中文', 'tr.hide.zh': 'Hide 中文', 'tr.show.en': 'Show English', 'tr.hide.en': 'Hide English',
+  'tr.show.zh': 'Show 中文 translation', 'tr.hide.zh': 'Hide 中文 translation', 'tr.show.en': 'Show English translation', 'tr.hide.en': 'Hide English translation',
   // tags
   'tags.title': 'Tags', 'tag.title': 'Tag: {tag}', 'days': '{n} days', 'days.one': '1 day',
   'tag.Models': 'Models', 'tag.Agents': 'Agents', 'tag.Dev Tools': 'Dev Tools', 'tag.Open Source': 'Open Source', 'tag.Products': 'Products', 'tag.Research': 'Research', 'tag.Industry': 'Industry', 'tag.Security': 'Security', 'tag.Chinese Community': 'Chinese Community',

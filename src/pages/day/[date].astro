@@ -101,7 +101,7 @@ const sections = [
   };
   for (const li of items) {
     const meta = li.querySelector('.imeta')!;
-    meta.setAttribute('data-pagefind-ignore', '');
+    [...meta.children].forEach((c) => { if (!c.matches('details.itr')) c.setAttribute('data-pagefind-ignore', ''); });
     meta.insertAdjacentHTML('beforeend',
       starsHtml() +
       favBtn() + readBtn());

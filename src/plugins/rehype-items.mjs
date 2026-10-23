@@ -33,7 +33,12 @@ const langOf = (text) => {
 const MARK = /^\s*[\[［]\s*(en|zh)\s*[\]］]\s*/i;
 // 小节标题（markdown 里保持中文）→ 英文显示；中文由站点字典 sec.<原文> 切回
 const SEC_EN = { 'AI 热点': 'AI Hot Topics', '有趣用法和干货': 'Tips & Hands-on', '新产品': 'New Products', '开源': 'Open Source', '科技新闻': 'Tech News', '中文社区': 'Chinese Community', '科技速递': 'Tech Digest' };
-const LABEL = { zh: ['Show 中文', 'Hide 中文'], en: ['Show English', 'Hide English'] };
+const LABEL = { zh: ['Show 中文 translation', 'Hide 中文 translation'], en: ['Show English translation', 'Hide English translation'] };
+// 地球图标（与 icons.ts 的 GLOBE 相同）
+const globe = () => el('svg', { className: ['ic', 'ic-gl'], viewBox: '0 0 24 24', width: 17, height: 17, ariaHidden: 'true' }, [
+  el('path', { d: 'M12 3a9 9 0 1 0 0 18 9 9 0 1 0 0-18z' }, []), el('path', { d: 'M3 12h18' }, []),
+  el('path', { d: 'M12 3c2.6 2.4 4 5.6 4 9s-1.4 6.6-4 9c-2.6-2.4-4-5.6-4-9s1.4-6.6 4-9z' }, []),
+]);
 function takeTranslation(bq) {
   // 返回 { lang, children }；取 [en]/[zh] 标记，缺省按文字推断
   let lang = null;
@@ -48,10 +53,7 @@ function takeTranslation(bq) {
 function trNode(tr) {
   const lbl = LABEL[tr.lang];
   return el('details', { className: ['itr'], dataTlang: tr.lang }, [
-    el('summary', {}, [
-      el('span', { className: ['s-show'], dataI18n: `tr.show.${tr.lang}` }, [txt(lbl[0])]),
-      el('span', { className: ['s-hide'], dataI18n: `tr.hide.${tr.lang}` }, [txt(lbl[1])]),
-    ]),
+    el('summary', { className: ['ibtn', 'icob'], title: lbl[0], ariaLabel: lbl[0], dataI18nAttrs: JSON.stringify({ title: `tr.show.${tr.lang}`, 'aria-label': `tr.show.${tr.lang}` }) }, [globe()]),
     el('div', { className: ['itr-body'], ...(tr.lang === 'zh' ? { lang: 'zh-CN' } : {}) }, tr.children),
   ]);
 }
@@ -101,8 +103,10 @@ export default function rehypeItems(opts = {}) {
         const meta = el('div', { className: ['imeta'] }, [
           s ? el('span', { className: ['ascore', `s${s}`], title: `AI score ${s}/5`, ariaLabel: `AI score ${s}/5`, dataI18nAttrs: JSON.stringify({ title: 'ai.score', 'aria-label': 'ai.score' }), dataI18nA: JSON.stringify({ n: s }) }, [txt(String(s))]) : txt(''),
           ...(prods[n] || []).map((id) => el('a', { className: ['ibtn', 'plink'], href: `${base}/products/${id}/`, dataI18n: 'plink', dataI18nA: JSON.stringify({ id }) }, [txt(`Product · ${id}`)])),
+          // 译文开关（地球图标）放进页脚行；展开后的译文块换行显示在页脚下方
+          ...(tr && tr.children.length ? [trNode(tr)] : []),
         ]);
-        li.children = [body, ...(tr && tr.children.length ? [trNode(tr)] : []), meta];
+        li.children = [body, meta];
       }
     }
     // 被译文引用块隔开的相邻列表合并回一个列表
