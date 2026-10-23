@@ -18,7 +18,7 @@ const en: Dict = {
   'tz.label': 'Time zone', 'tz.btn': 'Time zone: {z}. Click to change', 'tz.auto': 'Auto (browser)', 'tz.auto.cur': 'Auto (browser) · {z}', 'tz.common': 'Common time zones', 'tz.offsets': 'UTC offsets', 'tz.note': 'Digest times are recorded in UTC+8 and converted for display. Days stay grouped by the UTC+8 date.', 'tz.close': 'Close',
   'tz.Asia/Shanghai': 'China · Asia/Shanghai', 'tz.Asia/Tokyo': 'Japan · Asia/Tokyo', 'tz.Asia/Kolkata': 'India · Asia/Kolkata', 'tz.Europe/London': 'UK · Europe/London', 'tz.Europe/Berlin': 'Germany · Europe/Berlin', 'tz.America/New_York': 'US Eastern · America/New_York', 'tz.America/Los_Angeles': 'US Pacific · America/Los_Angeles', 'tz.Australia/Sydney': 'Australia · Australia/Sydney',
   'sec.AI 热点': 'AI Hot Topics', 'sec.有趣用法和干货': 'Tips & Hands-on', 'sec.新产品': 'New Products', 'sec.开源': 'Open Source', 'sec.科技新闻': 'Tech News', 'sec.中文社区': 'Chinese Community', 'sec.科技速递': 'Tech Digest',
-  'wd.0': 'Sun', 'wd.1': 'Mon', 'wd.2': 'Tue', 'wd.3': 'Wed', 'wd.4': 'Thu', 'wd.5': 'Fri', 'wd.6': 'Sat',
+  'wd.0': 'Sunday', 'wd.1': 'Monday', 'wd.2': 'Tuesday', 'wd.3': 'Wednesday', 'wd.4': 'Thursday', 'wd.5': 'Friday', 'wd.6': 'Saturday',
   // item controls
   'fav': 'Favorite', 'fav.remove': 'Remove favorite', 'read.mark': 'Mark as read', 'read.done': 'Read · click to mark unread',
   'seen.mark': 'Mark as seen', 'seen.done': 'Seen · click to mark unseen',
@@ -64,7 +64,7 @@ const zh: Dict = {
   'tz.label': '时区', 'tz.btn': '时区：{z}，点击切换', 'tz.auto': '自动（浏览器）', 'tz.auto.cur': '自动（浏览器）· {z}', 'tz.common': '常用时区', 'tz.offsets': 'UTC 偏移', 'tz.note': '汇总时间按 UTC+8 记录，显示时换算为所选时区；每日页仍按 UTC+8 日期分组。', 'tz.close': '关闭',
   'tz.Asia/Shanghai': '中国 · Asia/Shanghai', 'tz.Asia/Tokyo': '日本 · Asia/Tokyo', 'tz.Asia/Kolkata': '印度 · Asia/Kolkata', 'tz.Europe/London': '英国 · Europe/London', 'tz.Europe/Berlin': '德国 · Europe/Berlin', 'tz.America/New_York': '美东 · America/New_York', 'tz.America/Los_Angeles': '美西 · America/Los_Angeles', 'tz.Australia/Sydney': '澳大利亚 · Australia/Sydney',
   'sec.AI 热点': 'AI 热点', 'sec.有趣用法和干货': '有趣用法和干货', 'sec.新产品': '新产品', 'sec.开源': '开源', 'sec.科技新闻': '科技新闻', 'sec.中文社区': '中文社区', 'sec.科技速递': '科技速递',
-  'wd.0': '周日', 'wd.1': '周一', 'wd.2': '周二', 'wd.3': '周三', 'wd.4': '周四', 'wd.5': '周五', 'wd.6': '周六',
+  'wd.0': '星期日', 'wd.1': '星期一', 'wd.2': '星期二', 'wd.3': '星期三', 'wd.4': '星期四', 'wd.5': '星期五', 'wd.6': '星期六',
   'fav': '收藏', 'fav.remove': '取消收藏', 'read.mark': '标为已读', 'read.done': '已读 · 点击标为未读',
   'seen.mark': '标为已看', 'seen.done': '已看 · 点击标为未看',
   'stars.group': '我的评分', 'star.rate': '评分 {n}/5', 'star.clear': '评分 {n}/5 · 再点清除', 'mine': '我的评分 {n}/5',

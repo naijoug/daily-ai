@@ -8,7 +8,7 @@ const dayFmt = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Shanghai', yea
 const timeFmt = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Shanghai', hour: '2-digit', minute: '2-digit', hour12: false });
 export const dayKey = (d: Date) => dayFmt.format(d);
 export const hhmm = (d: Date) => timeFmt.format(d);
-const WD = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const WD = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 // frontmatter 的 coverage 是自由文本（北京时间，多种写法）。这里解析成起止时刻（epoch ms），页面再按读者时区换算。
 const bjParts = (d: Date) => { const p = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Shanghai', hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).formatToParts(d).map((x) => [x.type, x.value])); return { Y: +p.year, M: +p.month, D: +p.day, h: +p.hour % 24, m: +p.minute }; };
 const bj = (Y: number, M: number, D: number, h: number, m: number) => Date.UTC(Y, M - 1, D, h - 8, m);
