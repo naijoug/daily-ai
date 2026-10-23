@@ -165,7 +165,12 @@ const path = Astro.url.pathname;
   .icob[data-act=fav]:hover, .icob[data-fav]:hover, .icob[data-unfav]:hover, .icob[data-act=read]:hover { color:#d97757; }
 
   .icob.on[data-act=read] { color:#c96a4b; border-color:transparent; } [data-theme=dark] .icob.on[data-act=read] { color:#e0a38a; }
-  .icob.on .ic-ck circle { fill:currentColor; fill-opacity:.16; stroke:currentColor; stroke-opacity:.75; } .icob.on .ic-ck .tick { stroke:currentColor; }
+  .ic-ck .rtrack, .ic-ck .ring { stroke-width:1.5; opacity:0; transition:opacity .25s, stroke-dashoffset .3s linear; }
+  .ic-ck .ring { stroke:#c96a4b; stroke-dasharray:100; stroke-dashoffset:calc(100 - var(--rp, 0)); transform:rotate(-90deg); transform-origin:12px 12px; }
+  [data-theme=dark] .ic-ck .ring { stroke:#e0a38a; }
+  .ic-ck .rtrack { stroke:#c96a4b; } [data-theme=dark] .ic-ck .rtrack { stroke:#e0a38a; }
+  .icob.prog:not(.on) .ic-ck .rtrack { opacity:.18; } .icob.prog:not(.on) .ic-ck .ring { opacity:.8; }
+  .icob.on .ic-ck .rc { fill:currentColor; fill-opacity:.16; stroke:currentColor; stroke-opacity:.75; } .icob.on .ic-ck .tick { stroke:currentColor; }
 
   .stars { display:inline-flex; align-items:center; gap:1px; height:28px; }
   .stars button { display:inline-flex; align-items:center; justify-content:center; width:19px; height:28px; padding:0; background:none; border:none; border-radius:6px; cursor:pointer; color:rgba(55,53,47,.28); transition:color .15s, transform .1s; }

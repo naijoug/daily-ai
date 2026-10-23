@@ -92,9 +92,27 @@ const sections = [
   const applyHide = () => { items.forEach((li) => li.classList.remove('keep')); art.classList.toggle('hideread', hide.checked); localStorage.setItem('dailyai:hideread', hide.checked ? '1' : '0'); };
   hide.addEventListener('change', applyHide); applyHide();
   upd();
-  // 自动已读：条目 ≥60% 可见（比视口高的条目：占满视口 ≥60%）连续 2s 即标已读；触屏同样生效。
-  // 变暗与已读解耦：刚标已读的条目保持明亮，离开视口后才加 dim（再回来时是暗的）；页面加载时已读条目直接 dim。
-  // 隐藏已读只在加载/切换开关时生效（keep），所以标已读不会让条目突然消失。
+  // ===== 自动已读：按内容长度计算停留时间 =====
+  // 有效字数 units = CJK 字符 ×cjkWeight + 拉丁单词 ×wordWeight（不含链接文字、@handle、[AI:N] 标记）
+  // fullReadSeconds = units / wpm * 60；requiredSeconds = clamp(fullReadSeconds * fraction, minSec, maxSec)
+  // 只在条目 ≥visibleRatio 可见（或占满视口 ≥visibleRatio）、标签页可见、窗口聚焦、且 idleMs 内有用户输入时累计。
+  // 离开视口只暂停不清零；离开超过 outResetMs 清零。单个 setInterval tick 累计。
+  const CFG = Object.assign({ cjkWeight: 1, wordWeight: 2, wpm: 450, fraction: 0.5, minSec: 3, maxSec: 25, visibleRatio: 0.6, outResetMs: 30000, idleMs: 60000, tickMs: 250 }, (window as any).__dailyaiReadCfg || {});
+  const unitsOf = (li: HTMLElement) => {
+    const c = li.querySelector('.itext')!.cloneNode(true) as HTMLElement;
+    c.querySelectorAll('a').forEach((a) => a.remove());
+    const t = (c.textContent || '').replace(/https?:\/\/\S+/g, ' ').replace(/\[AI:?\s*\d\]/gi, ' ').replace(/@\w+/g, ' ');
+    const cjk = (t.match(/[\u3400-\u4dbf\u4e00-\u9fff\u3040-\u30ff\uac00-\ud7af]/g) || []).length;
+    const words = (t.replace(/[\u3400-\u9fff\u3040-\u30ff\uac00-\ud7af]/g, ' ').match(/[A-Za-z0-9][A-Za-z0-9._'\-]*/g) || []).length;
+    return cjk * CFG.cjkWeight + words * CFG.wordWeight;
+  };
+  type Tr = { li: HTMLElement; req: number; acc: number; out: number; btn: HTMLElement };
+  const trs: Tr[] = items.map((li) => {
+    const units = unitsOf(li);
+    const req = Math.min(CFG.maxSec, Math.max(CFG.minSec, (units / CFG.wpm) * 60 * CFG.fraction));
+    li.dataset.readSeconds = req.toFixed(1); li.dataset.readUnits = String(units);
+    return { li, req, acc: 0, out: 0, btn: li.querySelector('[data-act=read]') as HTMLElement };
+  });
   const autoRead = (li: HTMLElement) => {
     const id = li.dataset.id!; if (manualUnread.has(id)) return;
     const st = load(); if (st.read[id]) return;
@@ -102,18 +120,42 @@ const sections = [
     if (art.classList.contains('hideread')) li.classList.add('keep');
     upd();
   };
+  const paintRing = (t: Tr, unread: boolean) => {
+    const pct = unread ? Math.min(100, (t.acc / t.req) * 100) : 0;
+    t.btn.style.setProperty('--rp', pct.toFixed(1));
+    t.btn.classList.toggle('prog', pct > 0);
+    t.li.dataset.readAcc = t.acc.toFixed(1);
+  };
+  let lastInput = Date.now();
+  const touch = () => { lastInput = Date.now(); };
+  for (const ev of ['scroll', 'wheel', 'mousemove', 'keydown', 'touchstart', 'touchmove', 'pointerdown']) window.addEventListener(ev, touch, { passive: true, capture: true });
+  let last = performance.now();
+  setInterval(() => {
+    const now = performance.now(); const dt = Math.min(now - last, CFG.tickMs * 4); last = now;
+    const active = document.visibilityState === 'visible' && document.hasFocus() && Date.now() - lastInput < CFG.idleMs;
+    const vh = innerHeight; const st = load();
+    for (const t of trs) {
+      const id = t.li.dataset.id!; const unread = !st.read[id];
+      if (!unread || manualUnread.has(id)) { if (t.acc) { t.acc = 0; } paintRing(t, false); continue; }
+      const r = t.li.getBoundingClientRect();
+      const visH = Math.max(0, Math.min(r.bottom, vh) - Math.max(r.top, 0));
+      const enough = r.height > 0 && (visH / r.height >= CFG.visibleRatio || visH >= vh * CFG.visibleRatio);
+      if (enough) {
+        t.out = 0;
+        if (active) { t.acc += dt / 1000; if (t.acc >= t.req) { t.acc = t.req; paintRing(t, true); autoRead(t.li); continue; } }
+      } else {
+        if (!t.out) t.out = Date.now();
+        else if (t.acc && Date.now() - t.out > CFG.outResetMs) t.acc = 0;
+      }
+      paintRing(t, true);
+    }
+  }, CFG.tickMs);
+  // 变暗与已读解耦：刚标已读的条目保持明亮，离开视口后才加 dim；页面加载时已读条目直接 dim。
   { const st = load(); items.forEach((li) => li.classList.toggle('dim', !!st.read[li.dataset.id!])); }
   if ('IntersectionObserver' in window) {
-    const timers = new Map<HTMLElement, number>();
     const io = new IntersectionObserver((ents) => {
-      for (const e of ents) {
-        const li = e.target as HTMLElement;
-        const enough = e.intersectionRatio >= 0.6 || (e.isIntersecting && e.intersectionRect.height >= (e.rootBounds?.height ?? innerHeight) * 0.6);
-        if (enough) { if (!timers.has(li)) timers.set(li, window.setTimeout(() => { timers.delete(li); autoRead(li); }, 2000)); }
-        else { const t = timers.get(li); if (t !== undefined) { clearTimeout(t); timers.delete(li); } }
-        if (!e.isIntersecting) li.classList.toggle('dim', li.classList.contains('read'));
-      }
-    }, { threshold: [0, 0.2, 0.4, 0.6, 0.8, 1] });
+      for (const e of ents) if (!e.isIntersecting) (e.target as HTMLElement).classList.toggle('dim', (e.target as HTMLElement).classList.contains('read'));
+    }, { threshold: [0] });
     items.forEach((li) => io.observe(li));
   }
 </script>
