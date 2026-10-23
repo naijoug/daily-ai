@@ -14,6 +14,7 @@
   "region": "global",
   "maker": "Kilo",
   "oneLiner": "开源 AI 编程 Agent，支持 VS Code、JetBrains、CLI 和云端（原域名 kilocode.ai）",
+  "oneLinerEn": "An open-source AI coding agent for VS Code, JetBrains, CLI and the cloud (formerly at kilocode.ai).",
   "score": 4,
   "firstSeen": "2026-10-22",
   "updated": "2026-10-22",
@@ -40,11 +41,10 @@
       "badge": "OpenRouter",
       "rank": 5,
       "metric": "经 OpenRouter 的 token 总量（本周）",
-      "value": "7.05T tokens",
+      "value": "6.47T tokens",
       "date": "2026-10-23",
       "url": "https://openrouter.ai/rankings#apps",
       "snap": "openrouter-apps-week/2026-10-23"
     }
-  ],
-  "oneLinerEn": "An open-source AI coding agent for VS Code, JetBrains, CLI and the cloud (formerly at kilocode.ai)."
+  ]
 }

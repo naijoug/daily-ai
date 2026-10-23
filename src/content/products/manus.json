@@ -7,6 +7,7 @@
   "region": "global",
   "maker": "Manus",
   "oneLiner": "通用 Agent：自主规划并执行多步骤任务，交付文档、网页等成果",
+  "oneLinerEn": "A general-purpose agent that plans and executes multi-step tasks on its own and delivers documents, web pages and more.",
   "score": 4,
   "growth": -17.19,
   "growthNote": "AICPB Agent 2026-06 环比",
@@ -40,6 +41,5 @@
       "snap": "aicpb-ai-agent-web/2026-06"
     }
   ],
-  "growthDate": "2026-06",
-  "oneLinerEn": "A general-purpose agent that plans and executes multi-step tasks on its own and delivers documents, web pages and more."
+  "growthDate": "2026-06"
 }

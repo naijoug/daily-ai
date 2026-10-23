@@ -12,6 +12,7 @@
   "region": "cn",
   "maker": "深度求索",
   "oneLiner": "DeepSeek 官方对话产品，开放权重模型的网页与 App 入口",
+  "oneLinerEn": "DeepSeek's official chat product, the web and app entry to its open-weights models.",
   "score": 4,
   "growth": -10.59,
   "growthNote": "AICPB 全球网站 2026-06 环比",
@@ -107,6 +108,5 @@
   "mentionExclude": [
     "DeepSeek Harness"
   ],
-  "growthDate": "2026-06",
-  "oneLinerEn": "DeepSeek's official chat product, the web and app entry to its open-weights models."
+  "growthDate": "2026-06"
 }

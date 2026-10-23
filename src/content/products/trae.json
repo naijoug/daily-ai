@@ -14,6 +14,7 @@
   "region": "cn",
   "maker": "字节跳动",
   "oneLiner": "字节跳动的 AI IDE 与编程 Agent（国内版 trae.cn）",
+  "oneLinerEn": "ByteDance's AI IDE and coding agent (China version at trae.cn).",
   "score": 4,
   "growth": -18.99,
   "growthNote": "AICPB PC 2026-09 环比",
@@ -37,6 +38,5 @@
       "snap": "aicpb-pc-office/2026-09"
     }
   ],
-  "growthDate": "2026-09",
-  "oneLinerEn": "ByteDance's AI IDE and coding agent (China version at trae.cn)."
+  "growthDate": "2026-09"
 }

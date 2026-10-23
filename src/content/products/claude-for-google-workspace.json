@@ -6,6 +6,7 @@
   "category": "办公",
   "region": "global",
   "oneLiner": "所有付费版可用，以侧边栏插件的形式出现，能读当前文件和你选中的内容并直接改：Docs 里就地改句子，大改动给出可逐条应用的建议卡片；",
+  "oneLinerEn": "A sidebar add-on for all paid plans that reads the current file and your selection and edits it directly in Docs, Sheets and Slides.",
   "score": 4,
   "firstSeen": "2026-10-22",
   "updated": "2026-10-22",
@@ -13,6 +14,5 @@
     "Models",
     "Dev Tools"
   ],
-  "rankings": [],
-  "oneLinerEn": "A sidebar add-on for all paid plans that reads the current file and your selection and edits it directly in Docs, Sheets and Slides."
+  "rankings": []
 }

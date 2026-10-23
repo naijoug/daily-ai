@@ -7,128 +7,128 @@
  "metric": "经 OpenRouter 的 token 总量（本周）",
  "url": "https://openrouter.ai/rankings#apps",
  "period": "2026-10-23",
- "fetched": "2026-10-23T01:36:16.509Z",
+ "fetched": "2026-10-23T13:39:07.059Z",
  "note": "rank 取 OpenRouter 页面原值；页面只公开部分 App，排名可能不连续。",
  "rows": [
   {
    "rank": 2,
    "name": "Claude Code",
    "url": "https://claude.ai/code",
-   "value": "13.44T tokens"
+   "value": "13.34T tokens"
   },
   {
-   "rank": 3,
+   "rank": 4,
    "name": "Hermes Agent",
    "url": "https://hermes-agent.nousresearch.com/",
-   "value": "13.23T tokens"
+   "value": "12.41T tokens"
   },
   {
    "rank": 5,
    "name": "Kilo Code",
    "url": "https://kilocode.ai/",
-   "value": "7.05T tokens"
+   "value": "6.47T tokens"
   },
   {
    "rank": 6,
    "name": "pi",
    "url": "https://pi.dev/",
-   "value": "3.98T tokens"
+   "value": "3.85T tokens"
   },
   {
-   "rank": 8,
+   "rank": 7,
    "name": "DeepSeek Harness",
    "url": "https://github.com/deepseek-ai/deepseek-harness",
-   "value": "2.84T tokens"
+   "value": "2.82T tokens"
   },
   {
    "rank": 9,
-   "name": "Cline",
-   "url": "https://cline.bot/",
-   "value": "2.78T tokens"
+   "name": "omp",
+   "url": "https://omp.sh/",
+   "value": "2.64T tokens"
   },
   {
    "rank": 10,
-   "name": "omp",
-   "url": "https://omp.sh/",
-   "value": "2.75T tokens"
+   "name": "Freebuff",
+   "url": "https://freebuff.com/",
+   "value": "2.35T tokens"
   },
   {
    "rank": 11,
-   "name": "Freebuff",
-   "url": "https://freebuff.com/",
-   "value": "2.58T tokens"
+   "name": "Cline",
+   "url": "https://cline.bot/",
+   "value": "2.35T tokens"
   },
   {
    "rank": 12,
    "name": "Codex",
    "url": "https://openai.com/codex/",
-   "value": "1.74T tokens"
+   "value": "1.76T tokens"
   },
   {
    "rank": 13,
    "name": "OpenClaw",
    "url": "https://openclaw.ai/",
-   "value": "1.64T tokens"
+   "value": "1.55T tokens"
   },
   {
    "rank": 14,
    "name": "Strix",
    "url": "https://strix.ai/",
-   "value": "1.55T tokens"
+   "value": "1.51T tokens"
   },
   {
-   "rank": 15,
+   "rank": 16,
    "name": "Proto Agent",
    "url": "https://proto.erp.ai/",
-   "value": "1.46T tokens"
+   "value": "1.01T tokens"
   },
   {
    "rank": 19,
    "name": "Hello Minds, powered by Ethoswarm",
    "url": "https://www.hellominds.ai/",
-   "value": "684.5B tokens"
+   "value": "651.9B tokens"
   },
   {
    "rank": 20,
    "name": "ZCode",
    "url": "https://zcode.z.ai/",
-   "value": "624.1B tokens"
+   "value": "614.0B tokens"
   },
   {
    "rank": 21,
    "name": "OpenHands",
    "url": "https://docs.all-hands.dev/",
-   "value": "577.9B tokens"
+   "value": "544.3B tokens"
   },
   {
    "rank": 22,
    "name": "ISEKAI ZERO",
    "url": "https://www.isekai.world/",
-   "value": "570.8B tokens"
+   "value": "528.6B tokens"
   },
   {
    "rank": 23,
    "name": "Scammer Get Scammed",
    "url": "https://kolkata-workers.jataterworldwide.com/",
-   "value": "525.1B tokens"
+   "value": "502.9B tokens"
   },
   {
    "rank": 24,
    "name": "HighLevel",
    "url": "https://www.gohighlevel.com/",
-   "value": "491.4B tokens"
+   "value": "440.6B tokens"
   },
   {
    "rank": 25,
    "name": "Aura",
    "url": "https://geniusplugin.vercel.app/",
-   "value": "421.9B tokens"
+   "value": "430.5B tokens"
   },
   {
    "rank": 26,
-   "name": "Portkey AI",
-   "url": "https://portkey.ai/",
-   "value": "416.0B tokens"
+   "name": "CodeGPT",
+   "url": "https://codegpt.co/",
+   "value": "376.5B tokens"
   }
  ]
 }

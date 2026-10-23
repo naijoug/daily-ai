@@ -14,6 +14,7 @@
   "region": "global",
   "maker": "Google",
   "oneLiner": "基于你上传资料做问答、摘要和音频概览的研究笔记本（旧域名 notebooklm.google.com 现跳转到 Gemini Notebook）",
+  "oneLinerEn": "A research notebook that answers questions, summarizes and gives audio overviews based on your uploaded materials (the old notebooklm.google.com now redirects to Gemini Notebook).",
   "score": 4,
   "growth": -13.74,
   "growthNote": "AICPB 全球网站 2026-06 环比",
@@ -47,6 +48,5 @@
       "snap": "aicpb-global-ai-web/2026-06"
     }
   ],
-  "growthDate": "2026-06",
-  "oneLinerEn": "A research notebook that answers questions, summarizes and gives audio overviews based on your uploaded materials (the old notebooklm.google.com now redirects to Gemini Notebook)."
+  "growthDate": "2026-06"
 }

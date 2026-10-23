@@ -9,6 +9,7 @@
   "region": "global",
   "maker": "Lovable",
   "oneLiner": "用自然语言生成全栈 Web 应用的 vibe coding 平台",
+  "oneLinerEn": "A vibe-coding platform that generates full-stack web apps from natural language.",
   "score": 4,
   "growth": -1.27,
   "growthNote": "AICPB Vibe Coding 2026-06 环比",
@@ -42,6 +43,5 @@
       "snap": "aicpb-vibe-coding-web/2026-06"
     }
   ],
-  "growthDate": "2026-06",
-  "oneLinerEn": "A vibe-coding platform that generates full-stack web apps from natural language."
+  "growthDate": "2026-06"
 }

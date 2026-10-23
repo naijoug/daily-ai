@@ -9,6 +9,7 @@
   "region": "global",
   "maker": "StackBlitz",
   "oneLiner": "浏览器里用提示词生成并运行全栈应用",
+  "oneLinerEn": "Generate and run full-stack apps from a prompt, right in the browser.",
   "score": 3,
   "firstSeen": "2026-10-22",
   "updated": "2026-10-22",
@@ -28,6 +29,5 @@
   ],
   "matchNames": [
     "Bolt.new"
-  ],
-  "oneLinerEn": "Generate and run full-stack apps from a prompt, right in the browser."
+  ]
 }

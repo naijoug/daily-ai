@@ -9,6 +9,7 @@
   "region": "global",
   "maker": "OpenAI",
   "oneLiner": "OpenAI 的通用 AI 助手，覆盖对话、搜索、写作、代码与多模态",
+  "oneLinerEn": "OpenAI's general-purpose AI assistant covering chat, search, writing, code and multimodal.",
   "score": 5,
   "growth": -3.29,
   "growthNote": "AICPB 全球网站 2026-06 环比",
@@ -76,6 +77,5 @@
       "snap": "aicpb-global-ai-web/2026-06"
     }
   ],
-  "growthDate": "2026-06",
-  "oneLinerEn": "OpenAI's general-purpose AI assistant covering chat, search, writing, code and multimodal."
+  "growthDate": "2026-06"
 }

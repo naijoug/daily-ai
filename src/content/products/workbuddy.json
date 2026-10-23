@@ -14,6 +14,7 @@
   "region": "cn",
   "maker": "腾讯",
   "oneLiner": "腾讯云代码助手团队推出的 AI Agent 办公桌面客户端，多 Agent 并行交付报告、PPT、表格",
+  "oneLinerEn": "An AI agent office desktop client from Tencent Cloud's code-assistant team, with multiple agents in parallel delivering reports, slides and spreadsheets.",
   "score": 4,
   "growth": 7.93,
   "growthNote": "AICPB PC 2026-09 环比",
@@ -49,6 +50,5 @@
       "snap": "aicpb-pc-office/2026-09"
     }
   ],
-  "growthDate": "2026-09",
-  "oneLinerEn": "An AI agent office desktop client from Tencent Cloud's code-assistant team, with multiple agents in parallel delivering reports, slides and spreadsheets."
+  "growthDate": "2026-09"
 }

@@ -12,6 +12,7 @@
   "region": "global",
   "maker": "Anthropic",
   "oneLiner": "Anthropic 的终端 / IDE 编程 Agent，读懂整个代码库并执行改动",
+  "oneLinerEn": "Anthropic's terminal / IDE coding agent that understands the whole codebase and makes changes.",
   "score": 5,
   "firstSeen": "2026-10-10",
   "updated": "2026-10-22",
@@ -37,11 +38,10 @@
       "badge": "OpenRouter",
       "rank": 2,
       "metric": "经 OpenRouter 的 token 总量（本周）",
-      "value": "13.44T tokens",
+      "value": "13.34T tokens",
       "date": "2026-10-23",
       "url": "https://openrouter.ai/rankings#apps",
       "snap": "openrouter-apps-week/2026-10-23"
     }
-  ],
-  "oneLinerEn": "Anthropic's terminal / IDE coding agent that understands the whole codebase and makes changes."
+  ]
 }

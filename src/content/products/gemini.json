@@ -10,6 +10,7 @@
   "region": "global",
   "maker": "Google",
   "oneLiner": "Google 的通用 AI 助手，深度接入 Google 账号与 Workspace",
+  "oneLinerEn": "Google's general-purpose AI assistant, deeply tied into Google accounts and Workspace.",
   "score": 5,
   "growth": -1.51,
   "growthNote": "AICPB 全球网站 2026-06 环比",
@@ -80,6 +81,5 @@
   "mentionExclude": [
     "Gemini Notebook"
   ],
-  "growthDate": "2026-06",
-  "oneLinerEn": "Google's general-purpose AI assistant, deeply tied into Google accounts and Workspace."
+  "growthDate": "2026-06"
 }

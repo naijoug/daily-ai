@@ -1,0 +1,15 @@
+{
+  "id": "enron-brain",
+  "name": "The Enron Brain",
+  "aliases": [],
+  "url": "https://www.thisandthat.chat/enron/",
+  "category": "研究",
+  "region": "global",
+  "oneLiner": "this+that 把 45047 封安然邮件交给 AI，自动写出 214 页关于安然往来公司、监管机构和银行的条目，共 49401 条事实，每条都注明出自哪封邮件；",
+  "oneLinerEn": "this+that fed 45,047 Enron emails to an AI, which wrote 214 pages on the companies, regula",
+  "score": 3,
+  "firstSeen": "2026-10-23",
+  "updated": "2026-10-23",
+  "tags": [],
+  "rankings": []
+}

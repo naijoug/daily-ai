@@ -1,0 +1,18 @@
+{
+  "id": "pristine",
+  "name": "Pristine",
+  "aliases": [],
+  "url": "https://pristine-ui.pages.dev",
+  "category": "编程/Agent",
+  "region": "global",
+  "oneLiner": "它会实际打开页面，看亮色、暗色、桌面和手机四种状态，按你产品用户的画像来评判，然后要么从 11 个维度打 10 分制的分，要么直接改。",
+  "oneLinerEn": "it looks at the real page in light and dark, desktop and mobile, judges it through your us",
+  "score": 3,
+  "firstSeen": "2026-10-23",
+  "updated": "2026-10-23",
+  "tags": [
+    "Dev Tools",
+    "Open Source"
+  ],
+  "rankings": []
+}

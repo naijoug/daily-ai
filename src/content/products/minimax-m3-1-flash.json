@@ -6,6 +6,7 @@
   "category": "对话助手",
   "region": "cn",
   "oneLiner": "MiniMax 今天开源 M3.1 Flash，相比 M3 全面提升。",
+  "oneLinerEn": "MiniMax's open-weights M3.1 Flash (428B total / 23B active), improved across the board over M3.",
   "score": 4,
   "firstSeen": "2026-10-23",
   "updated": "2026-10-23",
@@ -13,6 +14,5 @@
     "Models",
     "Open Source"
   ],
-  "rankings": [],
-  "oneLinerEn": "MiniMax's open-weights M3.1 Flash (428B total / 23B active), improved across the board over M3."
+  "rankings": []
 }

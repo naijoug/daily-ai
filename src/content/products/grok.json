@@ -7,6 +7,7 @@
   "region": "global",
   "maker": "xAI",
   "oneLiner": "xAI 的 AI 助手，带实时 X 内容检索",
+  "oneLinerEn": "xAI's AI assistant with real-time X content retrieval.",
   "score": 4,
   "growth": -13.28,
   "growthNote": "AICPB 全球网站 2026-06 环比",
@@ -62,6 +63,5 @@
       "snap": "aicpb-global-ai-web/2026-06"
     }
   ],
-  "growthDate": "2026-06",
-  "oneLinerEn": "xAI's AI assistant with real-time X content retrieval."
+  "growthDate": "2026-06"
 }

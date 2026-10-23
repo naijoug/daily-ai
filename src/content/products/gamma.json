@@ -7,6 +7,7 @@
   "region": "global",
   "maker": "Gamma",
   "oneLiner": "用 AI 生成演示文稿、文档和网页",
+  "oneLinerEn": "Generate presentations, documents and web pages with AI.",
   "score": 3,
   "growth": -20.58,
   "growthNote": "AICPB PPT 2026-06 环比",
@@ -39,6 +40,5 @@
       "snap": "aicpb-ai-ppt-web/2026-06"
     }
   ],
-  "growthDate": "2026-06",
-  "oneLinerEn": "Generate presentations, documents and web pages with AI."
+  "growthDate": "2026-06"
 }

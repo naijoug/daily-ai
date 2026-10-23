@@ -7,6 +7,7 @@
   "region": "global",
   "maker": "Hugging Face",
   "oneLiner": "Hugging Face 开源的 14B DNA + 自然语言模型，对话里贴序列即可判断突变致病性等，单卡可跑。",
+  "oneLinerEn": "Hugging Face's open 14B DNA + natural-language model: paste a sequence in chat to judge whether a mutation is pathogenic and more; runs on a single card.",
   "score": 3,
   "firstSeen": "2026-10-22",
   "updated": "2026-10-22",
@@ -15,6 +16,5 @@
     "Dev Tools",
     "Open Source"
   ],
-  "rankings": [],
-  "oneLinerEn": "Hugging Face's open 14B DNA + natural-language model: paste a sequence in chat to judge whether a mutation is pathogenic and more; runs on a single card."
+  "rankings": []
 }

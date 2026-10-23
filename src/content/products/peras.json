@@ -1,0 +1,18 @@
+{
+  "id": "peras",
+  "name": "Peras",
+  "aliases": [],
+  "url": "https://peras.vertias.eu",
+  "category": "编程/Agent",
+  "region": "global",
+  "oneLiner": "比如设 peras set weekly 85 pause，每周用量超过这条线后，agent 的下一次工具调用会被拒绝并给出原因，免得一个长任务把整周额度烧光；",
+  "oneLinerEn": "set something like peras set weekly 85 pause, and once your weekly usage crosses that line",
+  "score": 4,
+  "firstSeen": "2026-10-23",
+  "updated": "2026-10-23",
+  "tags": [
+    "Models",
+    "Dev Tools"
+  ],
+  "rankings": []
+}

@@ -11,6 +11,7 @@
   "region": "cn",
   "maker": "字节跳动",
   "oneLiner": "豆包品牌下的办公智能体桌面客户端：做 PPT、处理文档表格、操作电脑与定时任务",
+  "oneLinerEn": "A desktop office agent under the Doubao brand: makes slides, handles documents and spreadsheets, operates the computer and runs scheduled tasks.",
   "score": 4,
   "growth": 95.64,
   "growthNote": "AICPB PC 2026-09 环比",
@@ -46,6 +47,5 @@
       "snap": "aicpb-pc-office/2026-09"
     }
   ],
-  "growthDate": "2026-09",
-  "oneLinerEn": "A desktop office agent under the Doubao brand: makes slides, handles documents and spreadsheets, operates the computer and runs scheduled tasks."
+  "growthDate": "2026-09"
 }

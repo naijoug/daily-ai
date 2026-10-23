@@ -7,6 +7,7 @@
   "region": "global",
   "maker": "Replit",
   "oneLiner": "在线 IDE 与 Replit Agent，从提示词到部署一站完成",
+  "oneLinerEn": "An online IDE and Replit Agent, from prompt to deployment in one place.",
   "score": 4,
   "growth": -5.31,
   "growthNote": "AICPB Vibe Coding 2026-06 环比",
@@ -41,6 +42,5 @@
       "snap": "aicpb-vibe-coding-web/2026-06"
     }
   ],
-  "growthDate": "2026-06",
-  "oneLinerEn": "An online IDE and Replit Agent, from prompt to deployment in one place."
+  "growthDate": "2026-06"
 }

@@ -12,6 +12,7 @@
   "region": "cn",
   "maker": "字节跳动",
   "oneLiner": "字节跳动的 AI 助手，国内月活最高的 AI App 之一",
+  "oneLinerEn": "ByteDance's AI assistant, one of the AI apps with the most monthly active users in China.",
   "score": 4,
   "growth": -1.71,
   "growthNote": "AICPB 全球App 2026-06 环比",
@@ -94,6 +95,5 @@
   "mentionExclude": [
     "豆包工作"
   ],
-  "growthDate": "2026-06",
-  "oneLinerEn": "ByteDance's AI assistant, one of the AI apps with the most monthly active users in China."
+  "growthDate": "2026-06"
 }

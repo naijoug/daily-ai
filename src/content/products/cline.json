@@ -7,6 +7,7 @@
   "region": "global",
   "maker": "Cline",
   "oneLiner": "开源的 IDE 内编程 Agent，可读写文件、跑终端命令、操作浏览器",
+  "oneLinerEn": "An open-source in-IDE coding agent that reads and writes files, runs terminal commands and drives the browser.",
   "score": 4,
   "firstSeen": "2026-10-22",
   "updated": "2026-10-22",
@@ -31,13 +32,12 @@
       "source": "openrouter",
       "list": "Apps · 本周 token 用量",
       "badge": "OpenRouter",
-      "rank": 9,
+      "rank": 11,
       "metric": "经 OpenRouter 的 token 总量（本周）",
-      "value": "2.78T tokens",
+      "value": "2.35T tokens",
       "date": "2026-10-23",
       "url": "https://openrouter.ai/rankings#apps",
       "snap": "openrouter-apps-week/2026-10-23"
     }
-  ],
-  "oneLinerEn": "An open-source in-IDE coding agent that reads and writes files, runs terminal commands and drives the browser."
+  ]
 }

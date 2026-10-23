@@ -1,0 +1,17 @@
+{
+  "id": "agent-hunt",
+  "name": "Agent Hunt",
+  "aliases": [],
+  "url": "https://monid.ai/rankings",
+  "category": "开发者平台",
+  "region": "global",
+  "oneLiner": "自称「agent 工具界的 OpenRouter」、以零加价帮 agent 接入 2700 多个 API 的 Monid，现在每天按 agent 经它网关产生的真实调用，公布用得最",
+  "oneLinerEn": "Monid, which bills itself as \"OpenRouter for agent tools\" and connects agents to 2,700+ AP",
+  "score": 3,
+  "firstSeen": "2026-10-23",
+  "updated": "2026-10-23",
+  "tags": [
+    "Agents"
+  ],
+  "rankings": []
+}

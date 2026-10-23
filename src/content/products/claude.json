@@ -10,6 +10,7 @@
   "region": "global",
   "maker": "Anthropic",
   "oneLiner": "Anthropic 的 AI 助手，长文写作、分析与代码能力强",
+  "oneLinerEn": "Anthropic's AI assistant, strong at long-form writing, analysis and code.",
   "score": 5,
   "growth": -0.61,
   "growthNote": "AICPB 全球网站 2026-06 环比",
@@ -58,6 +59,5 @@
   "mentionExclude": [
     "Claude Code"
   ],
-  "growthDate": "2026-06",
-  "oneLinerEn": "Anthropic's AI assistant, strong at long-form writing, analysis and code."
+  "growthDate": "2026-06"
 }

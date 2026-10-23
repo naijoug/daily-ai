@@ -18,6 +18,7 @@
   "region": "cn",
   "maker": "快手",
   "oneLiner": "快手的 AI 视频与图片生成工具",
+  "oneLinerEn": "Kuaishou's AI video and image generation tool.",
   "score": 4,
   "growth": -1.69,
   "growthNote": "AICPB 中国App 2026-06 环比",
@@ -62,6 +63,5 @@
       "snap": "aicpb-china-ai-app/2026-06"
     }
   ],
-  "growthDate": "2026-06",
-  "oneLinerEn": "Kuaishou's AI video and image generation tool."
+  "growthDate": "2026-06"
 }

@@ -10,6 +10,7 @@
   "region": "global",
   "maker": "Anysphere",
   "oneLiner": "AI 原生代码编辑器，带 Agent 模式与代码库级补全",
+  "oneLinerEn": "An AI-native code editor with agent mode and codebase-level completion.",
   "score": 5,
   "growth": 7.22,
   "growthNote": "AICPB Vibe Coding 2026-06 环比",
@@ -43,6 +44,5 @@
       "snap": "aicpb-vibe-coding-web/2026-06"
     }
   ],
-  "growthDate": "2026-06",
-  "oneLinerEn": "An AI-native code editor with agent mode and codebase-level completion."
+  "growthDate": "2026-06"
 }

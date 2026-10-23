@@ -9,6 +9,7 @@
   "region": "global",
   "maker": "Suno",
   "oneLiner": "用文字生成带人声的完整歌曲",
+  "oneLinerEn": "Generate complete songs with vocals from text.",
   "score": 4,
   "growth": -13.85,
   "growthNote": "AICPB 音乐 2026-06 环比",
@@ -41,6 +42,5 @@
       "snap": "aicpb-ai-music-generator-web/2026-06"
     }
   ],
-  "growthDate": "2026-06",
-  "oneLinerEn": "Generate complete songs with vocals from text."
+  "growthDate": "2026-06"
 }

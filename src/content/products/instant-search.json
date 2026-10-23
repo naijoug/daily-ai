@@ -1,0 +1,15 @@
+{
+  "id": "instant-search",
+  "name": "Instant Search",
+  "aliases": [],
+  "url": "https://useinstantsearch.com",
+  "category": "搜索",
+  "region": "global",
+  "oneLiner": "它用双向 late-interaction 嵌入模型（作者说来自 Perplexity），而不是给每篇文档只存一个向量，所以输入「驾照」或描述一下笔记的上下文，就能找到具体的文件和",
+  "oneLinerEn": "it uses a bidirectional late-interaction embedding model (from Perplexity, per the maker) ",
+  "score": 2,
+  "firstSeen": "2026-10-23",
+  "updated": "2026-10-23",
+  "tags": [],
+  "rankings": []
+}

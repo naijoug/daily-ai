@@ -12,6 +12,7 @@
   "region": "cn",
   "maker": "MiniMax",
   "oneLiner": "MiniMax 的 AI 视频生成产品",
+  "oneLinerEn": "MiniMax's AI video generation product.",
   "score": 3,
   "firstSeen": "2026-10-22",
   "updated": "2026-10-22",
@@ -29,6 +30,5 @@
       "url": "https://a16z.com/100-gen-ai-apps-5/",
       "snap": "a16z-web/2025-08"
     }
-  ],
-  "oneLinerEn": "MiniMax's AI video generation product."
+  ]
 }
