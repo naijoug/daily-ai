@@ -1,8 +1,8 @@
 ---
 import { url } from '../lib/posts';
 interface Props { title?: string; description?: string; wide?: boolean }
-const { title, wide = false, description = '每日 AI 与科技动态汇总' } = Astro.props;
-const full = title ? `${title} | Daily AI` : 'Daily AI · 每日 AI 动态';
+const { title, wide = false, description = 'Daily AI and tech news digest' } = Astro.props;
+const full = title ? `${title} | Daily AI` : 'Daily AI · Daily AI digest';
 const path = Astro.url.pathname;
 ---
 <!doctype html>
@@ -25,18 +25,18 @@ const path = Astro.url.pathname;
     <div class:list={["wrap bar", { wide }]}>
       <a class="brand" href={url('/')}>Daily AI</a>
       <nav>
-        <a href={url('/')} class={path === url('/') || path === url('') ? 'on' : ''}>首页</a>
-        <a href={url('/products/')} class={path.startsWith(url('/products')) ? 'on' : ''}>产品</a>
-        <a href={url('/tags/')} class={path.startsWith(url('/tags')) ? 'on' : ''}>标签</a>
-        <a href={url('/search/')} class={path.startsWith(url('/search')) ? 'on' : ''}>搜索</a>
-        <a href={url('/favorites/')} class={path.startsWith(url('/favorites')) ? 'on' : ''}>收藏</a>
+        <a href={url('/')} class={path === url('/') || path === url('') ? 'on' : ''}>Home</a>
+        <a href={url('/products/')} class={path.startsWith(url('/products')) ? 'on' : ''}>Products</a>
+        <a href={url('/tags/')} class={path.startsWith(url('/tags')) ? 'on' : ''}>Tags</a>
+        <a href={url('/search/')} class={path.startsWith(url('/search')) ? 'on' : ''}>Search</a>
+        <a href={url('/favorites/')} class={path.startsWith(url('/favorites')) ? 'on' : ''}>Favorites</a>
         <a href={url('/rss.xml')}>RSS</a>
-        <button id="theme" type="button" aria-label="切换深浅色">◐</button>
+        <button id="theme" type="button" aria-label="Toggle theme" title="Toggle theme">◐</button>
       </nav>
     </div>
   </header>
   <main class:list={["wrap", { wide }]}><slot /></main>
-  <footer class="wrap foot">Daily AI · 内容来自每日汇总 · <a href={url('/rss.xml')}>订阅 RSS</a></footer>
+  <footer class="wrap foot">Daily AI · Content from the daily digests · <a href={url('/rss.xml')}>Subscribe via RSS</a></footer>
   <script is:inline>
     document.getElementById('theme').addEventListener('click',function(){var d=document.documentElement;var t=d.dataset.theme==='dark'?'light':'dark';d.dataset.theme=t;localStorage.setItem('theme',t);});
   </script>

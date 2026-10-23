@@ -21,7 +21,10 @@ export async function allProducts() {
 }
 export type Product = Awaited<ReturnType<typeof allProducts>>[number];
 
-export const REGION_LABEL = { cn: '国内', global: '海外' } as const;
+export const REGION_LABEL = { cn: 'Domestic', global: 'Global' } as const;
+// 产品 JSON 里的 category 仍是中文枚举（内容），展示用英文标签
+export const CAT_LABEL: Record<string, string> = { '对话助手': 'Assistants', '编程/Agent': 'Coding / Agents', '办公': 'Office', '图像': 'Image', '视频': 'Video', '音频': 'Audio', '搜索': 'Search', '研究': 'Research', '开发者平台': 'Dev Platforms', '其他': 'Other' };
+export const catLabel = (c: string) => CAT_LABEL[c] || c;
 
 // 每个 badge 取最新日期的一条，用于卡片徽章
 export function badges(p: Product) {

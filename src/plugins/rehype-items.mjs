@@ -44,8 +44,8 @@ export default function rehypeItems(opts = {}) {
         li.properties = { ...li.properties, id, className: ['item'], dataId: id, ...(s ? { dataScore: String(s) } : {}) };
         const body = el('div', { className: ['itext'] }, li.children);
         const meta = el('div', { className: ['imeta'] }, [
-          s ? el('span', { className: ['ascore', `s${s}`], title: `AI 评分 ${s}/5`, ariaLabel: `AI 评分 ${s}/5` }, [txt(String(s))]) : txt(''),
-          ...(prods[n] || []).map((id) => el('a', { className: ['ibtn', 'plink'], href: `${base}/products/${id}/` }, [txt(`产品 · ${id}`)])),
+          s ? el('span', { className: ['ascore', `s${s}`], title: `AI score ${s}/5`, ariaLabel: `AI score ${s}/5` }, [txt(String(s))]) : txt(''),
+          ...(prods[n] || []).map((id) => el('a', { className: ['ibtn', 'plink'], href: `${base}/products/${id}/` }, [txt(`Product · ${id}`)])),
         ]);
         li.children = [body, meta];
       }

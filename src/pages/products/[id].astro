@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import { url } from '../../lib/posts';
 import { favBtn, readBtn, starsHtml } from '../../lib/icons';
-import { allProducts, badges, mentionsIndex, REGION_LABEL } from '../../lib/products';
+import { allProducts, badges, mentionsIndex, REGION_LABEL, catLabel } from '../../lib/products';
 export async function getStaticPaths() {
   const ps = await allProducts();
   const idx = await mentionsIndex(ps);
@@ -10,22 +10,22 @@ export async function getStaticPaths() {
 }
 const { p, mentions } = Astro.props;
 const groups = new Map<string, typeof p.rankings>();
-for (const r of p.rankings) { const k = `${r.badge || r.source}｜${r.list}`; if (!groups.has(k)) groups.set(k, []); groups.get(k)!.push(r); }
+for (const r of p.rankings) { const k = `${r.badge || r.source} · ${r.list}`; if (!groups.has(k)) groups.set(k, []); groups.get(k)!.push(r); }
 const hist = [...groups.entries()].map(([k, rs]) => ({ k, rs: [...rs].sort((a, b) => (a.date < b.date ? 1 : -1)) }))
   .sort((a, b) => (a.rs[0].date < b.rs[0].date ? 1 : -1));
 const host = p.url.replace(/^https?:\/\/(www\.)?/, '');
 ---
 <Base title={p.name} description={p.oneLiner}>
   <article class="prose pdetail" data-id={p.id} data-first={p.firstSeen} data-score={p.score || 0} data-pagefind-body>
-    <p class="muted crumb"><a href={url('/products/')}>AI 产品</a> / {p.category}</p>
+    <p class="muted crumb"><a href={url('/products/')}>AI Products</a> / {catLabel(p.category)}</p>
     <h1>{p.name}</h1>
     <p class="dsum">{p.oneLiner}</p>
     <div class="dbar" data-pagefind-ignore>
       <span class={`gbadge ${p.region === 'cn' ? 'tech' : ''}`}>{REGION_LABEL[p.region]}</span>
       {p.maker && <span class="muted">{p.maker}</span>}
-      {p.score && <span class={`ascore s${p.score}`} title={`AI 评分 ${p.score}/5`} aria-label={`AI 评分 ${p.score}/5`}>{p.score}</span>}
+      {p.score && <span class={`ascore s${p.score}`} title={`AI score ${p.score}/5`} aria-label={`AI score ${p.score}/5`}>{p.score}</span>}
       {p.growth != null && <span class:list={['grow', p.growth >= 0 ? 'up' : 'down']}>{p.growth >= 0 ? '↑' : '↓'}{Math.abs(p.growth).toFixed(2)}% <span class="muted">{p.growthNote}</span></span>}
-      <span class="muted">首次出现 {p.firstSeen}</span>
+      <span class="muted">First seen {p.firstSeen}</span>
     </div>
     <div class="imeta pmeta" data-pagefind-ignore>
       <a class="ibtn" href={p.url} target="_blank" rel="noopener">{host} ↗</a>
@@ -34,9 +34,9 @@ const host = p.url.replace(/^https?:\/\/(www\.)?/, '');
     </div>
     {badges(p).length > 0 && <div class="dtags">{badges(p).map((r) => <span class="rbadge" title={r.list}>{r.badge} #{r.rank}</span>)}</div>}
 
-    <h2>榜单记录</h2>
-    {hist.length === 0 ? <p class="muted">暂无榜单记录。</p> : <div class="rscroll"><table class="rtable">
-      <thead><tr><th>榜单</th><th>数据期</th><th>#</th><th>数值</th><th>环比</th></tr></thead>
+    <h2>Ranking history</h2>
+    {hist.length === 0 ? <p class="muted">No ranking records yet.</p> : <div class="rscroll"><table class="rtable">
+      <thead><tr><th>List</th><th>Period</th><th>#</th><th>Value</th><th>MoM</th></tr></thead>
       <tbody>{hist.flatMap(({ k, rs }) => rs.map((r, i) => {
         const mom = r.mom && /^-?[\d.]+%$/.test(r.mom) ? parseFloat(r.mom) : null;
         return <tr>
@@ -46,13 +46,13 @@ const host = p.url.replace(/^https?:\/\/(www\.)?/, '');
         </tr>;
       }))}</tbody>
     </table></div>}
-    <p class="muted rnote">每行的口径见榜单名称（MAU、访问量、token 用量各不相同），不可横向比较。AICPB 未公开采集方法。</p>
+    <p class="muted rnote">Each row’s methodology is given by the list name (MAU, traffic and token usage differ), so rows are not comparable. AICPB does not disclose its collection method.</p>
 
-    <h2>本站提到它的条目 <span class="muted">· {mentions.length}</span></h2>
-    {mentions.length === 0 ? <p class="muted">每日速递里还没有提到它的条目。</p> :
+    <h2>Mentioned on this site <span class="muted">· {mentions.length}</span></h2>
+    {mentions.length === 0 ? <p class="muted">No daily digest item mentions it yet.</p> :
       <ol class="items mlist">{mentions.slice(0, 40).map((m) => <li class="item"><div class="itext"><a href={url(`/day/${m.day}/#${m.id}`)}>{m.day}</a> · {m.text}</div></li>)}</ol>}
   </article>
-  <nav class="pager"><a href={url('/products/')}>← 全部产品</a><a href={url('/products/#models')}>模型榜 →</a></nav>
+  <nav class="pager"><a href={url('/products/')}>← All products</a><a href={url('/products/#models')}>Models →</a></nav>
 </Base>
 <script>
   import { load, save } from '../../lib/store';
@@ -64,7 +64,7 @@ const host = p.url.replace(/^https?:\/\/(www\.)?/, '');
     const st = load();
     const fav = !!st.fav[k]; const fb = meta.querySelector('[data-act=fav]')!;
     setFav(fb, fav);
-    setRead(meta.querySelector('[data-act=read]')!, !!st.read[k], '已看');
+    setRead(meta.querySelector('[data-act=read]')!, !!st.read[k], 'seen');
     const rt = st.rating[k] || 0;
     setStars(meta, rt);
   };
@@ -76,7 +76,7 @@ const host = p.url.replace(/^https?:\/\/(www\.)?/, '');
     else if (b.dataset.act === 'read') { if (st.read[k]) delete st.read[k]; else st.read[k] = Date.now(); }
     else if (b.dataset.act === 'fav') {
       if (st.fav[k]) delete st.fav[k];
-      else st.fav[k] = { id: k, day: art.dataset.first!, html: `<p><strong>${art.querySelector('h1')!.textContent}</strong>：${art.querySelector('.dsum')!.textContent}</p>`, text: art.querySelector('.dsum')!.textContent || '', score: Number(art.dataset.score) || undefined, ts: Date.now() };
+      else st.fav[k] = { id: k, day: art.dataset.first!, html: `<p><strong>${art.querySelector('h1')!.textContent}</strong>: ${art.querySelector('.dsum')!.textContent}</p>`, text: art.querySelector('.dsum')!.textContent || '', score: Number(art.dataset.score) || undefined, ts: Date.now() };
     }
     save(st); upd();
   });

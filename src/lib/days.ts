@@ -8,7 +8,9 @@ const dayFmt = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Shanghai', yea
 const timeFmt = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Shanghai', hour: '2-digit', minute: '2-digit', hour12: false });
 export const dayKey = (d: Date) => dayFmt.format(d);
 export const hhmm = (d: Date) => timeFmt.format(d);
-const WD = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+const WD = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+// frontmatter 的 coverage 仍按中文存（覆盖 … 北京时间），展示时转英文
+export const covEn = (s: string) => s.replace(/覆盖\s*/g, 'Covers ').replace(/\s*北京时间/g, ' Beijing Time');
 export const dayTitle = (k: string) => `${k} · ${WD[new Date(`${k}T12:00:00+08:00`).getUTCDay()]}`;
 export async function allDays() {
   const posts = await allPosts();

@@ -12,12 +12,12 @@ const pd = s.period || s.date;
   <header class="rhead">
     <div>
       <div class="rtitle">{s.sourceName} · {s.list}</div>
-      <div class="muted rsub">{s.metric}{s.metric ? ' · ' : ''}数据期 {pd}{s.published && s.published !== pd ? ` · 发布 ${s.published}` : ''}{s.manual ? ' · 手动快照' : ''}</div>
+      <div class="muted rsub">{s.metric}{s.metric ? ' · ' : ''}Data period {pd}{s.published && s.published !== pd ? ` · Published ${s.published}` : ''}{s.manual ? ' · Manual snapshot' : ''}</div>
     </div>
-    <a class="ibtn" href={s.url} target="_blank" rel="noopener">来源 ↗</a>
+    <a class="ibtn" href={s.url} target="_blank" rel="noopener">Source ↗</a>
   </header>
   <div class="rscroll"><table class="rtable">
-    <thead><tr>{hasRank && <th>#</th>}<th>名称</th>{hasVal && <th>{s.kind === 'feed' && !hasRank ? '简介' : '数值'}</th>}{hasMom && <th>环比</th>}</tr></thead>
+    <thead><tr>{hasRank && <th>#</th>}<th>Name</th>{hasVal && <th>{s.kind === 'feed' && !hasRank ? 'Summary' : 'Value'}</th>}{hasMom && <th>MoM</th>}</tr></thead>
     <tbody>{rows.map((r, i) => {
       const pid = pmap[r.name];
       const mom = r.mom && /^-?[\d.]+%$/.test(r.mom) ? parseFloat(r.mom) : null;
@@ -30,5 +30,5 @@ const pd = s.period || s.date;
     })}</tbody>
   </table></div>
   {s.note && <p class="muted rnote">{s.note}</p>}
-  {history.length > 1 && <p class="muted rnote">历史快照：{history.map((h) => h.period || h.date).join('、')}</p>}
+  {history.length > 1 && <p class="muted rnote">Earlier snapshots: {history.map((h) => h.period || h.date).join(', ')}</p>}
 </section>

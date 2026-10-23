@@ -3,7 +3,7 @@ import { tagSlug } from '../../content.config';
 import Base from '../../layouts/Base.astro';
 import { render } from 'astro:content';
 import { url } from '../../lib/posts';
-import { allDays, hhmm } from '../../lib/days';
+import { allDays, hhmm, covEn } from '../../lib/days';
 export async function getStaticPaths() {
   const days = await allDays();
   return days.map((d, i) => ({ params: { date: d.date }, props: { day: d, newer: days[i - 1], older: days[i + 1] } }));
@@ -17,7 +17,7 @@ const sections = [
 ---
 <Base title={day.title} description={day.summary}>
   <article class="prose day" data-pagefind-body data-day={day.date} data-total={day.total} data-pids={day.pids.join(',')}>
-    <p class="muted crumb"><a href={url('/')}>Daily AI</a> / 每日</p>
+    <p class="muted crumb"><a href={url('/')}>Daily AI</a> / Daily</p>
     <h1>{day.title}</h1>
     <p class="dsum">{day.summary}</p>
     <div class="dbar" data-pagefind-ignore>
@@ -29,12 +29,12 @@ const sections = [
     {sections.map((s) => <section class="dsec">
       <h2 class="dhead"><span class={`gbadge ${s.key}`}>{s.label}</span></h2>
       {s.list.map(({ p, Content }) => <div class="entry" id={p.id}>
-        <div class="tmark" data-pagefind-ignore><span>{hhmm(p.data.date)}</span>{p.data.coverage && <em>{p.data.coverage}</em>}</div>
+        <div class="tmark" data-pagefind-ignore><span>{hhmm(p.data.date)}</span>{p.data.coverage && <em>{covEn(p.data.coverage)}</em>}</div>
         <div class="ebody"><Content /></div>
       </div>)}
     </section>)}
   </article>
-  <nav class="pager" aria-label="翻页">
+  <nav class="pager" aria-label="Pagination">
     <span>{older && <a href={url(`/day/${older.date}/`)}>← {older.title}</a>}</span>
     <span>{newer && <a href={url(`/day/${newer.date}/`)}>{newer.title} →</a>}</span>
   </nav>

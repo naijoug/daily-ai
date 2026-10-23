@@ -8,11 +8,11 @@ const { days, newByDay = {} } = Astro.props as { days: Day[]; newByDay?: Record<
     <a class="gcard" href={url(`/day/${d.date}/`)} data-pids={d.pids.join(',')} data-total={d.total}>
       <div class="gtitle"><span class="gicon">📄</span><span>{d.title}</span></div>
       <p class="gsum">{d.summary}</p>
-      {newByDay[d.date]?.length > 0 && <div class="gnew" title="首次出现在这一天的产品"><span class="gnewl">今日新产品</span>{newByDay[d.date].slice(0, 3).map((p) => <span class="pchip">{p.name}</span>)}{newByDay[d.date].length > 3 && <span class="muted">+{newByDay[d.date].length - 3}</span>}</div>}
+      {newByDay[d.date]?.length > 0 && <div class="gnew" title="Products first seen on this day"><span class="gnewl">New today</span>{newByDay[d.date].slice(0, 3).map((p) => <span class="pchip">{p.name}</span>)}{newByDay[d.date].length > 3 && <span class="muted">+{newByDay[d.date].length - 3}</span>}</div>}
       <div class="gfoot">
         {d.aiCount > 0 && <span class="gbadge x-ai">AI Hot {d.aiCount}</span>}
         {d.techCount > 0 && <span class="gbadge tech">Tech {d.techCount}</span>}
-        {d.top > 0 && <span class="gtop" title="AI 评分 ≥4 的条目">★ {d.top} 条高分</span>}
+        {d.top > 0 && <span class="gtop" title="Items with AI score ≥ 4">★ {d.top} top-rated</span>}
         <span class="gprog" data-prog>0/{d.total} read</span>
       </div>
     </a>

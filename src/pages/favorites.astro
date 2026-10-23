@@ -2,24 +2,24 @@
 import Base from '../layouts/Base.astro';
 import { url } from '../lib/posts';
 ---
-<Base title="收藏" description="收藏的条目（保存在本机浏览器）">
+<Base title="Favorites" description="Your favorite items (stored in this browser)">
   <article class="prose favpage" data-base={url('')}>
-    <h1>收藏</h1>
-    <p class="muted">收藏、已读和个人评分只保存在这台设备的浏览器里（localStorage）。换设备时可以导出 JSON 再导入。</p>
+    <h1>Favorites</h1>
+    <p class="muted">Favorites, read state and ratings are stored only in this browser (localStorage). Export JSON to move them to another device.</p>
     <div class="favbar">
-      <select data-sort aria-label="排序">
-        <option value="ts">按收藏时间</option>
-        <option value="mine">按我的评分</option>
-        <option value="ai">按 AI 评分</option>
-        <option value="day">按日期</option>
+      <select data-sort aria-label="Sort">
+        <option value="ts">By date favorited</option>
+        <option value="mine">By my rating</option>
+        <option value="ai">By AI score</option>
+        <option value="day">By date</option>
       </select>
       <span class="grow"></span>
-      <button type="button" class="ibtn" data-export>导出 JSON</button>
-      <label class="ibtn">导入 JSON<input type="file" accept="application/json,.json" data-import hidden /></label>
+      <button type="button" class="ibtn" data-export>Export JSON</button>
+      <label class="ibtn">Import JSON<input type="file" accept="application/json,.json" data-import hidden /></label>
     </div>
     <p class="muted" data-stat></p>
     <div data-groups></div>
-    <p class="empty" data-empty hidden>还没有收藏。在每日页面点条目下方的「♡ 收藏」，或在产品页点「♡ 收藏」即可。</p>
+    <p class="empty" data-empty hidden>No favorites yet. Click the bookmark icon under an item on a day page, or on a product page.</p>
   </article>
 </Base>
 <script>
@@ -37,22 +37,22 @@ import { url } from '../lib/posts';
     favs.sort((a, b) => k === 'mine' ? (st.rating[b.id] || 0) - (st.rating[a.id] || 0) || b.ts - a.ts
       : k === 'ai' ? (b.score || 0) - (a.score || 0) || b.ts - a.ts
       : k === 'day' ? (a.day < b.day ? 1 : a.day > b.day ? -1 : 0) || b.ts - a.ts : b.ts - a.ts);
-    root.querySelector('[data-stat]')!.textContent = `${favs.length} 条收藏 · ${Object.keys(st.read).length} 条已读 · ${Object.keys(st.rating).length} 条已评分`;
+    root.querySelector('[data-stat]')!.textContent = `${favs.length} favorites · ${Object.keys(st.read).length} read · ${Object.keys(st.rating).length} rated`;
     (root.querySelector('[data-empty]') as HTMLElement).hidden = favs.length > 0;
     const isP = (f: { id: string }) => f.id.startsWith('product:');
     const li = (f: typeof favs[number]) => {
       const mine = st.rating[f.id] || 0;
-      const link = isP(f) ? `<a class="ibtn" href="${base}/products/${esc(f.id.slice(8))}/">产品页</a>` : `<a class="ibtn" href="${base}/day/${esc(f.day)}/#${esc(f.id)}">${esc(f.day)} 原文</a>`;
+      const link = isP(f) ? `<a class="ibtn" href="${base}/products/${esc(f.id.slice(8))}/">Product page</a>` : `<a class="ibtn" href="${base}/day/${esc(f.day)}/#${esc(f.id)}">${esc(f.day)} source</a>`;
       return `<li class="item${st.read[f.id] ? ' read dim' : ''}" data-id="${esc(f.id)}">
         <div class="itext">${f.html}</div>
-        <div class="imeta">${f.score ? `<span class="ascore s${f.score}" title="AI 评分 ${f.score}/5" aria-label="AI 评分 ${f.score}/5">${f.score}</span>` : ''}
+        <div class="imeta">${f.score ? `<span class="ascore s${f.score}" title="AI score ${f.score}/5" aria-label="AI score ${f.score}/5">${f.score}</span>` : ''}
           ${starsStatic(mine)}
           ${link}
-          <button type="button" class="ibtn icob on" data-unfav aria-pressed="true" aria-label="取消收藏" title="取消收藏">${BOOKMARK}</button></div></li>`;
+          <button type="button" class="ibtn icob on" data-unfav aria-pressed="true" aria-label="Remove favorite" title="Remove favorite">${BOOKMARK}</button></div></li>`;
     };
     const prods = favs.filter(isP), items = favs.filter((f) => !isP(f));
-    list.innerHTML = (prods.length ? `<div class="favgroup">产品 · ${prods.length}</div><ol class="items favs">${prods.map(li).join('')}</ol>` : '')
-      + (items.length ? `<div class="favgroup">条目 · ${items.length}</div><ol class="items favs">${items.map(li).join('')}</ol>` : '');
+    list.innerHTML = (prods.length ? `<div class="favgroup">Products · ${prods.length}</div><ol class="items favs">${prods.map(li).join('')}</ol>` : '')
+      + (items.length ? `<div class="favgroup">Items · ${items.length}</div><ol class="items favs">${items.map(li).join('')}</ol>` : '');
   }
   list.addEventListener('click', (e) => {
     const b = (e.target as HTMLElement).closest('[data-unfav]'); if (!b) return;
@@ -69,9 +69,9 @@ import { url } from '../lib/posts';
     const f = (e.target as HTMLInputElement).files?.[0]; if (!f) return;
     try {
       const data = JSON.parse(await f.text());
-      if (typeof data !== 'object' || !data) throw new Error('格式不对');
-      save(merge(load(), data)); render(); alert('已导入并与现有数据合并');
-    } catch (err) { alert('导入失败：' + (err as Error).message); }
+      if (typeof data !== 'object' || !data) throw new Error('Invalid format');
+      save(merge(load(), data)); render(); alert('Imported and merged with existing data');
+    } catch (err) { alert('Import failed: ' + (err as Error).message); }
     (e.target as HTMLInputElement).value = '';
   });
   render();
