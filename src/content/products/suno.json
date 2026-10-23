@@ -41,5 +41,6 @@
       "snap": "aicpb-ai-music-generator-web/2026-06"
     }
   ],
-  "growthDate": "2026-06"
+  "growthDate": "2026-06",
+  "oneLinerEn": "Generate complete songs with vocals from text."
 }

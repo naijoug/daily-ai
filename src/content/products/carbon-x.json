@@ -15,5 +15,6 @@
     "Dev Tools",
     "Open Source"
   ],
-  "rankings": []
+  "rankings": [],
+  "oneLinerEn": "Hugging Face's open 14B DNA + natural-language model: paste a sequence in chat to judge whether a mutation is pathogenic and more; runs on a single card."
 }

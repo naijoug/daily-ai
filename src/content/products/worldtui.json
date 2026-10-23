@@ -12,5 +12,6 @@
   "tags": [
     "Models"
   ],
-  "rankings": []
+  "rankings": [],
+  "oneLinerEn": "A 360M model fine-tuned on 336,000 real terminal sessions that 'pretends' to be a terminal, predicting how the screen changes on every keystroke."
 }

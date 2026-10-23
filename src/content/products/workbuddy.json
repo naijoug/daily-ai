@@ -49,5 +49,6 @@
       "snap": "aicpb-pc-office/2026-09"
     }
   ],
-  "growthDate": "2026-09"
+  "growthDate": "2026-09",
+  "oneLinerEn": "An AI agent office desktop client from Tencent Cloud's code-assistant team, with multiple agents in parallel delivering reports, slides and spreadsheets."
 }

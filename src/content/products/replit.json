@@ -41,5 +41,6 @@
       "snap": "aicpb-vibe-coding-web/2026-06"
     }
   ],
-  "growthDate": "2026-06"
+  "growthDate": "2026-06",
+  "oneLinerEn": "An online IDE and Replit Agent, from prompt to deployment in one place."
 }

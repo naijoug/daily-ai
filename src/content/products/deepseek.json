@@ -107,5 +107,6 @@
   "mentionExclude": [
     "DeepSeek Harness"
   ],
-  "growthDate": "2026-06"
+  "growthDate": "2026-06",
+  "oneLinerEn": "DeepSeek's official chat product, the web and app entry to its open-weights models."
 }

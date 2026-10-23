@@ -13,5 +13,6 @@
     "Models",
     "Open Source"
   ],
-  "rankings": []
+  "rankings": [],
+  "oneLinerEn": "MiniMax's open-weights M3.1 Flash (428B total / 23B active), improved across the board over M3."
 }

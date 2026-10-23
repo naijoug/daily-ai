@@ -38,5 +38,6 @@
       "url": "https://openrouter.ai/rankings#apps",
       "snap": "openrouter-apps-week/2026-10-23"
     }
-  ]
+  ],
+  "oneLinerEn": "An open-source in-IDE coding agent that reads and writes files, runs terminal commands and drives the browser."
 }

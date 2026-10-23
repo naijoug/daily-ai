@@ -42,5 +42,6 @@
       "snap": "aicpb-vibe-coding-web/2026-06"
     }
   ],
-  "growthDate": "2026-06"
+  "growthDate": "2026-06",
+  "oneLinerEn": "A vibe-coding platform that generates full-stack web apps from natural language."
 }

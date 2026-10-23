@@ -47,5 +47,6 @@
       "snap": "aicpb-global-ai-web/2026-06"
     }
   ],
-  "growthDate": "2026-06"
+  "growthDate": "2026-06",
+  "oneLinerEn": "A research notebook that answers questions, summarizes and gives audio overviews based on your uploaded materials (the old notebooklm.google.com now redirects to Gemini Notebook)."
 }

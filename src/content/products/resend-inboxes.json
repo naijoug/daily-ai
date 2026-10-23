@@ -13,5 +13,6 @@
     "Agents",
     "Products"
   ],
-  "rankings": []
+  "rankings": [],
+  "oneLinerEn": "Resend's inbox API gives an app or each agent its own address in one call, with threads to pull and reply to."
 }

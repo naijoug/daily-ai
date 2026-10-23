@@ -13,5 +13,6 @@
     "Dev Tools",
     "Open Source"
   ],
-  "rankings": []
+  "rankings": [],
+  "oneLinerEn": "Google's open 740M multimodal embedding model mapping text (including code), images, video and audio into one 768-dimensional space."
 }

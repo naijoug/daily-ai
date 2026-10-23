@@ -76,5 +76,6 @@
       "snap": "aicpb-global-ai-web/2026-06"
     }
   ],
-  "growthDate": "2026-06"
+  "growthDate": "2026-06",
+  "oneLinerEn": "OpenAI's general-purpose AI assistant covering chat, search, writing, code and multimodal."
 }

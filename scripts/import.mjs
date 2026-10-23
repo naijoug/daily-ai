@@ -25,8 +25,8 @@ const TAG_RULES = {
   'Chinese Community': /V2EX|LinuxDo|linux\.do|知乎|中文圈|掘金|少数派|IT之家|公众号|宝玉|dotey/i,
 };
 
-// 关注 / List 管理相关行
-const FOLLOW_RE = /新关注|关注了|已关注|Following|List「|加进.{0,20}List|私密 List|加入.{0,20}List|待关注|分批关注/;
+// 关注 / List 管理相关行（注意：不要匹配普通英文单词 Following，否则会误删英文条目）
+const FOLLOW_RE = /新关注|关注了|已关注|Following(?:\s+list\b|\s*[:：])|List「|加进.{0,20}List|私密 List|加入.{0,20}List|待关注|分批关注/;
 // 内部运行状态说明（工具失败、限流、补跑、抓取失败等）
 const INTERNAL_RE = /定时任务|平台错误|补跑|没有产出|限流|rate.?limit|429|没抓到|抓不到|没解析|未解析|解析不出|没拿到|拦住|被 Cloudflare|RSS|调用失败|工具失败|超时|报错|去重用/i;
 
@@ -56,10 +56,18 @@ const ITEM_RE = /^(\d+\.|[-*])\s/;
 const SCORE_RE = /\s*[\[［]\s*AI\s*[:：]\s*([1-5])\s*[\]］]\s*$/i;
 const PROD_RE = /\s*[\[［]\s*P\s*[:：]\s*([a-z0-9][a-z0-9-]*)?\s*(?:\|\s*([^|\]］]*?)\s*)?(?:\|\s*(cn|global|国内|海外)\s*)?[\]］]/gi;
 const DAYSUM_RE = /^\s*(?:>\s*)?(?:\*\*)?(?:日摘要|DAY_SUMMARY)(?:\*\*)?\s*[:：]\s*(.+?)\s*$/i;
+// 英文日摘要：必须顶格（不接受 `>` 前缀，以免误吞条目下面的英文译文引用）
+const DAYSUM_EN_RE = /^\s*(?:\*\*)?(?:Day summary|Summary|DAY_SUMMARY_EN)(?:\*\*)?\s*[:：]\s*(.+?)\s*$/i;
+// 译文引用：条目下方的 `> [en] …` / `> [zh] …`，或紧贴条目行（无空行）的 `> …`
+const TR_MARK_RE = /^\s*>\s*\[(?:en|zh)\]/i;
+const CJK_RE = /[\u4e00-\u9fff]/g;
+const isZhText = (t) => ((t.match(CJK_RE) || []).length / Math.max(1, t.replace(/\s/g, '').length)) > 0.2;
 
 // 抽出日摘要与 AI 评分，并从正文中去掉这些标记
 function extractMeta(body) {
   let daySummary = '';
+  let daySummaryEn = '';
+  let lastItem = null; // 最近一条条目（用于挂译文）
   const scores = [];
   const lines = [];
   const prods = []; // { index, line, slug?, category?, region?, inSection }
@@ -67,6 +75,10 @@ function extractMeta(body) {
   for (let line of body.split('\n')) {
     const d = line.match(DAYSUM_RE);
     if (d) { daySummary = d[1].replace(/\*\*/g, '').trim(); continue; }
+    const de = line.match(DAYSUM_EN_RE);
+    if (de && !ITEM_RE.test(line)) { daySummaryEn = de[1].replace(/\*\*/g, '').trim(); continue; }
+    if (/^\s*>/.test(line) && lastItem) { const t = line.replace(/^\s*>\s*(?:\[(?:en|zh)\]\s*)?/i, '').trim(); lastItem.tr = (lastItem.tr ? lastItem.tr + ' ' : '') + t; lines.push(line); continue; }
+    if (!/^\s*>/.test(line)) lastItem = null;
     const h = line.match(/^##\s+(.+?)\s*$/); if (h) section = h[1];
     if (ITEM_RE.test(line)) {
       const marks = [...line.matchAll(PROD_RE)];
@@ -77,12 +89,14 @@ function extractMeta(body) {
       line = m ? line.replace(SCORE_RE, '') : line;
       line = line.replace(/\s+$/, '');
       const inSection = /^新产品/.test(section);
-      if (marks.length) for (const k of marks) prods.push({ index: scores.length, line, score, slug: k[1], category: k[2], region: k[3], inSection });
-      else if (inSection) prods.push({ index: scores.length, line, score, inSection });
+      lastItem = null;
+      if (marks.length) for (const k of marks) { const o = { index: scores.length, line, score, slug: k[1], category: k[2], region: k[3], inSection }; prods.push(o); lastItem = o; }
+      else if (inSection) { const o = { index: scores.length, line, score, inSection }; prods.push(o); lastItem = o; }
+      else lastItem = {};
       lines.push(line);
     } else lines.push(line);
   }
-  return { body: lines.join('\n').replace(/\n{3,}/g, '\n\n').trim() + '\n', daySummary, scores, prods };
+  return { body: lines.join('\n').replace(/\n{3,}/g, '\n\n').trim() + '\n', daySummary, daySummaryEn, scores, prods };
 }
 
 function clean(src, type) {
@@ -97,6 +111,11 @@ function clean(src, type) {
       continue;
     }
     if (/^覆盖时段[:：]/.test(line)) { coverage = line.replace(/^覆盖时段[:：]\s*/, ''); continue; }
+    // 译文引用（`> [en]`/`> [zh]`，或紧贴条目行的 `>`）原样保留，不做关注/内部说明过滤
+    const prevOut = out.length ? out[out.length - 1] : '';
+    const lastNonQ = out.slice().reverse().find((l) => !/^\s*>/.test(l)) || '';
+    const isTr = TR_MARK_RE.test(line) || (/^\s*>/.test(line) && prevOut.trim() !== '' && ITEM_RE.test(lastNonQ));
+    if (isTr) { out.push(line); continue; }
     if (FOLLOW_RE.test(line)) continue;
     // 早期汇总格式：话题清单
     if (/^已写入的话题/.test(line)) { out.push('## AI 热点'); continue; }
@@ -163,11 +182,15 @@ function registerProduct(pr, day, products, aliases) {
     if (!site) { console.warn(`! 产品未登记（缺官网链接）：第 ${pr.index} 条「${name}」`); return null; }
     const id = pr.slug || slugify(name) || slugify(normUrl(site).host.split('.')[0]);
     if (!id) { console.warn(`! 产品未登记（无法生成 slug，请加 [P:slug]）：第 ${pr.index} 条「${name}」`); return null; }
-    const one = text.replace(/^\*\*.+?\*\*\s*[：:]?\s*/, '').replace(/\[([^\]]*)\]\([^)]*\)/g, '$1').replace(/https?:\/\/\S+/g, '').replace(/[*`]/g, '').replace(/\s+/g, ' ').trim();
+    const flat = (t) => t.replace(/^\*\*.+?\*\*\s*[：:]?\s*/, '').replace(/\[([^\]]*)\]\([^)]*\)/g, '$1').replace(/https?:\/\/\S+/g, '').replace(/[*`]/g, '').replace(/\s+/g, ' ').trim();
+    const first = (t) => t.split(/(?<=[。；;.])\s/)[0].slice(0, 90);
+    let one = flat(text), oneEn = '';
+    if (pr.tr) { const tr = flat(pr.tr); if (isZhText(one) && !isZhText(tr)) oneEn = tr; else if (!isZhText(one) && isZhText(tr)) { oneEn = one; one = tr; } }
+    else if (!isZhText(one)) { oneEn = one; }
     const cat = CATEGORIES.includes(pr.category) ? pr.category : '其他';
     const host = normUrl(site).host;
     const region = REGION[pr.region] || (/\.cn$/.test(host) || /[\u4e00-\u9fff]/.test(name) ? 'cn' : 'global');
-    p = { id, name, aliases: [], url: site.replace(/[?#].*$/, ''), category: cat, region, oneLiner: one.split(/(?<=[。；;])/)[0].slice(0, 90) || name, score: pr.score || undefined, firstSeen: day, updated: day, tags: autoTags(text).filter((t) => TAG_LIST.includes(t)), rankings: [] };
+    p = { id, name, aliases: [], url: site.replace(/[?#].*$/, ''), category: cat, region, oneLiner: (isZhText(one) ? one.split(/(?<=[。；;])/)[0].slice(0, 90) : first(one)) || name, ...(oneEn ? { oneLinerEn: first(oneEn) } : {}), score: pr.score || undefined, firstSeen: day, updated: day, tags: autoTags(text).filter((t) => TAG_LIST.includes(t)), rankings: [] };
     products.push(p);
     console.log(`  + 新产品 ${id}（${name}，${p.url}）`);
   } else {
@@ -190,7 +213,7 @@ function importFile(file, forcedType) {
   const type = detectType(file, forcedType);
   const src = fs.readFileSync(file, 'utf8');
   const cleaned = clean(src, type);
-  const { body, daySummary, scores, prods } = extractMeta(cleaned.body);
+  const { body, daySummary, daySummaryEn, scores, prods } = extractMeta(cleaned.body);
   const products = prods.length ? loadProducts() : []; const aliases = prods.length ? loadAliases() : {};
   const prodRefs = [...new Set(prods.map((pr) => { const id = registerProduct(pr, `${Y}-${M}-${D}`, products, aliases); return id ? `${pr.index}:${id}` : null; }).filter(Boolean))];
   const coverage = cleaned.coverage;
@@ -212,6 +235,7 @@ function importFile(file, forcedType) {
     coverage ? `coverage: ${yq(coverage)}` : null,
     nScored ? `scores: [${scores.join(',')}]` : null,
     daySummary ? `daySummary: ${yq(daySummary)}` : null,
+    daySummaryEn ? `daySummaryEn: ${yq(daySummaryEn)}` : null,
     prodRefs.length ? `products: [${prodRefs.map(yq).join(', ')}]` : null,
     '---',
     '',
@@ -220,7 +244,7 @@ function importFile(file, forcedType) {
   const id = `${type}-${base}`;
   const dest = path.join(OUT, `${id}.md`);
   fs.writeFileSync(dest, fm + body);
-  console.log(`✓ ${id}  [${tags.join(', ')}]  items=${scores.length} scored=${nScored}${daySummary ? ' +daySummary' : ''}${prodRefs.length ? ` products=${prodRefs.length}` : ''}`);
+  console.log(`✓ ${id}  [${tags.join(', ')}]  items=${scores.length} scored=${nScored}${daySummary ? ' +daySummary' : ''}${daySummaryEn ? ' +daySummaryEn' : ''}${prodRefs.length ? ` products=${prodRefs.length}` : ''}`);
   return dest;
 }
 

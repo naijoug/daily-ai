@@ -40,5 +40,6 @@
       "snap": "aicpb-ai-agent-web/2026-06"
     }
   ],
-  "growthDate": "2026-06"
+  "growthDate": "2026-06",
+  "oneLinerEn": "A general-purpose agent that plans and executes multi-step tasks on its own and delivers documents, web pages and more."
 }

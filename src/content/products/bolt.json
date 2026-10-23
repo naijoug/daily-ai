@@ -28,5 +28,6 @@
   ],
   "matchNames": [
     "Bolt.new"
-  ]
+  ],
+  "oneLinerEn": "Generate and run full-stack apps from a prompt, right in the browser."
 }

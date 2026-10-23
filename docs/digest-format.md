@@ -1,7 +1,7 @@
 # Digest 文件格式（供定时汇总任务使用）
 
 `scripts/import.mjs` 把一份 digest 转成 `src/content/posts/<type>-<YYYY-MM-DD-HHMM>.md`。
-本文规定 digest 里**可选**的机器可读字段：每条的 AI 评分、日摘要，以及产品登记（`## 新产品` 小节 / `[P:slug]` 标记）。没有这些字段的旧格式照样能导入。
+本文规定 digest 里**可选**的机器可读字段：每条的 AI 评分、日摘要，以及产品登记（`## 新产品` 小节 / `[P:slug]` 标记），再加上**双语条目**（每条的译文引用）。没有这些字段的旧格式照样能导入。
 
 ## 文件名与类型
 
@@ -26,6 +26,37 @@
 - 第一行 `# 标题（覆盖时段）`，括号里的内容成为 coverage。
 - `## 小标题` 分节（AI 热点 / 有趣用法和干货 / 新产品 / 开源 / 科技新闻 / 中文社区 等）。
 - **每条新闻或干货是一个顶格的列表项**：`1. ` 编号或 `- ` 开头，整条写在一行（不要在条目内换行或分段）。嵌套子列表需缩进，且不算独立条目。
+
+## 双语条目（每条必填：源语言正文 + 另一语言译文）
+
+站点 UI 支持 EN / 中文切换，**条目内容不随 UI 语言切换**：每条以**来源语言**写正文，并在**紧接着的下一行**附另一种语言的译文，站点把译文渲染成默认折叠的区域（按钮「Show 中文」/「Show English」，随 UI 语言显示）。
+
+**规则**
+
+1. **源语言**按来源判断：英文来源（HN、Lobsters、英文 X 帖、英文博客/官方公告、arXiv、Techmeme 等）→ **英文正文 + 中文译文**；中文来源（V2EX、LinuxDo、宝玉/歸藏等中文作者的 X 帖、掘金、IT之家、机器之心、量子位、InfoQ 中文、36kr 等）→ **中文正文 + 英文译文**。拿不准时看第一条链接的域名/作者。
+2. **译文写成一行 Markdown 引用 `> ...`，紧贴条目行**，条目行与引用之间**不能有空行**。可选前缀 `> [en] ` / `> [zh] ` 显式指定译文语言；不写则按汉字占比自动判断（推荐写上，更稳）。
+3. **链接、`[P:...]`、`[AI:N]` 只写在正文行**（`[AI:N]` 仍须是正文行的最后一段），译文里不要放这些标记；译文里可以保留行内 Markdown 链接，但通常不需要。
+4. 译文忠实但精炼：保留加粗标题、数字、专有名词、代码片段；不额外加评论。长度与正文相当即可。
+5. 阅读时长只按**正文**计算，译文不计入；条目 id、AI 评分、收藏、导入脚本都只认正文行，**条目序号不受译文引用影响**。
+6. 译文引用**只能紧跟条目**。不挂在条目下的说明（`> 说明：…`）仍按旧规则，被当作说明并经过内部说明过滤；译文引用则原样保留，不做过滤。
+7. 旧文件（没有译文）照常显示，只是没有折叠区域。
+
+**示例**
+
+```markdown
+1. **Anthropic launches OSS Scanner**: free, regular vulnerability scans of critical open-source projects, every finding with a PoC. https://x.com/ClaudeDevs/status/1 [AI:5]
+> [zh] **Anthropic 推出 OSS Scanner**：免费定期扫描关键开源项目的漏洞，每个发现附 PoC。
+2. **V2EX：Codex 桌面版崩溃转储会悄悄吃掉几十上百 GB**：……https://www.v2ex.com/t/123 [AI:4]
+> [en] **V2EX: Codex desktop crash dumps silently eat tens to hundreds of GB**: ...
+```
+
+**英文日摘要（可选）**：在 `日摘要：…` 的下一行加一行 `Summary: …`（顶格，英文 1–2 句，不含链接和 Markdown；也接受 `Day summary:` / `DAY_SUMMARY_EN:`）。导入后写入 frontmatter `daySummaryEn`。站点按 UI 语言显示对应摘要，缺哪个就回退到另一个。注意：不要在 `Summary:` 前加 `>`。
+
+**小节标题保持中文**（`## AI 热点`、`## 新产品`、`## 有趣用法和干货`、`## 开源`、`## 科技新闻`、`## 中文社区` 等），站点按中文标题映射成英文显示，所以请不要改动标题措辞；digest 格式保持稳定。
+
+**产品一句话**：`## 新产品` 条目导入时，若有译文，会同时写入产品的 `oneLiner`（中文）和 `oneLinerEn`（英文）。
+
+**自检**：每个条目行（含 `1.` 编号）下面应当紧跟一行 `> [en|zh] …`；`grep -c '^> \['` 的数量应等于条目数。
 
 ## 字段 1：AI 评分（每条必填）
 
@@ -119,7 +150,9 @@ cd /workspace/dailyai && export PATH=~/.local/node22/bin:$PATH && node scripts/p
 | 内容 | 位置 |
 | --- | --- |
 | AI 评分 | post frontmatter `scores: [..]`，与正文顶层列表项一一对应 |
-| 日摘要 | post frontmatter `daySummary` |
+| 日摘要 | post frontmatter `daySummary`（中文）、`daySummaryEn`（英文，可选） |
+| 条目译文 | 正文里条目下方的 `> [en|zh] …` 引用，渲染为折叠区域；产品一句话英文版 `oneLinerEn` |
+| UI 语言 | 读者浏览器 localStorage `dailyai:lang`（`en` / `zh`），默认 `en`；词典在 `src/lib/i18n.ts` |
 | 条目 id | `<postId>-<序号>`，序号从 1 开始按正文顺序递增，例如 `tech-2026-10-21-2130-3` |
 | 已读 / 个人评分 / 收藏 | 读者浏览器 localStorage `dailyai:v1`，收藏页可导出/导入 JSON；产品用 `product:<slug>` 作键 |
 | 产品 | `src/content/products/<slug>.json`；条目关联在 post frontmatter `products` |

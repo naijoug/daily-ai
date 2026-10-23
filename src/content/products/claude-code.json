@@ -42,5 +42,6 @@
       "url": "https://openrouter.ai/rankings#apps",
       "snap": "openrouter-apps-week/2026-10-23"
     }
-  ]
+  ],
+  "oneLinerEn": "Anthropic's terminal / IDE coding agent that understands the whole codebase and makes changes."
 }
