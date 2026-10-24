@@ -1,0 +1,19 @@
+{
+  "id": "cindy",
+  "name": "Cindy",
+  "aliases": [],
+  "url": "https://cindy.app",
+  "category": "编程/Agent",
+  "region": "global",
+  "oneLiner": "Apache-2.0 的桌面/移动客户端，把 Claude Code、Codex 和 Pi 放在同一处（更多 harness 和自研 harness 在路上），任务做到一半也能换 ",
+  "oneLinerEn": "Apache-2.0 desktop/mobile client that runs Claude Code, Codex and Pi in one place (more ha",
+  "score": 4,
+  "firstSeen": "2026-10-24",
+  "updated": "2026-10-24",
+  "tags": [
+    "Agents",
+    "Dev Tools",
+    "Open Source"
+  ],
+  "rankings": []
+}

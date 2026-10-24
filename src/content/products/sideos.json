@@ -1,0 +1,18 @@
+{
+  "id": "sideos",
+  "name": "sideOS.ai",
+  "aliases": [],
+  "url": "https://sideos.ai",
+  "category": "办公",
+  "region": "global",
+  "oneLiner": "按住 Control+Option 说出需求再松开，它通过辅助功能树约 50 毫秒读完屏幕，打开应用、点击、打字，并用语音回报结果。",
+  "oneLinerEn": "hold Control+Option, say what you want, release;",
+  "score": 3,
+  "firstSeen": "2026-10-24",
+  "updated": "2026-10-24",
+  "tags": [
+    "Dev Tools",
+    "Products"
+  ],
+  "rankings": []
+}

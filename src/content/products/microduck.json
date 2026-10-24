@@ -1,0 +1,17 @@
+{
+  "id": "microduck",
+  "name": "Microduck",
+  "aliases": [],
+  "url": "https://pollen-robotics.com/microduck",
+  "category": "其他",
+  "region": "global",
+  "oneLiner": "Pollen Robotics 开源的「鸭子大脑」（Rockchip RK3566、50 Hz 控制环、15 个舵机）加载在姊妹仓库里用 MuJoCo/PPO 训练、导出为 ONN",
+  "oneLinerEn": "Pollen Robotics' open-source brain (Rockchip RK3566, 50 Hz loop, 15 servos) loads ONNX pol",
+  "score": 3,
+  "firstSeen": "2026-10-24",
+  "updated": "2026-10-24",
+  "tags": [
+    "Open Source"
+  ],
+  "rankings": []
+}

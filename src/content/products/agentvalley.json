@@ -1,0 +1,20 @@
+{
+  "id": "agentvalley",
+  "name": "AgentValley",
+  "aliases": [],
+  "url": "https://agentvalley.app",
+  "category": "编程/Agent",
+  "region": "global",
+  "oneLiner": "Morse Chimwai 做的免费开源 Mac 应用，每个 Claude Code 会话一张卡片、每个子 agent 一行，还给每个 agent 配一个像素小人；",
+  "oneLinerEn": "a free, open-source Mac app by Morse Chimwai that puts each Claude Code session on a card ",
+  "score": 4,
+  "firstSeen": "2026-10-24",
+  "updated": "2026-10-24",
+  "tags": [
+    "Models",
+    "Agents",
+    "Dev Tools",
+    "Open Source"
+  ],
+  "rankings": []
+}
