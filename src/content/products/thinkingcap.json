@@ -1,0 +1,17 @@
+{
+  "id": "thinkingcap",
+  "name": "ThinkingCap for Gemma-4-26B-A4B",
+  "aliases": [],
+  "url": "https://bottlecapai.com/post/thinkingcap-gemma-4-26b/",
+  "category": "开发者平台",
+  "region": "global",
+  "oneLiner": "BottleCap AI 对 Google 的稀疏 MoE 模型（总参数 26B、每个 token 约 4B 激活）做后训练，让它用更少的推理 token 得出答案：12 个基准上",
+  "oneLinerEn": "BottleCap AI post-trained Google's sparse MoE (26B total, ~4B active) to reach answers wit",
+  "score": 3,
+  "firstSeen": "2026-10-24",
+  "updated": "2026-10-24",
+  "tags": [
+    "Models"
+  ],
+  "rankings": []
+}

@@ -1,0 +1,18 @@
+{
+  "id": "monish",
+  "name": "Monish",
+  "aliases": [],
+  "url": "https://monish.cc",
+  "category": "编程/Agent",
+  "region": "global",
+  "oneLiner": "在 Claude Code、Codex、Cursor、n8n 或定时任务里粘贴一行，agent 读完一份简短说明后，长任务会以实时活动的形式显示在锁屏和灵动岛上，完成时提醒你一次（",
+  "oneLinerEn": "paste one line into Claude Code, Codex, Cursor, n8n or a cron job and the agent reads a sh",
+  "score": 3,
+  "firstSeen": "2026-10-24",
+  "updated": "2026-10-24",
+  "tags": [
+    "Dev Tools",
+    "Products"
+  ],
+  "rankings": []
+}

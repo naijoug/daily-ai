@@ -1,0 +1,18 @@
+{
+  "id": "corgi",
+  "name": "Corgi",
+  "aliases": [],
+  "url": "https://corgi.computer",
+  "category": "编程/Agent",
+  "region": "global",
+  "oneLiner": "它像 tmux 一样让 agent 和开发服务器在后台持续运行，还会显示每个 agent 在干什么、哪个在等你（按 F1 跳到下一个未读），能用你的多个账号启动 Claude Co",
+  "oneLinerEn": "like tmux it keeps agents and dev servers running in the background, but it also shows wha",
+  "score": 4,
+  "firstSeen": "2026-10-24",
+  "updated": "2026-10-24",
+  "tags": [
+    "Agents",
+    "Dev Tools"
+  ],
+  "rankings": []
+}

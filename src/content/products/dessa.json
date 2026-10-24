@@ -1,0 +1,15 @@
+{
+  "id": "dessa",
+  "name": "Dessa",
+  "aliases": [],
+  "url": "https://block.xyz/dessa",
+  "category": "音频",
+  "region": "global",
+  "oneLiner": "Block 内部一个小实验室（成员来自多伦多创业公司 Dessa，直接向 Jack Dorsey 汇报）从零开始只用语音训练，不用文本、不用预训练模型，所以它能边听边说、适时附和、",
+  "oneLinerEn": "a small lab at Block (ex-members of the Toronto startup Dessa, reporting to Jack Dorsey) t",
+  "score": 4,
+  "firstSeen": "2026-10-24",
+  "updated": "2026-10-24",
+  "tags": [],
+  "rankings": []
+}
